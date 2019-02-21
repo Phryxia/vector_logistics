@@ -322,29 +322,25 @@ document.getElementById('bt-compute').onmouseup = function(e) {
 	// Load user defined timeline
 	table_to_timeline(DOM_TB_TIMELINE, TIMELINE);
 
-	// Rectify logstics support list
-	let mintime = hhmm_to_integer(document.getElementById('in-mintime').value);
-	let maxtime = hhmm_to_integer(document.getElementById('in-maxtime').value);
-	let minlevel = document.getElementById('in-zero').checked ? 0 : 1;
-	let maxlevel = parseInt(document.getElementById('in-map').value);
-	let Vf = V.filter(function(v) {
-		// Get the level of given logistic support
-		let lv = parseInt(v[0].match(/^[0-9]{1,2}/)[0]);
-		return mintime <= v[1] && v[1] <= maxtime && minlevel <= lv && lv <= maxlevel;
-	});
+	// Load configuration
+	let config = {
+		'timeline': TIMELINE,
+		'ratio': load_ratio_vector(),
+		'min_time': hhmm_to_integer(document.getElementById('in-mintime').value),
+		'max_time': hhmm_to_integer(document.getElementById('in-maxtime').value),
+		'daily_loop': document.getElementById('in-loop').checked,
+		'min_level': document.getElementById('in-zero').checked ? 0 : 1,
+		'max_level': parseInt(document.getElementById('in-map').value)
+	}
 
-	// Load resource ratio vector
-	let r = load_ratio_vector();
-	let do_loop = document.getElementById('in-loop').checked;
-	let Vp = sort(profile(Vf, r, TIMELINE, do_loop));
-
-	if(!do_loop && TIMELINE.length <= 1) {
+	// Warning for non daily loop.
+	if(!config.daily_loop && TIMELINE.length <= 1) {
 		alert('매일 반복을 하지 않을 경우, 첫 일정은 출발시각으로 간주됩니다.\n\n'
 				+'최소 2개 이상의 일정을 입력해주세요.');
 	}
 
-	// Compute result
-	Vp_to_result_table(Vp, DOM_TB_RESULT, do_loop);
+	// Compute and display the result
+	Vp_to_result_table(optimize(config), DOM_TB_RESULT, config.daily_loop);
 };
 
 /**

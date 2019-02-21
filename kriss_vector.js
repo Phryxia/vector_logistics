@@ -202,3 +202,41 @@ function sort(Vp) {
 		return b[1] - a[1];
 	});
 }
+
+/**
+	Use this outside as interface.
+	config should have following attribute:
+
+	- "timeline" : int[] where length >= 1
+	- "ratio" the optimization ratio vector: float[] where length == 9
+	- "min_time" minimum interval of logistic supports: integer where [0, 1440]
+	- "max_time" maximum interval of logistic supports: integer where [min_time, 1440]
+	- "daily_loop" : boolean
+	- "min_level" minimum level of logistic supports: integer where [0, 11]
+	- "max_level" maximum level of logistic supports: integer where [min_level, 11]
+
+	Output is Vp: [v∈V, p(v)∈R, c(v)∈Z+, d(v)∈Z+]
+	where p(v) is priority of v
+	      c(v) is total number of arrivals of v in period
+	      d(v) is period in day of arrivals of v.
+*/
+function optimize(config) {
+	assert(!!config);
+	assert(!!config.timeline && config.timeline.length >= 1);
+	assert(!!config.ratio && config.ratio.length == V[0][2].length);
+	assert(0 <= config.min_time && config.min_time <= 1440);
+	assert(config.min_time <= config.max_time && config.max_time <= 1440);
+	assert(config.daily_loop !== undefined);
+	assert(0 <= config.min_level && config.min_level <= 11);
+	assert(config.min_level <= config.max_level && config.max_level <= 11);
+
+	let Vf = V.filter(function(v) {
+		// Get the level of given logistic support
+		let lv = parseInt(v[0].match(/^[0-9]{1,2}/)[0]);
+		return config.min_time <= v[1] && v[1] <= config.max_time
+			&& config.min_level <= lv && lv <= config.max_level;
+	});
+
+	// Load resource ratio vector
+	return sort(profile(Vf, config.ratio, config.timeline, config.daily_loop));
+}
