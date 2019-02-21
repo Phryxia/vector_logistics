@@ -1,10 +1,5 @@
 'use strict'
 
-// Frequently used DOM
-let DOM_TB_CONFIG = document.getElementById('tb-config');
-let DOM_TB_TIMELINE = document.getElementById('tb-timeline');
-let DOM_TB_RESULT = document.getElementById('tb-result');
-
 /**
 	Convert minute-specified integer into
 	hh:mm string.
@@ -325,7 +320,7 @@ document.getElementById('bt-compute').onmouseup = function(e) {
 	}
 
 	// Compute and display the result
-	Vp_to_result_table(optimize(config), DOM_TB_RESULT, config.daily_loop);
+	Vp_to_result_table(optimize(config), document.getElementById('tb-result'), config.daily_loop);
 
 	// Save current config as cookie
 	if(window.location.origin.match(/^file:/) != null) {
