@@ -153,6 +153,7 @@ function delRow(table, r) {
 	table HTMLTableElement
 */
 function timeline_to_table(T, table) {
+	console.log(T);
 	// Append row if it is not enough
 	let m = 0;
 	while(T.length > table.rows.length - 1) {
@@ -173,7 +174,8 @@ function timeline_to_table(T, table) {
 /**
 	table: HTMLTableElement
 */
-function table_to_timeline(table, T) {
+function table_to_timeline(table) {
+	let T = [];
 	for(let r = 1; r < table.rows.length; ++r) {
 		try {
 			T[r - 1] = hhmm_to_integer(getCell(table, r, 0).childNodes[0].value);
@@ -182,40 +184,7 @@ function table_to_timeline(table, T) {
 			console.log(e);
 		}
 	}
-}
-
-let TIMELINE = [0];
-
-/**
-	Apply some protection event listener
-*/
-function init_config_table(table) {
-	auto_time_correction(document.getElementById('in-mintime'));
-	auto_time_correction(document.getElementById('in-maxtime'));
-	invalid_input_protect(document.getElementById('in-manpower'), is_valid_float_string);
-	invalid_input_protect(document.getElementById('in-ammo'), is_valid_float_string);
-	invalid_input_protect(document.getElementById('in-ration'), is_valid_float_string);
-	invalid_input_protect(document.getElementById('in-parts'), is_valid_float_string);
-}
-
-/**
-	Initialize timeline edit table
-*/
-function init_timeline_table(table) {
-	timeline_to_table(TIMELINE, table);
-}
-
-/**
-	Create the result table.
-*/
-function init_result_table(table) {
-	let tr, td;
-	for(let n = 0; n < 9; ++n) {
-		tr = table.insertRow(-1);
-		for(let i = 0; i < table.rows[0].cells.length; ++i) {
-			tr.insertCell(-1);
-		}
-	}
+	return T;
 }
 
 /**
@@ -276,15 +245,13 @@ function Vp_to_result_table(Vp, table, do_loop) {
 	Map the weight of special drops into number.
 */
 function intensity_to_float(s) {
-	assert(!!s);
-	if(s == 'low') {
-		return 100.0;
-	} else if(s == 'mid') {
-		return 500.0;
-	} else if(s == 'high') {
-		return 1000.0;
-	} else {
-		return 0.0;
+	assert(s !== undefined);
+	switch(parseInt(s)) {
+		case 0: return 0.0;
+		case 1: return 100.0;
+		case 2: return 500.0;
+		case 3: return 1000.0;
+		default: throw 'illegal state';
 	}
 }
 
@@ -314,21 +281,27 @@ function load_ratio_vector() {
 	return [mp/sum, am/sum, mr/sum, pt/sum, qrs, qmn, dct, ect, gch];
 }
 
-init_config_table(DOM_TB_CONFIG);
-init_timeline_table(DOM_TB_TIMELINE);
-init_result_table(DOM_TB_RESULT);
+function config_to_dom(config) {
+	timeline_to_table(config.timeline, document.getElementById('tb-timeline'))
+	document.getElementById('in-manpower').value = config.ratio[0];
+	document.getElementById('in-ammo').value = config.ratio[1];
+	document.getElementById('in-ration').value = config.ratio[2];
+	document.getElementById('in-parts').value = config.ratio[3];
+	document.getElementById('in-restore').value = config.ratio[4];
+	document.getElementById('in-manufacture').value = config.ratio[5];
+	document.getElementById('in-doll').value = config.ratio[6];
+	document.getElementById('in-equipment').value = config.ratio[7];
+	document.getElementById('in-gatcha').value = config.ratio[8];
+	document.getElementById('in-mintime').value = integer_to_hhmm(config.min_time);
+	document.getElementById('in-maxtime').value = integer_to_hhmm(config.max_time);
+	document.getElementById('in-loop').checked = config.daily_loop;
+	document.getElementById('in-zero').value = config.min_level == 0;
+	document.getElementById('in-map').value = config.max_level;
+}
 
-/**
-	If compute button is clicked then efficiency is
-	computed.
-*/
-document.getElementById('bt-compute').onmouseup = function(e) {
-	// Load user defined timeline
-	table_to_timeline(DOM_TB_TIMELINE, TIMELINE);
-
-	// Load configuration
-	let config = {
-		'timeline': TIMELINE,
+function dom_to_config() {
+	return {
+		'timeline': table_to_timeline(document.getElementById('tb-timeline')),
 		'ratio': load_ratio_vector(),
 		'min_time': hhmm_to_integer(document.getElementById('in-mintime').value),
 		'max_time': hhmm_to_integer(document.getElementById('in-maxtime').value),
@@ -336,21 +309,37 @@ document.getElementById('bt-compute').onmouseup = function(e) {
 		'min_level': document.getElementById('in-zero').checked ? 0 : 1,
 		'max_level': parseInt(document.getElementById('in-map').value)
 	}
+}
+
+/**
+	If compute button is clicked then efficiency is
+	computed.
+*/
+document.getElementById('bt-compute').onmouseup = function(e) {
+	let config = dom_to_config();
 
 	// Warning for non daily loop.
-	if(!config.daily_loop && TIMELINE.length <= 1) {
+	if(!config.daily_loop && config.timeline.length <= 1) {
 		alert('매일 반복을 하지 않을 경우, 첫 일정은 출발시각으로 간주됩니다.\n\n'
 				+'최소 2개 이상의 일정을 입력해주세요.');
 	}
 
 	// Compute and display the result
 	Vp_to_result_table(optimize(config), DOM_TB_RESULT, config.daily_loop);
+
+	// Save current config as cookie
+	if(window.location.origin.match(/^file:/) != null) {
+		window.localStorage.setItem('cookie', JSON.stringify(config));
+	} else {
+		document.cookie = JSON.stringify(config);
+	}
 };
 
 /**
 	Preset
 */
 document.getElementById('in-preset').onchange = function(e) {
+	let TIMELINE;
 	switch(parseInt(e.srcElement.value)) {
 		case 1: 
 			TIMELINE = [7*60+30, 8*60+30, 13*60, 18*60, 22*60];
@@ -379,3 +368,46 @@ document.getElementById('in-preset').onchange = function(e) {
 	}
 	timeline_to_table(TIMELINE, document.getElementById('tb-timeline'));
 };
+
+(function() {
+	// Initialize Config Table
+	auto_time_correction(document.getElementById('in-mintime'));
+	auto_time_correction(document.getElementById('in-maxtime'));
+	invalid_input_protect(document.getElementById('in-manpower'), is_valid_float_string);
+	invalid_input_protect(document.getElementById('in-ammo'), is_valid_float_string);
+	invalid_input_protect(document.getElementById('in-ration'), is_valid_float_string);
+	invalid_input_protect(document.getElementById('in-parts'), is_valid_float_string);
+
+	// Initialize Result Table
+	let tr, td;
+	let table = document.getElementById('tb-result');
+	for(let n = 0; n < 9; ++n) {
+		tr = table.insertRow(-1);
+		for(let i = 0; i < table.rows[0].cells.length; ++i) {
+			tr.insertCell(-1);
+		}
+	}
+
+	// Load cookie
+	let json_string;
+	let config = null;
+	if(window.location.origin.match(/^file:/) != null) {
+		json_string = window.localStorage.getItem('cookie');
+	} else {
+		json_string = document.cookie;
+	}
+	if(!!json_string) {
+		config = JSON.parse(json_string);
+	} else {
+		config = {
+			'timeline': [0],
+			'ratio': [1, 1, 1, 0.5, 0, 0, 0, 0, 0],
+			'min_time': 0,
+			'max_time': 1440,
+			'daily_loop': true,
+			'min_level': 0,
+			'max_level': 11
+		};
+	}
+	config_to_dom(config);
+})();
