@@ -148,7 +148,6 @@ function delRow(table, r) {
 	table HTMLTableElement
 */
 function timeline_to_table(T, table) {
-	console.log(T);
 	// Append row if it is not enough
 	let m = 0;
 	while(T.length > table.rows.length - 1) {
@@ -306,11 +305,7 @@ function dom_to_config() {
 	}
 }
 
-/**
-	If compute button is clicked then efficiency is
-	computed.
-*/
-document.getElementById('bt-compute').onmouseup = function(e) {
+function run() {
 	let config = dom_to_config();
 
 	// Warning for non daily loop.
@@ -328,40 +323,46 @@ document.getElementById('bt-compute').onmouseup = function(e) {
 	} else {
 		document.cookie = JSON.stringify(config);
 	}
-};
+}
+
+/**
+	If compute button is clicked then efficiency is
+	computed.
+*/
+document.getElementById('bt-compute').onmouseup = run;
 
 /**
 	Preset
 */
 document.getElementById('in-preset').onchange = function(e) {
-	let TIMELINE;
+	let config = dom_to_config();
 	switch(parseInt(e.srcElement.value)) {
 		case 1: 
-			TIMELINE = [7*60+30, 8*60+30, 13*60, 18*60, 22*60];
+			config.timeline = [7*60+30, 8*60+30, 13*60, 18*60, 22*60];
 			break;
 		case 2:
-			TIMELINE = [8*60, 8*60+50, 12*60, 17*60+30, 0];
+			config.timeline = [8*60, 8*60+50, 12*60, 17*60+30, 0];
 			break;
 		case 3:
-			TIMELINE = [];
+			config.timeline = [];
 			for(let h = 12; h < 24; ++h) {
-				TIMELINE.push(h * 60);
+				config.timeline.push(h * 60);
 			}
 			break;
 		case 4:
-			TIMELINE = [6*60, 12*60+30, 18*60+30, 22*60];
+			config.timeline = [6*60, 12*60+30, 18*60+30, 22*60];
 			break;
 		case 5:
-			TIMELINE = [6*60, 12*60+30, 17*60+30, 22*60, 1*60];
+			config.timeline = [6*60, 12*60+30, 17*60+30, 22*60, 1*60];
 			break;
 		case 6:
-			TIMELINE = [0, 7*60];
+			config.timeline = [0, 7*60];
 			break;
 		default:
-			TIMELINE = [0];
+			config.timeline = [0];
 			break;
 	}
-	timeline_to_table(TIMELINE, document.getElementById('tb-timeline'));
+	config_to_dom(config);
 };
 
 (function() {
