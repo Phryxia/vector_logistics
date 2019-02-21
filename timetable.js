@@ -53,11 +53,36 @@ function hhmm_to_integer(s) {
 /**
 	Test whether s is valid time format string.
 	This accept h:m, h:mm, hh:m, hh:mm
+	Also, mm should be smaller than 60.
 */
 function is_valid_hhmm(s) {
 	return s !== null && s !== undefined
 		&& s.match(/^[0-9]{1,2}:[0-9]{1,2}$/) != null
-		&& hhmm_to_integer(s) < 1440;
+		&& parseInt(s.match(/[0-9]{1,2}$/)[0]) < 60;
+}
+
+/**
+	Apply special ability to given input_dom:
+	- If input_dom has hh or h, it is automatically
+	  transform into hh:00
+	- If input_dom has invalid hh:mm value,
+	  backup value will be applied.
+*/
+function auto_time_correction(input_dom) {
+	assert(input_dom.type == 'text');
+	input_dom.onmousedown = function(evt) {
+		evt.toElement._last_val = evt.toElement.value;
+	};
+	input_dom.onchange = function(evt) {
+		let s = evt.srcElement.value;
+		if(s.match(/^[0-9]{1,2}$/) != null) {
+			// when minute is ommited, add them.
+			evt.srcElement.value = s + ':00';
+		} else if(!is_valid_hhmm(s)) {
+			// when it is invalid value, rollback the value.
+			evt.srcElement.value = evt.srcElement._last_val;
+		}
+	};
 }
 
 /**
@@ -101,7 +126,7 @@ function addRow(table, r) {
 	input.type = 'text';
 	input.defaultValue = '00:00';
 	input.size = 14;
-	invalid_input_protect(input, is_valid_hhmm);
+	auto_time_correction(input);
 	td.appendChild(input);
 
 	// create add button
@@ -190,8 +215,8 @@ let TIMELINE = [0];
 	Apply some protection event listener
 */
 function init_config_table(table) {
-	invalid_input_protect(document.getElementById('in-mintime'), is_valid_hhmm);
-	invalid_input_protect(document.getElementById('in-maxtime'), is_valid_hhmm);
+	auto_time_correction(document.getElementById('in-mintime'));
+	auto_time_correction(document.getElementById('in-maxtime'));
 	invalid_input_protect(document.getElementById('in-manpower'), is_valid_float_string);
 	invalid_input_protect(document.getElementById('in-ammo'), is_valid_float_string);
 	invalid_input_protect(document.getElementById('in-ration'), is_valid_float_string);
