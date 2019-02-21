@@ -106,7 +106,11 @@ function addRow(table, r) {
 	input.innerHTML = '+';
 	input.style.width = '100%';
 	input.onmouseup = function(e) {
-		addRow(table, index_of(table, e.toElement.parentNode.parentNode) + 1);
+		let addr = index_of(table, e.toElement.parentNode.parentNode) + 1;
+		addRow(table, addr);
+
+		// Select added row's time input
+		getCell(table, addr, 0).childNodes[0].select();
 	};
 	td.appendChild(input);
 
