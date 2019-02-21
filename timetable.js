@@ -366,6 +366,13 @@ document.getElementById('bt-compute').onmouseup = function(e) {
 	let r = load_ratio_vector();
 	let do_loop = document.getElementById('in-loop').checked;
 	let Vp = sort(profile(Vf, r, TIMELINE, do_loop));
+
+	if(!do_loop && TIMELINE.length <= 1) {
+		alert('매일 반복을 하지 않을 경우, 첫 일정은 출발시각으로 간주됩니다.\n\n'
+				+'최소 2개 이상의 일정을 입력해주세요.');
+	}
+
+	// Compute result
 	Vp_to_result_table(Vp, DOM_TB_RESULT, do_loop);
 };
 
