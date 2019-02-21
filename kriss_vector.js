@@ -181,12 +181,13 @@ function efficiency(p, T, do_loop) {
 function profile(V, r, T, do_loop) {
 	let eff;
 	if(inner(r, r) == 0) {
-		return V.map(v => [v, (eff = efficiency(v[1], T, do_loop), 
+		V = V.map(v => [v, (eff = efficiency(v[1], T, do_loop), 
 			inner(v[2], v[2]) * eff[0] / eff[1]), eff[0], eff[1]]);
 	} else {
-		return V.map(v => [v, (eff = efficiency(v[1], T, do_loop), 
+		V = V.map(v => [v, (eff = efficiency(v[1], T, do_loop), 
 			inner(v[2], r) * eff[0] / eff[1]), eff[0], eff[1]]);
 	}
+	return V.filter(vp => vp[2] > 0);
 }
 
 /**

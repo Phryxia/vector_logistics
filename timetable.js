@@ -241,8 +241,8 @@ function special_drop_img(category) {
 function Vp_to_result_table(Vp, table, do_loop) {
 	table.style.display = 'block';
 	for(let n = 0; n < 8; ++n) {
-		let v = Vp[n][0];
-		if(v) {
+		if(!!Vp[n]) {
+			let v = Vp[n][0];
 			let rate = Vp[n][2] / Vp[n][3];
 			getCell(table, n + 1, 0).innerHTML = v[0];
 			getCell(table, n + 1, 1).innerHTML = integer_to_hhmm(v[1]);
