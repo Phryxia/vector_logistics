@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<table width='400px' id='tb-config'>
+		<tr>
+			<th><img width='30px' src='./img/mp.png' alt='인력'></th>
+			<th><img width='30px' src='./img/ammo.png' alt='탄약'></th>
+			<th><img width='30px' src='./img/mre.png' alt='식량'></th>
+			<th><img width='30px' src='./img/part.png' alt='부품'></th>
+			<th><img width='30px' src='./img/quick_reinforce.png' alt='쾌속수복권'></th>
+			<th><img width='30px' src='./img/quick_develop.png' alt='쾌속제조권'></th>
+			<th><img width='30px' src='./img/iop_contract.png' alt='인형제조권'></th>
+			<th><img width='30px' src='./img/equip_contract.png' alt='장비제조권'></th>
+			<th><img width='30px' src='./img/furniture_coin.png' alt='구매토큰'></th>
+		</tr>
+		<tr>
+			<td><input type='number' style='width: 3em; height: 13.5px;' id='in-manpower' min='0' step='0.1' value='1' /></td>
+			<td><input type='number' style='width: 3em; height: 13.5px;' id='in-ammo' min='0' step='0.1' value='1' /></td>
+			<td><input type='number' style='width: 3em; height: 13.5px;' id='in-ration' min='0' step='0.1' value='1' /></td>
+			<td><input type='number' style='width: 3em; height: 13.5px;' id='in-parts' min='0' step='0.1' value='0.5' /></td>
+			<td><select id='in-restore' style='width: 3em; height: 20px;'>
+				<option value='ignore'>-</option>
+				<option value='low'>저</option>
+				<option value='mid'>중</option>
+				<option value='high'>고</option>
+			</select></td>
+			<td><select id='in-manufacture' style='width: 3em; height: 20px;'>
+				<option value='ignore'>-</option>
+				<option value='low'>저</option>
+				<option value='mid'>중</option>
+				<option value='high'>고</option>
+			</select></td>
+			<td><select id='in-doll' style='width: 3em; height: 20px;'>
+				<option value='ignore'>-</option>
+				<option value='low'>저</option>
+				<option value='mid'>중</option>
+				<option value='high'>고</option>
+			</select></td>
+			<td><select id='in-equipment' style='width: 3em; height: 20px;'>
+				<option value='ignore'>-</option>
+				<option value='low'>저</option>
+				<option value='mid'>중</option>
+				<option value='high'>고</option>
+			</select></td>
+			<td><select id='in-gatcha' style='width: 3em; height: 20px;'>
+				<option value='ignore'>-</option>
+				<option value='low'>저</option>
+				<option value='mid'>중</option>
+				<option value='high'>고</option>
+			</select></td>
+		</tr>
+		<tr>
+			<th>최소<br>시간</th>
+			<th>최대<br>시간</th>
+			<th>매일<br>반복</th>
+			<th>전역<br>개방</th>
+			<th>0지<br>개방</th>
+			<th colspan='2'>프리셋</th>
+		</tr>
+		<tr>
+			<td><input type='text' size='2' id='in-mintime' value='00:00' style='height: 13.5px;'/></td>
+			<td><input type='text' size='2' id='in-maxtime' value='24:00' style='height: 13.5px;'/></td>
+			<td><input type='checkbox' id='in-loop' checked /></td>
+			<td><select id='in-map' style='height: 20px;'>
+				<option value='1'>1</option>
+				<option value='2'>2</option>
+				<option value='3'>3</option>
+				<option value='4'>4</option>
+				<option value='5'>5</option>
+				<option value='6'>6</option>
+				<option value='7'>7</option>
+				<option value='8'>8</option>
+				<option value='9'>9</option>
+				<option value='10'>10</option>
+				<option value='11' selected='selected'>11</option>
+			</select></td>
+			<td><input type='checkbox' id='in-zero' /></td>
+			<td colspan='2'><select id='in-preset' style='height: 20px;'>
+				<option value='0'>-</option>
+				<option value='1'>급식</option>
+				<option value='2'>학식</option>
+				<option value='3'>주말</option>
+				<option value='4'>직장인</option>
+				<option value='5'>개발자</option>
+				<option value='6'>수면군수</option>
+			</select></td>
+		</tr>
+	</table>
+	<table width='200px' id='tb-timeline'>
+		<tr>
+			<th colspan='3'>확인일정</th>
+		</tr>
+	</table>
+	<button id='bt-compute'>계산</button>
+	<table id='tb-result' style='display:None'>
+		<tr>
+			<th>작전번호</th>
+			<th>소요시간</th>
+			<th>주기</th>
+			<th>인력</th>
+			<th>탄약</th>
+			<th>식량</th>
+			<th>부품</th>
+			<th>기타도구</th>
+		</tr>
+	</table>
+	
+	<script src='kriss_vector.js'></script>
+	<script src='timetable.js'></script>
+</body>
+</html>
