@@ -28,12 +28,6 @@ function invalid_input_protect(input_dom, cond) {
 }
 
 /**
-*/
-// function is_valid_float_string(s) {
-// 	return s.match(/^[0-9]+(\.[0-9]+)?$/) != null;
-// }
-
-/**
 	Convert minute-specified integer into
 	hh:mm string.
 */

@@ -146,10 +146,6 @@ class Algorithm {
 			}
 		}
 
-		//
-		// TODO <--------- 하루에 한 번 돌리는 상태에서
-		// 반복/미반복 했을 때 주기가 2회로 표시되는 현상 수정
-
 		if(do_loop) {
 			// At this point, tc is the start point of loop.
 			// Now, let's count the days of loop. Since maximum logistic
@@ -303,5 +299,4 @@ class AlgorithmController {
 			}
 		}
 	}
-
 }
