@@ -1,185 +1,158 @@
 'use strict'
 
 /**
-	Convert minute-specified integer into
-	hh:mm string.
-*/
-function integer_to_hhmm(t) {
-	return Math.floor(t / 60).toString().padStart(2, '0') + ':' + (t % 60).toString().padStart(2, '0');
-}
-
-/**
-	Convert hh:mm string into minute-specified integer
-*/
-function hhmm_to_integer(s) {
-	let tokens = s.split(':');
-	return 60 * parseInt(tokens[0]) + parseInt(tokens[1]);
-}
-
-/**
-	Test whether s is valid time format string.
-	This accept h:m, h:mm, hh:m, hh:mm
-	Also, mm should be smaller than 60.
-*/
-function is_valid_hhmm(s) {
-	return s !== null && s !== undefined
-		&& s.match(/^[0-9]{1,2}:[0-9]{1,2}$/) != null
-		&& parseInt(s.match(/[0-9]{1,2}$/)[0]) < 60;
-}
-
-/**
 	Apply special ability to given input_dom:
 	- If input_dom has hh or h, it is automatically
 	  transform into hh:00
 	- If input_dom has invalid hh:mm value,
 	  backup value will be applied.
 */
-function auto_time_correction(input_dom) {
-	assert(input_dom.type == 'text');
-	input_dom.onmousedown = function(evt) {
-		evt.toElement._last_val = evt.toElement.value;
-	};
-	input_dom.onchange = function(evt) {
-		let s = evt.srcElement.value;
-		if(s.match(/^[0-9]{1,2}$/) != null) {
-			// when minute is ommited, add them.
-			evt.srcElement.value = s + ':00';
-		} else if(!is_valid_hhmm(s)) {
-			// when it is invalid value, rollback the value.
-			evt.srcElement.value = evt.srcElement._last_val;
-		}
-	};
-}
+// function auto_time_correction(input_dom) {
+// 	assert(input_dom.type == 'text');
+// 	input_dom.onmousedown = function(evt) {
+// 		evt.toElement._last_val = evt.toElement.value;
+// 	};
+// 	input_dom.onchange = function(evt) {
+// 		let s = evt.srcElement.value;
+// 		if(s.match(/^[0-9]{1,2}$/) != null) {
+// 			// when minute is ommited, add them.
+// 			evt.srcElement.value = s + ':00';
+// 		} else if(!is_valid_hhmm(s)) {
+// 			// when it is invalid value, rollback the value.
+// 			evt.srcElement.value = evt.srcElement._last_val;
+// 		}
+// 	};
+// }
 
 /**
 	Search the record number of given HTMLTableRowElement
 	If there is no such element, null will be returned
 */
-function index_of(table, tr_elem) {
-	for(let i = 0; i < table.rows.length; ++i) {
-		if(table.rows[i] === tr_elem) {
-			return i;
-		}
-	}
-	return null;
-}
+// function index_of(table, tr_elem) {
+// 	for(let i = 0; i < table.rows.length; ++i) {
+// 		if(table.rows[i] === tr_elem) {
+// 			return i;
+// 		}
+// 	}
+// 	return null;
+// }
 
 /**
 	Get given position's HTMLTableCell
 */
-function getCell(table, r, c) {
-	assert(table != null);
-	assert(r >= 0);
-	assert(c >= 0);
-	return table.rows[r].cells[c];
-}
+// function getCell(table, r, c) {
+// 	assert(table != null);
+// 	assert(r >= 0);
+// 	assert(c >= 0);
+// 	return table.rows[r].cells[c];
+// }
 
 /**
 	table 	HTMLTableElement
 	r 	row index >= 0
 */
-function addRow(table, r) {
-	assert(table != null);
-	assert(r >= -1 || r === undefined);
-	r = (r === undefined ? -1 : r);
+// function addRow(table, r) {
+// 	assert(table != null);
+// 	assert(r >= -1 || r === undefined);
+// 	r = (r === undefined ? -1 : r);
 
-	// insert HTMLTableRowElement
-	let tr = table.insertRow(r);
+// 	// insert HTMLTableRowElement
+// 	let tr = table.insertRow(r);
 	
-	// create time input box
-	let td = tr.insertCell(-1);
-	let input = document.createElement('input');
-	input.type = 'text';
-	input.defaultValue = '00:00';
-	input.size = 14;
-	auto_time_correction(input);
-	td.appendChild(input);
+// 	// create time input box
+// 	let td = tr.insertCell(-1);
+// 	let input = document.createElement('input');
+// 	input.type = 'text';
+// 	input.defaultValue = '00:00';
+// 	input.size = 14;
+// 	//auto_time_correction(input);
+// 	td.appendChild(input);
 
-	// create add button
-	td = tr.insertCell(-1);
-	input = document.createElement('button');
-	input.innerHTML = '+';
-	input.style.width = '100%';
-	input.onmouseup = function(e) {
-		let addr = index_of(table, e.toElement.parentNode.parentNode) + 1;
-		addRow(table, addr);
+// 	// create add button
+// 	td = tr.insertCell(-1);
+// 	input = document.createElement('button');
+// 	input.innerHTML = '+';
+// 	input.style.width = '100%';
+// 	input.onmouseup = function(e) {
+// 		let addr = index_of(table, e.toElement.parentNode.parentNode) + 1;
+// 		addRow(table, addr);
 
-		// Select added row's time input
-		getCell(table, addr, 0).childNodes[0].select();
-	};
-	td.appendChild(input);
+// 		// Select added row's time input
+// 		getCell(table, addr, 0).childNodes[0].select();
+// 	};
+// 	td.appendChild(input);
 
-	// create delete button
-	td = tr.insertCell(-1);
-	input = document.createElement('button');
-	input.innerHTML = '-';
-	input.style.width = '100%';
-	input.onmouseup = function(e) {
-		delRow(table, index_of(table, e.toElement.parentNode.parentNode));
-	};
-	td.appendChild(input);
+// 	// create delete button
+// 	td = tr.insertCell(-1);
+// 	input = document.createElement('button');
+// 	input.innerHTML = '-';
+// 	input.style.width = '100%';
+// 	input.onmouseup = function(e) {
+// 		delRow(table, index_of(table, e.toElement.parentNode.parentNode));
+// 	};
+// 	td.appendChild(input);
 
-	// if there are more than two records in table,
-	// first row's delete button must be disabled.
-	// therefore we should enable it.
-	getCell(table, 1, 2).childNodes[0].disabled = table.rows.length <= 2;
-}
+// 	// if there are more than two records in table,
+// 	// first row's delete button must be disabled.
+// 	// therefore we should enable it.
+// 	getCell(table, 1, 2).childNodes[0].disabled = table.rows.length <= 2;
+// }
 
 /**
 	Delete the given row's record
 	If r is undefined, last row will be deleted
 */
-function delRow(table, r) {
-	assert(table != null);
-	assert(r >= -1 || r === undefined);
-	r = (r === undefined ? -1 : r);
+// function delRow(table, r) {
+// 	assert(table != null);
+// 	assert(r >= -1 || r === undefined);
+// 	r = (r === undefined ? -1 : r);
 
-	// delete the row
-	table.deleteRow(r);
+// 	// delete the row
+// 	table.deleteRow(r);
 	
-	// if there is only one record, disable delete button
-	if(table.rows.length == 2) {
-		getCell(table, 1, 2).childNodes[0].disabled = true;
-	}
-}
+// 	// if there is only one record, disable delete button
+// 	if(table.rows.length == 2) {
+// 		getCell(table, 1, 2).childNodes[0].disabled = true;
+// 	}
+// }
 
 /**
 	T 	list of minute-metric time. (ex: [60, 120, 150, 1320])
 	table HTMLTableElement
 */
-function timeline_to_table(T, table) {
-	// Append row if it is not enough
-	let m = 0;
-	while(T.length > table.rows.length - 1) {
-		addRow(table, -1);
-	}
+// function timeline_to_table(T, table) {
+// 	// Append row if it is not enough
+// 	let m = 0;
+// 	while(T.length > table.rows.length - 1) {
+// 		addRow(table, -1);
+// 	}
 
-	// remove rows if it is not necessary
-	while(T.length < table.rows.length - 1) {
-		delRow(table);
-	}
+// 	// remove rows if it is not necessary
+// 	while(T.length < table.rows.length - 1) {
+// 		delRow(table);
+// 	}
 
-	// write each cell's contents
-	T.forEach(function(t, idx) {
-		getCell(table, idx + 1, 0).childNodes[0].value = integer_to_hhmm(t);
-	});
-}
+// 	// write each cell's contents
+// 	T.forEach(function(t, idx) {
+// 		getCell(table, idx + 1, 0).childNodes[0].value = integer_to_hhmm(t);
+// 	});
+// }
 
 /**
 	table: HTMLTableElement
 */
-function table_to_timeline(table) {
-	let T = [];
-	for(let r = 1; r < table.rows.length; ++r) {
-		try {
-			T[r - 1] = hhmm_to_integer(getCell(table, r, 0).childNodes[0].value);
-		}
-		catch(e) {
-			console.log(e);
-		}
-	}
-	return T;
-}
+// function table_to_timeline(table) {
+// 	let T = [];
+// 	for(let r = 1; r < table.rows.length; ++r) {
+// 		try {
+// 			T[r - 1] = hhmm_to_integer(getCell(table, r, 0).childNodes[0].value);
+// 		}
+// 		catch(e) {
+// 			console.log(e);
+// 		}
+// 	}
+// 	return T;
+// }
 
 /**
 	Return special drop's image dom string.
@@ -238,75 +211,66 @@ function Vp_to_result_table(Vp, table, do_loop) {
 /**
 	Map the weight of special drops into number.
 */
-function intensity_to_float(s) {
-	assert(s !== undefined);
-	switch(parseInt(s)) {
-		case 0: return 0.0;
-		case 1: return 100.0;
-		case 2: return 500.0;
-		case 3: return 1000.0;
-		default: throw 'illegal state';
-	}
-}
+
 
 /**
 	Read resource ratio from document
 	and return a ratio vector.
 */
-function load_ratio_vector() {
-	// normalize
-	let mp = parseFloat(document.getElementById('in-manpower').value);
-	let am = parseFloat(document.getElementById('in-ammo').value);
-	let mr = parseFloat(document.getElementById('in-ration').value);
-	let pt = parseFloat(document.getElementById('in-parts').value);
-	let sum = mp + am + mr + pt;
+// function load_ratio_vector() {
+// 	// normalize
+// 	let mp = parseFloat(document.getElementById('in-manpower').value);
+// 	let am = parseFloat(document.getElementById('in-ammo').value);
+// 	let mr = parseFloat(document.getElementById('in-ration').value);
+// 	let pt = parseFloat(document.getElementById('in-parts').value);
+// 	let sum = mp + am + mr + pt;
 
-	// when every ratio is equal to zero, protect to divide by 0
-	if(sum == 0) {
-		sum = 1;
-	}
+// 	// when every ratio is equal to zero, protect to divide by 0
+// 	if(sum == 0) {
+// 		sum = 1;
+// 	}
 
-	// apply special drops
-	let qrs = intensity_to_float(document.getElementById('in-restore').value);
-	let qmn = intensity_to_float(document.getElementById('in-manufacture').value);
-	let dct = intensity_to_float(document.getElementById('in-doll').value);
-	let ect = intensity_to_float(document.getElementById('in-equipment').value);
-	let gch = intensity_to_float(document.getElementById('in-gatcha').value);
-	return [mp/sum, am/sum, mr/sum, pt/sum, qrs, qmn, dct, ect, gch];
-}
+// 	// apply special drops
+// 	let qrs = intensity_to_float(document.getElementById('in-restore').value);
+// 	let qmn = intensity_to_float(document.getElementById('in-manufacture').value);
+// 	let dct = intensity_to_float(document.getElementById('in-doll').value);
+// 	let ect = intensity_to_float(document.getElementById('in-equipment').value);
+// 	let gch = intensity_to_float(document.getElementById('in-gatcha').value);
+// 	return [mp/sum, am/sum, mr/sum, pt/sum, qrs, qmn, dct, ect, gch];
+// }
 
-function config_to_dom(config) {
-	timeline_to_table(config.timeline, document.getElementById('tb-timeline'))
-	document.getElementById('in-manpower').value = config.ratio[0];
-	document.getElementById('in-ammo').value = config.ratio[1];
-	document.getElementById('in-ration').value = config.ratio[2];
-	document.getElementById('in-parts').value = config.ratio[3];
-	document.getElementById('in-restore').value = config.ratio[4];
-	document.getElementById('in-manufacture').value = config.ratio[5];
-	document.getElementById('in-doll').value = config.ratio[6];
-	document.getElementById('in-equipment').value = config.ratio[7];
-	document.getElementById('in-gatcha').value = config.ratio[8];
-	document.getElementById('in-mintime').value = integer_to_hhmm(config.min_time);
-	document.getElementById('in-maxtime').value = integer_to_hhmm(config.max_time);
-	document.getElementById('in-loop').checked = config.daily_loop;
-	document.getElementById('in-zero').value = config.min_level == 0;
-	document.getElementById('in-map').value = config.max_level;
-}
+// function config_to_dom(config) {
+// 	timeline_to_table(config.timeline, document.getElementById('tb-timeline'))
+// 	document.getElementById('in-manpower').value = config.ratio[0];
+// 	document.getElementById('in-ammo').value = config.ratio[1];
+// 	document.getElementById('in-ration').value = config.ratio[2];
+// 	document.getElementById('in-parts').value = config.ratio[3];
+// 	document.getElementById('in-restore').value = config.ratio[4];
+// 	document.getElementById('in-manufacture').value = config.ratio[5];
+// 	document.getElementById('in-doll').value = config.ratio[6];
+// 	document.getElementById('in-equipment').value = config.ratio[7];
+// 	document.getElementById('in-gatcha').value = config.ratio[8];
+// 	document.getElementById('in-mintime').value = integer_to_hhmm(config.min_time);
+// 	document.getElementById('in-maxtime').value = integer_to_hhmm(config.max_time);
+// 	document.getElementById('in-loop').checked = config.daily_loop;
+// 	document.getElementById('in-zero').value = config.min_level == 0;
+// 	document.getElementById('in-map').value = config.max_level;
+// }
 
-function dom_to_config() {
-	return {
-		'timeline': table_to_timeline(document.getElementById('tb-timeline')),
-		'ratio': load_ratio_vector(),
-		'min_time': hhmm_to_integer(document.getElementById('in-mintime').value),
-		'max_time': hhmm_to_integer(document.getElementById('in-maxtime').value),
-		'daily_loop': document.getElementById('in-loop').checked,
-		'min_level': document.getElementById('in-zero').checked ? 0 : 1,
-		'max_level': parseInt(document.getElementById('in-map').value)
-	}
-}
+// function dom_to_config() {
+// 	return {
+// 		'timeline': table_to_timeline(document.getElementById('tb-timeline')),
+// 		'ratio': load_ratio_vector(),
+// 		'min_time': hhmm_to_integer(document.getElementById('in-mintime').value),
+// 		'max_time': hhmm_to_integer(document.getElementById('in-maxtime').value),
+// 		'daily_loop': document.getElementById('in-loop').checked,
+// 		'min_level': document.getElementById('in-zero').checked ? 0 : 1,
+// 		'max_level': parseInt(document.getElementById('in-map').value)
+// 	}
+// }
 
 function run() {
-	let config = dom_to_config();
+	// let config = dom_to_config();
 
 	// Warning for non daily loop.
 	if(!config.daily_loop && config.timeline.length <= 1) {
@@ -326,84 +290,36 @@ function run() {
 }
 
 /**
-	If compute button is clicked then efficiency is
-	computed.
-*/
-document.getElementById('bt-compute').onmouseup = run;
-
-/**
 	Preset
-*/
-document.getElementById('in-preset').onchange = function(e) {
-	let config = dom_to_config();
-	switch(parseInt(e.srcElement.value)) {
-		case 1: 
-			config.timeline = [7*60+30, 8*60+30, 13*60, 18*60, 22*60];
-			break;
-		case 2:
-			config.timeline = [8*60, 8*60+50, 12*60, 17*60+30, 0];
-			break;
-		case 3:
-			config.timeline = [];
-			for(let h = 12; h < 24; ++h) {
-				config.timeline.push(h * 60);
-			}
-			break;
-		case 4:
-			config.timeline = [6*60, 12*60+30, 18*60+30, 22*60];
-			break;
-		case 5:
-			config.timeline = [6*60, 12*60+30, 17*60+30, 22*60, 1*60];
-			break;
-		case 6:
-			config.timeline = [0, 7*60];
-			break;
-		default:
-			config.timeline = [0];
-			break;
-	}
-	config_to_dom(config);
-};
+// */
+// document.getElementById('in-preset').onchange = function(e) {
+// 	let config = dom_to_config();
+// 	switch(parseInt(e.srcElement.value)) {
+// 		case 1: 
+// 			config.timeline = [7*60+30, 8*60+30, 13*60, 18*60, 22*60];
+// 			break;
+// 		case 2:
+// 			config.timeline = [8*60, 8*60+50, 12*60, 17*60+30, 0];
+// 			break;
+// 		case 3:
+// 			config.timeline = [];
+// 			for(let h = 12; h < 24; ++h) {
+// 				config.timeline.push(h * 60);
+// 			}
+// 			break;
+// 		case 4:
+// 			config.timeline = [6*60, 12*60+30, 18*60+30, 22*60];
+// 			break;
+// 		case 5:
+// 			config.timeline = [6*60, 12*60+30, 17*60+30, 22*60, 1*60];
+// 			break;
+// 		case 6:
+// 			config.timeline = [0, 7*60];
+// 			break;
+// 		default:
+// 			config.timeline = [0];
+// 			break;
+// 	}
+// 	config_to_dom(config);
+// };
 
-(function() {
-	// Initialize Config Table
-	auto_time_correction(document.getElementById('in-mintime'));
-	auto_time_correction(document.getElementById('in-maxtime'));
-	invalid_input_protect(document.getElementById('in-manpower'), is_valid_float_string);
-	invalid_input_protect(document.getElementById('in-ammo'), is_valid_float_string);
-	invalid_input_protect(document.getElementById('in-ration'), is_valid_float_string);
-	invalid_input_protect(document.getElementById('in-parts'), is_valid_float_string);
-
-	// Initialize Result Table
-	let tr, td;
-	let table = document.getElementById('tb-result');
-	for(let n = 0; n < 9; ++n) {
-		tr = table.insertRow(-1);
-		for(let i = 0; i < table.rows[0].cells.length; ++i) {
-			tr.insertCell(-1);
-		}
-	}
-
-	// Load cookie
-	let json_string;
-	let config = null;
-	if(window.location.origin.match(/^file:/) != null) {
-		json_string = window.localStorage.getItem('cookie');
-	} else {
-		json_string = document.cookie;
-	}
-	if(!!json_string) {
-		config = JSON.parse(json_string);
-	} else {
-		config = {
-			'timeline': [0],
-			'ratio': [1, 1, 1, 0.5, 0, 0, 0, 0, 0],
-			'min_time': 0,
-			'max_time': 1440,
-			'daily_loop': true,
-			'min_level': 0,
-			'max_level': 11
-		};
-	}
-	config_to_dom(config);
-})();

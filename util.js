@@ -6,6 +6,10 @@ function assert(cond) {
 	}
 }
 
+function ifndef(x, alt) {
+	return x === undefined ? alt : x;
+}
+
 /**
 	Give special ability to input_dom:
 
@@ -25,6 +29,33 @@ function invalid_input_protect(input_dom, cond) {
 
 /**
 */
-function is_valid_float_string(s) {
-	return s.match(/^[0-9]+(\.[0-9]+)?$/) != null;
+// function is_valid_float_string(s) {
+// 	return s.match(/^[0-9]+(\.[0-9]+)?$/) != null;
+// }
+
+/**
+	Convert minute-specified integer into
+	hh:mm string.
+*/
+function integer_to_hhmm(t) {
+	return Math.floor(t / 60).toString().padStart(2, '0') + ':' + (t % 60).toString().padStart(2, '0');
+}
+
+/**
+	Convert hh:mm string into minute-specified integer
+*/
+function hhmm_to_integer(s) {
+	let tokens = s.split(':');
+	return 60 * parseInt(tokens[0]) + parseInt(tokens[1]);
+}
+
+/**
+	Test whether s is valid time format string.
+	This accept h:m, h:mm, hh:m, hh:mm
+	Also, mm should be smaller than 60.
+*/
+function is_valid_hhmm(s) {
+	return s !== null && s !== undefined
+		&& s.match(/^[0-9]{1,2}:[0-9]{1,2}$/) != null
+		&& parseInt(s.match(/[0-9]{1,2}$/)[0]) < 60;
 }
