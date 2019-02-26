@@ -210,8 +210,8 @@ class ConfigController {
 		}
 		this.config.set_min_time(hhmm_to_integer(this.dom.min_time.value));
 		this.config.set_max_time(hhmm_to_integer(this.dom.max_time.value));
-		this.config.set_daily_loop(this.dom.daily_loop.selected);
-		this.config.set_min_level(this.dom.open_zero.selected ? 0 : 1);
+		this.config.set_daily_loop(this.dom.daily_loop.checked);
+		this.config.set_min_level(this.dom.open_zero.checked ? 0 : 1);
 		this.config.set_max_level(this.dom.open_level.selectedIndex + 1);
 
 		// timeline table
