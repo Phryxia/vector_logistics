@@ -2,7 +2,7 @@
 
 class Config {
 	constructor(cfg) {
-		cfg = ifndef(cfg, {});
+		assert(!!cfg);
 		this.timeline   = ifndef(cfg.timeline, [0]).slice();
 		this.ratio      = ifndef(cfg.ratio, [1, 1, 1, 0.5, 0, 0, 0, 0, 0]).slice();
 		this.min_time   = ifndef(cfg.min_time, 0);
@@ -16,7 +16,7 @@ class Config {
 		Return the copy of this Config
 	*/
 	copy() {
-		return new Config(this.cfg);
+		return new Config(this);
 	}
 
 	/**
@@ -106,6 +106,16 @@ class Config {
 	}
 }
 
+Config.DEFAULT_CONFIG = new Config({
+	'timeline': [0],
+	'ratio': [1, 1, 1, 0.5, 0, 0, 0, 0, 0],
+	'min_time': 0,
+	'max_time': 1440,
+	'daily_loop': true,
+	'min_level': 0,
+	'max_level': 11
+});
+
 class ConfigController {
 	/**
 		You MUST assign Config to this object.
@@ -183,6 +193,13 @@ class ConfigController {
 		this.dom.daily_loop.onchange        = this.auto_fix_simple;
 		this.dom.open_zero.onchange         = this.auto_fix_simple;
 		this.dom.open_level.onchange        = this.auto_fix_simple;
+	}
+
+	/**
+		this returns copied version
+	*/
+	get_current_config() {
+		return this.config.copy();
 	}
 
 	/**
