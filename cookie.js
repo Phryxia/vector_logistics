@@ -6,7 +6,7 @@
 */
 class CookieManager {
 	load_snapshot(prsctr) {
-		assert(!!prsctr && prsctr.__proto__ == PresetController.prototype);
+		assert(!!prsctr && prsctr instanceof PresetController);
 		let success = true;
 		let obj = null;
 		// load JSON object
@@ -31,7 +31,7 @@ class CookieManager {
 	}
 
 	save_snapshot(prsctr) {
-		assert(!!prsctr && prsctr.__proto__ == PresetController.prototype);
+		assert(!!prsctr && prsctr instanceof PresetController);
 		this.__save_cookie(JSON.stringify({
 			presets: prsctr.presets,
 			selected_index: prsctr.selected_index

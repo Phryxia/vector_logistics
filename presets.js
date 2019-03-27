@@ -18,6 +18,13 @@ class Preset {
 		return this.config.copy();
 	}
 
+	/**
+		WARNING
+		any modification (except addition) may cause
+		serious side effect to users.
+
+		THINK ONE MORE TIME before you change the sturcture.
+	*/
 	toJSON() {
 		return {
 			name: this.name,
@@ -50,8 +57,8 @@ class PresetController {
 		CookieManager 	ckmng
 	*/
 	constructor(cfgctr, ckmng) {
-		assert(!!cfgctr && cfgctr.__proto__ == ConfigController.prototype);
-		assert(!!ckmng && ckmng.__proto__ == CookieManager.prototype);
+		assert(!!cfgctr && cfgctr instanceof ConfigController);
+		assert(!!ckmng && ckmng instanceof CookieManager);
 		this.cfgctr = cfgctr;
 		this.ckmng = ckmng;
 		this.presets = [new Preset('-', Config.DEFAULT_CONFIG)];
@@ -120,7 +127,7 @@ class PresetController {
 	override_presets(presets, selected_index) {
 		assert(!!presets);
 		for(let i = 0; i < presets.length; ++i)
-			if(!presets[i] || presets[i].__proto__ != Preset.prototype)
+			if(!presets[i] || !(presets[i] instanceof Preset))
 				throw '[PresetController::override_presets] illegal preset: ' + presets[i];
 		this.presets = presets;
 		if(selected_index === undefined || selected_index < 0)

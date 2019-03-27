@@ -1,5 +1,4 @@
 'use strict';
-
 class Config {
 	constructor(cfg) {
 		assert(!!cfg);
@@ -105,6 +104,13 @@ class Config {
 		this.max_level = Math.max(lv, this.min_level);
 	}
 
+	/**
+		WARNING
+		any modification (except addition) may cause
+		serious side effect to users.
+
+		THINK ONE MORE TIME before you change the sturcture.
+	*/
 	/**
 		Return the object representation of this preset.
 	*/
@@ -222,7 +228,7 @@ class ConfigController {
 		Assign current handling config as following
 	*/
 	assign_config(config) {
-		assert(!!config && config.__proto__ == Config.prototype);
+		assert(!!config && config instanceof Config);
 		this.config = config;
 		this.update_dom();
 	}
