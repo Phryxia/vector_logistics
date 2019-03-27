@@ -2,9 +2,9 @@
 
 function assert(cond, msg) {
 	if(!cond) {
-		if(!!msg)
-			console.log(msg);
-		throw 'assertion failed';
+		if(!msg)
+			msg = 'assertion failed';
+		throw msg;
 	}
 }
 

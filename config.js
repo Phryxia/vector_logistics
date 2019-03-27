@@ -104,6 +104,21 @@ class Config {
 		assert(0 <= lv && lv <= 11);
 		this.max_level = Math.max(lv, this.min_level);
 	}
+
+	/**
+		Return the object representation of this preset.
+	*/
+	toJSON() {
+		return {
+			timeline 	: this.timeline,
+			ratio 		: this.ratio,
+			min_time 	: this.min_time,
+			max_time 	: this.max_time,
+			daily_loop 	: this.daily_loop,
+			min_level 	: this.min_level,
+			max_level 	: this.max_level
+		};
+	}
 }
 
 Config.DEFAULT_CONFIG = new Config({
@@ -118,7 +133,8 @@ Config.DEFAULT_CONFIG = new Config({
 
 class ConfigController {
 	/**
-		You MUST assign Config to this object.
+		You MUST assign Config to this object
+		before you use this.
 	*/
 	constructor() {
 		// Load DOM
@@ -240,6 +256,7 @@ class ConfigController {
 			}
 		}
 		this.config.set_timeline(T);
+		//this.update_dom();
 	}
 
 	/**

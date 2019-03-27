@@ -17,6 +17,13 @@ class Preset {
 	get_config() {
 		return this.config.copy();
 	}
+
+	toJSON() {
+		return {
+			name: this.name,
+			config: this.config.toJSON()
+		};
+	}
 }
 
 /**
@@ -26,18 +33,38 @@ class Preset {
 	Config <-> ConfigController <-> PresetController
 */
 class PresetController {
-	constructor(cfgctr) {
+	/*
+		Field
+
+		ConfigController	cfgctr
+		Preset[] presets
+			There is no preset-reference-dependent code.
+			You can override by your own purpose, but
+			in this case you have to carefully handle
+			the preset's reference outside of this class.
+		0 <= int 			selected_index
+	*/
+
+	/**
+		ConfigController cfgctr
+		CookieManager 	ckmng
+	*/
+	constructor(cfgctr, ckmng) {
 		assert(!!cfgctr && cfgctr.__proto__ == ConfigController.prototype);
+		assert(!!ckmng && ckmng.__proto__ == CookieManager.prototype);
 		this.cfgctr = cfgctr;
+		this.ckmng = ckmng;
 		this.presets = [new Preset('-', Config.DEFAULT_CONFIG)];
 		this.selected_index = 0;
 
 		// preset selecting droplist
+		// when something is selected, cookie will be updated.
 		this.dom = document.getElementById('in-preset');
 		this.dom.preset_ctr = this;
 		this.dom.onchange = function(evt) {
 			let preset_ctr = evt.srcElement.preset_ctr;
 			preset_ctr.set_current(preset_ctr.dom.selectedIndex);
+			preset_ctr.ckmng.save_snapshot(preset_ctr);
 		};
 
 		// preset add button
@@ -82,6 +109,26 @@ class PresetController {
 	}
 
 	/**
+		Replace current presets array
+		and select given option
+		and refresh DOM.
+
+		If there is no specified selected_index,
+		or nothing has been selected before,
+		0-th option will be selected.
+	*/
+	override_presets(presets, selected_index) {
+		assert(!!presets);
+		for(let i = 0; i < presets.length; ++i)
+			if(!presets[i] || presets[i].__proto__ != Preset.prototype)
+				throw '[PresetController::override_presets] illegal preset: ' + presets[i];
+		this.presets = presets;
+		if(selected_index === undefined || selected_index < 0)
+			selected_index = 0;
+		this.set_current(selected_index);
+	}
+
+	/**
 		Return currently selected preset.
 		If there is no such preset, return null.
 	*/
@@ -98,7 +145,7 @@ class PresetController {
 		and refresh DOM.
 	*/
 	set_current(idx) {
-		assert(0 <= idx && idx < this.presets.length);
+		assert(0 <= idx && idx < this.presets.length, '[PresetController::set_current] invalid index: ' + idx);
 		this.selected_index = idx;
 		this.cfgctr.assign_config(this.get_current().get_config());
 		this.update_dom();
@@ -106,26 +153,31 @@ class PresetController {
 
 	/**
 		Add given preset to the last of preset options
-		and refresh DOM.
+		and refresh DOM
+		and update cookie.
 	*/
 	add_preset(preset) {
 		assert(!!preset);
 		this.presets.push(preset);
 		this.update_dom();
+		this.ckmng.save_snapshot(this);
 	}
 
 	/**
 		Delete idx-th preset from current preset options
 		and select nothing
-		and refresh DOM.
+		and refresh DOM
+		and update cookie.
 
-		Note that delete doesn't change current config DOM.
+		Note that deletion doesn't change current config DOM
+		because users may modify something at that situation.
 	*/
 	del_preset(idx) {
 		assert(0 <= idx && idx < this.dom.options.length);
 		this.selected_index = -1;
 		this.presets = this.presets.slice(0, idx).concat(this.presets.slice(idx + 1));
 		this.update_dom();
+		this.ckmng.save_snapshot(this);
 	}
 
 	/**
