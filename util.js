@@ -1,7 +1,9 @@
 'use strict'
 
-function assert(cond) {
+function assert(cond, msg) {
 	if(!cond) {
+		if(!!msg)
+			console.log(msg);
 		throw 'assertion failed';
 	}
 }

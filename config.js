@@ -251,12 +251,15 @@ class ConfigController {
 
 		// config table
 		Object.keys(cfgctr.dom.ratio).forEach(function(key, idx) {
-			cfgctr.dom.ratio[key].value = cfgctr.config.get_ratio(false)[idx];
+			if(idx >= 4)
+				cfgctr.dom.ratio[key].value = cfgctr.__float_to_intensity(cfgctr.config.get_ratio(false)[idx]);
+			else
+				cfgctr.dom.ratio[key].value = cfgctr.config.get_ratio(false)[idx];
 		});
 		this.dom.min_time.value = integer_to_hhmm(this.config.get_min_time());
 		this.dom.max_time.value = integer_to_hhmm(this.config.get_max_time());
-		this.dom.daily_loop.selected = this.config.get_daily_loop();
-		this.dom.open_zero.selected = this.config.get_min_level() == 0;
+		this.dom.daily_loop.checked = this.config.get_daily_loop();
+		this.dom.open_zero.checked = (this.config.get_min_level() == 0);
 		this.dom.open_level.selectedIndex = this.config.get_max_level() - 1;
 
 		//timeline table
@@ -358,5 +361,19 @@ class ConfigController {
 			case 3: return 1000.0;
 			default: throw 'illegal state';
 		}
+	}
+
+	__float_to_intensity(x) {
+		assert(x >= 0);
+		if(x <= 0)
+			return 0;
+		else if(x <= 100)
+			return 1;
+		else if(x <= 500)
+			return 2;
+		else if(x <= 1000)
+			return 3;
+		else
+			throw 'illegal parameter ' + x;
 	}
 }
