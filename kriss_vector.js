@@ -267,7 +267,7 @@ class AlgorithmController {
 
 	update_dom() {
 		let table = this.dom.result;
-		table.style.display = 'block';
+		table.style.display = 'inline-block';
 		for(let n = 0; n < 8; ++n) {
 			if(!!this.Vp[n]) {
 				let v = this.Vp[n][0];

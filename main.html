@@ -5,10 +5,16 @@
 </head>
 <body>
 	<center>
-	<h1>군수과장 벡터양!</h1>
-	<table width='400px' id='tb-config'>
+	
+	<table width='420px'>
 		<tr>
-			<th colspan='9'>최적화 비율</th>
+			<td width=75%><h1>군수과장 벡터양!</h1><h4 style='padding-left: 4px'>ver 1.0</h4></td>
+			<td><img width='100%' src='./img/vector_0.png' alt='벡터쟝'></td>
+		</tr>
+	</table>
+	<table width='420px' id='tb-config'>
+		<tr>
+			<th colspan='9' style='padding-bottom: 15px'><font size='5'>최적화 비율</font></th>
 		</tr>
 		<tr>
 			<th><img width='30px' src='./img/mp.png' alt='인력'></th>
@@ -57,7 +63,7 @@
 				<option value='3'>고</option>
 			</select></td>
 		</tr>
-		<tr>
+		<tr height='60px' style='vertical-align: bottom;'>
 			<th>최소<br>주기</th>
 			<th>최대<br>주기</th>
 			<th>매일<br>반복</th>
@@ -89,13 +95,17 @@
 			<td><button id='bt-preset-del'>-</button></td>
 		</tr>
 	</table>
+	<br>
 	<table width='200px' id='tb-timeline'>
 		<tr>
-			<th colspan='3'>확인일정</th>
+			<th colspan='3' style='padding-bottom: 15px'><font size='5'>확인일정</font></th>
 		</tr>
 	</table>
+	<br>
 	<button id='bt-compute'>계산</button>
-	<table id='tb-result' style='display:None'>
+	<button onclick='window.localStorage.removeItem("cookie"); document.cookie=""'>쿠키삭제</button>
+	<br><br>
+	<table width='420px' id='tb-result' style='display:None'>
 		<tr>
 			<th>작전번호</th>
 			<th>소요시간</th>
@@ -107,7 +117,6 @@
 			<th>기타도구</th>
 		</tr>
 	</table>
-	<button onclick='window.localStorage.removeItem("cookie"); document.cookie=""'>쿠키삭제</button>
 	</center>
 	
 	<script src='util.js'></script>
