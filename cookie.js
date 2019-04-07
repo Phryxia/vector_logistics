@@ -38,6 +38,10 @@ class CookieManager {
 		}));
 	}
 
+	is_local() {
+		return window.location.origin.match(/^file:/) != null;
+	}
+
 	__save_cookie(str) {
 		if(window.location.origin.match(/^file:/) != null)
 			window.localStorage.setItem('cookie', str);
