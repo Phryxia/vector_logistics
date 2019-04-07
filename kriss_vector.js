@@ -267,18 +267,26 @@ class AlgorithmController {
 
 	update_dom() {
 		let table = this.dom.result;
-		table.style.display = 'inline-block';
+		table.style.display = 'block';
 		for(let n = 0; n < 8; ++n) {
 			if(!!this.Vp[n]) {
 				let v = this.Vp[n][0];
 				let rate = this.Vp[n][2] / this.Vp[n][3];
+
+				// mission name
 				table.rows[n + 1].cells[0].innerHTML = v[0];
+				
+				// time
 				table.rows[n + 1].cells[1].innerHTML = integer_to_hhmm(v[1]);
+				
+				// period
 				if(this.cfgctr.config.get_daily_loop()) {
 					table.rows[n + 1].cells[2].innerHTML = this.Vp[n][2] + '회/' + this.Vp[n][3] + '일';
 				} else {
 					table.rows[n + 1].cells[2].innerHTML = this.Vp[n][2] + '회';
 				}
+
+				// resources
 				table.rows[n + 1].cells[3].innerHTML = v[2][0] * rate;
 				table.rows[n + 1].cells[4].innerHTML = v[2][1] * rate;
 				table.rows[n + 1].cells[5].innerHTML = v[2][2] * rate;
