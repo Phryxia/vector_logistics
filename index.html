@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>군수과장 벡터양!</title>
-	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
 	<script>
 	(adsbygoogle = window.adsbygoogle || []).push({
 		google_ad_client: "ca-pub-7174025983780687",
@@ -11,91 +11,187 @@
 	</script>
 </head>
 <body>
+	<style>
+		* {
+			margin: 0%;
+			border: 0%;
+			padding: 0%;
+		}
+
+		.app_bound {
+			display: flex;
+			flex-direction: column;
+			align-content: center;
+			max-width: 400px;
+			margin-top: 20px;
+		}
+
+		.title {
+			display: inline-flex;
+			flex-direction: row;
+			justify-content: space-between;
+			width: 400px;
+			height: 100px;
+		}
+
+		.title_text {
+			display: inline-flex;
+			flex-direction: column;	
+			text-align: left;
+			justify-content: space-between;
+		}
+
+		.title_img {
+			height: 100%;
+		}
+
+		.cfg_row {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			margin-top: 10px;
+		}
+
+		.cfg_cell {
+			width: 20%;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			box-sizing: border-box;
+			padding-left: 5px;
+
+			padding-right: 5px;
+		}
+
+		.cfg_elem {
+			box-sizing: border-box;
+			width: 100%;
+			margin-top: 6px;
+		}
+
+		select.cfg_elem  {
+			height: 100%;
+		}
+	</style>
 	<center>
-	
-	<table width='420px'>
+		<!-- 제목 -->
+		<div class='title'>
+			<span class='title_text'>
+				<h1>군수과장 벡터양!</h1>
+				<h4 style='padding-left: 4px'>ver 1.0</h4>
+			</span>
+			<span><img class='title_img' src='./img/vector_0.png' alt='벡터쟝'></span>
+		</div>
+
+		<div class='app_bound'>
+			<h2>최적화 비율</h2>
+
+		<!-- 기본자원 인탄식부 -->
+		<div class='cfg_row'>
+			<span class='cfg_cell'>
+				<img class='cfg_elem' src='./img/mp.png' alt='인력'>
+				<input class='cfg_elem' type='number' id='in-manpower' min='0' step='0.1' value='1' />
+			</span>
+			<span class='cfg_cell'>
+				<img class='cfg_elem' src='./img/ammo.png' alt='탄약'>
+				<input class='cfg_elem' type='number' id='in-ammo' min='0' step='0.1' value='1' />
+			</span>
+			<span class='cfg_cell'>
+				<img class='cfg_elem' src='./img/mre.png' alt='식량'>
+				<input class='cfg_elem' type='number' id='in-ration' min='0' step='0.1' value='1' />
+			</span>
+			<span class='cfg_cell'>
+				<img class='cfg_elem' src='./img/part.png' alt='부품'>
+				<input class='cfg_elem' type='number' id='in-parts' min='0' step='0.1' value='0.5' />
+			</span>
+		</div>
+
+		<!-- 추가재화 계약권 -->
+		<div class='cfg_row'>
+			<span class='cfg_cell'>
+				<img class='cfg_elem' src='./img/quick_reinforce.png' alt='쾌속수복권'>
+				<select class='cfg_elem' id='in-restore'>
+						<option value='0'>-</option>
+						<option value='1'>저</option>
+						<option value='2'>중</option>
+						<option value='3'>고</option>
+					</select>
+			</span>
+			<span class='cfg_cell'>
+				<img class='cfg_elem' src='./img/quick_develop.png' alt='쾌속제조권'>
+				<select class='cfg_elem' id='in-manufacture'>
+						<option value='0'>-</option>
+						<option value='1'>저</option>
+						<option value='2'>중</option>
+						<option value='3'>고</option>
+					</select>
+			</span>
+			<span class='cfg_cell'>
+				<img class='cfg_elem' src='./img/iop_contract.png' alt='인형제조권'>
+				<select class='cfg_elem' id='in-doll'>
+						<option value='0'>-</option>
+						<option value='1'>저</option>
+						<option value='2'>중</option>
+						<option value='3'>고</option>
+					</select>
+			</span>
+			<span class='cfg_cell'>
+				<img class='cfg_elem' src='./img/equip_contract.png' alt='장비제조권'>
+				<select class='cfg_elem' id='in-equipment'>
+						<option value='0'>-</option>
+						<option value='1'>저</option>
+						<option value='2'>중</option>
+						<option value='3'>고</option>
+					</select>
+			</span>
+			<span class='cfg_cell'>
+				<img class='cfg_elem' src='./img/furniture_coin.png' alt='구매토큰'>
+				<select class='cfg_elem' id='in-gatcha'>
+						<option value='0'>-</option>
+						<option value='1'>저</option>
+						<option value='2'>중</option>
+						<option value='3'>고</option>
+					</select>
+			</span>
+		</div>
+
+		<!-- 기타 설정 -->
+		<div class='cfg_row'>
+			<span class='cfg_cell'>
+				<span class='cfg_elem'><b>최소<br>주기</b></span>
+				<input class='cfg_elem' type='text' size='2' id='in-mintime' value='00:00'/>
+			</span>
+			<span class='cfg_cell'>
+				<span class='cfg_elem'><b>최대<br>주기</b></span>
+				<input class='cfg_elem' type='text' size='2' id='in-maxtime' value='24:00'/>
+			</span>
+			<span class='cfg_cell'>
+				<span class='cfg_elem'><b>전역<br>개방</b></span>
+				<select class='cfg_elem' id='in-map' style='height: 20px;'>
+					<option value='1'>1</option>
+					<option value='2'>2</option>
+					<option value='3'>3</option>
+					<option value='4'>4</option>
+					<option value='5'>5</option>
+					<option value='6'>6</option>
+					<option value='7'>7</option>
+					<option value='8'>8</option>
+					<option value='9'>9</option>
+					<option value='10'>10</option>
+					<option value='11' selected='selected'>11</option>
+				</select>
+			</span>
+			<span class='cfg_cell'>
+				<span class='cfg_elem'><b>0지<br>개방</b></span>
+				<input clas='cfg_elem' type='checkbox' id='in-zero' checked />
+			</span>
+		</div>
+
+	<table id='tb-config'>
 		<tr>
-			<td width=75%><h1>군수과장 벡터양!</h1><h4 style='padding-left: 4px'>ver 1.0</h4></td>
-			<td><img width='100%' src='./img/vector_0.png' alt='벡터쟝'></td>
-		</tr>
-	</table>
-	<table width='420px' id='tb-config'>
-		<tr>
-			<th colspan='9' style='padding-bottom: 15px'><font size='5'>최적화 비율</font></th>
-		</tr>
-		<tr>
-			<th><img width='30px' src='./img/mp.png' alt='인력'></th>
-			<th><img width='30px' src='./img/ammo.png' alt='탄약'></th>
-			<th><img width='30px' src='./img/mre.png' alt='식량'></th>
-			<th><img width='30px' src='./img/part.png' alt='부품'></th>
-			<th><img width='30px' src='./img/quick_reinforce.png' alt='쾌속수복권'></th>
-			<th><img width='30px' src='./img/quick_develop.png' alt='쾌속제조권'></th>
-			<th><img width='30px' src='./img/iop_contract.png' alt='인형제조권'></th>
-			<th><img width='30px' src='./img/equip_contract.png' alt='장비제조권'></th>
-			<th><img width='30px' src='./img/furniture_coin.png' alt='구매토큰'></th>
-		</tr>
-		<tr>
-			<td><input type='number' style='width: 3em; height: 13.5px;' id='in-manpower' min='0' step='0.1' value='1' /></td>
-			<td><input type='number' style='width: 3em; height: 13.5px;' id='in-ammo' min='0' step='0.1' value='1' /></td>
-			<td><input type='number' style='width: 3em; height: 13.5px;' id='in-ration' min='0' step='0.1' value='1' /></td>
-			<td><input type='number' style='width: 3em; height: 13.5px;' id='in-parts' min='0' step='0.1' value='0.5' /></td>
-			<td><select id='in-restore' style='width: 3em; height: 20px;'>
-				<option value='0'>-</option>
-				<option value='1'>저</option>
-				<option value='2'>중</option>
-				<option value='3'>고</option>
-			</select></td>
-			<td><select id='in-manufacture' style='width: 3em; height: 20px;'>
-				<option value='0'>-</option>
-				<option value='1'>저</option>
-				<option value='2'>중</option>
-				<option value='3'>고</option>
-			</select></td>
-			<td><select id='in-doll' style='width: 3em; height: 20px;'>
-				<option value='0'>-</option>
-				<option value='1'>저</option>
-				<option value='2'>중</option>
-				<option value='3'>고</option>
-			</select></td>
-			<td><select id='in-equipment' style='width: 3em; height: 20px;'>
-				<option value='0'>-</option>
-				<option value='1'>저</option>
-				<option value='2'>중</option>
-				<option value='3'>고</option>
-			</select></td>
-			<td><select id='in-gatcha' style='width: 3em; height: 20px;'>
-				<option value='0'>-</option>
-				<option value='1'>저</option>
-				<option value='2'>중</option>
-				<option value='3'>고</option>
-			</select></td>
-		</tr>
-		<tr height='60px' style='vertical-align: bottom;'>
-			<th>최소<br>주기</th>
-			<th>최대<br>주기</th>
-			<th>매일<br>반복</th>
-			<th>전역<br>개방</th>
-			<th>0지<br>개방</th>
 			<th colspan='4'>프리셋</th>
 		</tr>
 		<tr>
-			<td><input type='text' size='2' id='in-mintime' value='00:00' style='height: 13.5px;'/></td>
-			<td><input type='text' size='2' id='in-maxtime' value='24:00' style='height: 13.5px;'/></td>
-			<td><input type='checkbox' id='in-loop' checked /></td>
-			<td><select id='in-map' style='height: 20px;'>
-				<option value='1'>1</option>
-				<option value='2'>2</option>
-				<option value='3'>3</option>
-				<option value='4'>4</option>
-				<option value='5'>5</option>
-				<option value='6'>6</option>
-				<option value='7'>7</option>
-				<option value='8'>8</option>
-				<option value='9'>9</option>
-				<option value='10'>10</option>
-				<option value='11' selected='selected'>11</option>
-			</select></td>
-			<td><input type='checkbox' id='in-zero' checked /></td>
 			<td colspan='2'><select id='in-preset' style='width: 100%; height: 20px;'>
 			</select></td>
 			<td><button id='bt-preset-add'>+</button></td>
@@ -112,6 +208,8 @@
 	<button id='bt-compute'>계산</button>
 	<button onclick='window.localStorage.removeItem("cookie"); document.cookie=""'>쿠키삭제</button>
 	<br><br>
+	
+	</div>
 	<table width='560px' id='tb-result' style='display:None'>
 		<tr>
 			<th width='80px'>작전번호</th>

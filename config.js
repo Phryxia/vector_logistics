@@ -212,7 +212,7 @@ class ConfigController {
 		this.dom.ratio.doll.onchange        = this.auto_fix_simple;
 		this.dom.ratio.equipment.onchange   = this.auto_fix_simple;
 		this.dom.ratio.gatcha.onchange      = this.auto_fix_simple;
-		this.dom.daily_loop.onchange        = this.auto_fix_simple;
+		//this.dom.daily_loop.onchange        = this.auto_fix_simple;
 		this.dom.open_zero.onchange         = this.auto_fix_simple;
 		this.dom.open_level.onchange        = this.auto_fix_simple;
 	}
@@ -249,7 +249,8 @@ class ConfigController {
 		}
 		this.config.set_min_time(hhmm_to_integer(this.dom.min_time.value));
 		this.config.set_max_time(hhmm_to_integer(this.dom.max_time.value));
-		this.config.set_daily_loop(this.dom.daily_loop.checked);
+		//this.config.set_daily_loop(this.dom.daily_loop.checked);
+		this.config.set_daily_loop(true);
 		this.config.set_min_level(this.dom.open_zero.checked ? 0 : 1);
 		this.config.set_max_level(this.dom.open_level.selectedIndex + 1);
 
@@ -281,7 +282,7 @@ class ConfigController {
 		});
 		this.dom.min_time.value = integer_to_hhmm(this.config.get_min_time());
 		this.dom.max_time.value = integer_to_hhmm(this.config.get_max_time());
-		this.dom.daily_loop.checked = this.config.get_daily_loop();
+		//this.dom.daily_loop.checked = this.config.get_daily_loop();
 		this.dom.open_zero.checked = (this.config.get_min_level() == 0);
 		this.dom.open_level.selectedIndex = this.config.get_max_level() - 1;
 
