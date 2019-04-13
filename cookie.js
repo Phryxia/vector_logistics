@@ -48,25 +48,35 @@ class CookieManager {
 		let expire_date = new Date();
 		expire_date.setTime(expire_date.getTime() + 3600 * 24 * 365);
 		str += 'content=' + pure_json_str + ';';
-		str += 'domain=https://krissvector.moe;';
-		str += 'expires=' + expire_date.toGMTString();
+		str += 'domain=krissvector.moe;';
+		str += 'expires=' + expire_date.toGMTString() + ';';
+
+		// escape
+		str = encodeURIComponent(str);
 
 		// set cookie
 		if(window.location.origin.match(/^file:/) != null)
 			window.localStorage.setItem('cookie', str);
-		else {
+		else
 			document.cookie = str;
-		}
 	}
 
 	__load_cookie() {
+		// load cookie
 		let raw_str;
 		if(window.location.origin.match(/^file:/) != null)
 			raw_str = window.localStorage.getItem('cookie');
-		else {
+		else
 			raw_str = document.cookie;
-		}
+
+		// unescape
+		raw_str = decodeURIComponent(raw_str);
+
+		// parse
 		let pairs = raw_str.split(';');
-		return pairs[0].substr(pairs[0].indexOf('=') + 1);
+		if(pairs[0].indexOf('=') == -1)
+			return "";
+		else
+			return pairs[0].substr(pairs[0].indexOf('=') + 1);
 	}
 }
