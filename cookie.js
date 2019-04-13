@@ -42,17 +42,31 @@ class CookieManager {
 		return window.location.origin.match(/^file:/) != null;
 	}
 
-	__save_cookie(str) {
+	__save_cookie(pure_json_str) {
+		// append expiration date
+		let str = '';
+		let expire_date = new Date();
+		expire_date.setTime(expire_date.getTime() + 3600 * 24 * 365);
+		str += 'content=' + pure_json_str + ';';
+		str += 'domain=https://krissvector.moe;';
+		str += 'expires=' + expire_date.toGMTString();
+
+		// set cookie
 		if(window.location.origin.match(/^file:/) != null)
 			window.localStorage.setItem('cookie', str);
-		else
+		else {
 			document.cookie = str;
+		}
 	}
 
 	__load_cookie() {
+		let raw_str;
 		if(window.location.origin.match(/^file:/) != null)
-			return window.localStorage.getItem('cookie');
-		else
-			return document.cookie;
+			raw_str = window.localStorage.getItem('cookie');
+		else {
+			raw_str = document.cookie;
+		}
+		let pairs = raw_str.split(';');
+		return pairs[0].substr(pairs[0].indexOf('=') + 1);
 	}
 }

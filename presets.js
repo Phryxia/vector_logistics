@@ -86,9 +86,17 @@ class PresetController {
 			let preset_name = window.prompt('프리셋 이름을 입력하세요.', '크리스 벡터');
 
 			// if user give illegal string, do once again
-			while(preset_name !== null && preset_name === '')
-				preset_name = window.prompt('이름은 최소 1글자 이상이어야 합니다.', '크리스 벡터');
-
+			let pass = false;
+			while(preset_name !== null && !pass)
+			{
+				if(preset_name === '')
+					preset_name = window.prompt('이름은 최소 1글자 이상이어야 합니다.', '크리스 벡터');
+				else if(preset_name.includes(';'))
+					preset_name = window.prompt('이름에는 세미콜론(;)이 포함될 수 없습니다.', '크리스 벡터');
+				else
+					pass = true;
+			}
+				
 			// browser may block the prompt so error can be happened
 			if(preset_name !== null && preset_name != '')
 			{
