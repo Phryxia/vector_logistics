@@ -50,6 +50,7 @@
 			flex-direction: row;
 			justify-content: space-between;
 			margin-top: 10px;
+			align-items: center;
 		}
 
 		.cfg_cell {
@@ -59,7 +60,6 @@
 			align-items: center;
 			box-sizing: border-box;
 			padding-left: 5px;
-
 			padding-right: 5px;
 		}
 
@@ -69,8 +69,27 @@
 			margin-top: 6px;
 		}
 
+		.cfg_elem_sub {
+			box-sizing: border-box;
+			margin-top: 6px;
+			margin-left: 5px;
+			margin-right: 5px;
+			height: 100%;
+		}
+
 		select.cfg_elem  {
 			height: 100%;
+		}
+
+		img.cfg_elem {
+			width: 82%;
+		}
+
+		input.time_input {
+			box-sizing: border-box;
+			width: 100%;
+			margin-top: 6px;
+			text-align: center;
 		}
 	</style>
 	<center>
@@ -86,127 +105,129 @@
 		<div class='app_bound'>
 			<h2>최적화 비율</h2>
 
-		<!-- 기본자원 인탄식부 -->
-		<div class='cfg_row'>
-			<span class='cfg_cell'>
-				<img class='cfg_elem' src='./img/mp.png' alt='인력'>
-				<input class='cfg_elem' type='number' id='in-manpower' min='0' step='0.1' value='1' />
-			</span>
-			<span class='cfg_cell'>
-				<img class='cfg_elem' src='./img/ammo.png' alt='탄약'>
-				<input class='cfg_elem' type='number' id='in-ammo' min='0' step='0.1' value='1' />
-			</span>
-			<span class='cfg_cell'>
-				<img class='cfg_elem' src='./img/mre.png' alt='식량'>
-				<input class='cfg_elem' type='number' id='in-ration' min='0' step='0.1' value='1' />
-			</span>
-			<span class='cfg_cell'>
-				<img class='cfg_elem' src='./img/part.png' alt='부품'>
-				<input class='cfg_elem' type='number' id='in-parts' min='0' step='0.1' value='0.5' />
-			</span>
-		</div>
+			<!-- 기본자원 인탄식부 -->
+			<div class='cfg_row'>
+				<span class='cfg_cell'>
+					<img class='cfg_elem' src='./img/mp.png' alt='인력'>
+					<input class='cfg_elem' type='number' id='in-manpower' min='0' step='0.1' value='1' />
+				</span>
+				<span class='cfg_cell'>
+					<img class='cfg_elem' src='./img/ammo.png' alt='탄약'>
+					<input class='cfg_elem' type='number' id='in-ammo' min='0' step='0.1' value='1' />
+				</span>
+				<span class='cfg_cell'>
+					<img class='cfg_elem' src='./img/mre.png' alt='식량'>
+					<input class='cfg_elem' type='number' id='in-ration' min='0' step='0.1' value='1' />
+				</span>
+				<span class='cfg_cell'>
+					<img class='cfg_elem' src='./img/part.png' alt='부품'>
+					<input class='cfg_elem' type='number' id='in-parts' min='0' step='0.1' value='0.5' />
+				</span>
+			</div>
 
-		<!-- 추가재화 계약권 -->
-		<div class='cfg_row'>
-			<span class='cfg_cell'>
-				<img class='cfg_elem' src='./img/quick_reinforce.png' alt='쾌속수복권'>
-				<select class='cfg_elem' id='in-restore'>
-						<option value='0'>-</option>
-						<option value='1'>저</option>
-						<option value='2'>중</option>
-						<option value='3'>고</option>
-					</select>
-			</span>
-			<span class='cfg_cell'>
-				<img class='cfg_elem' src='./img/quick_develop.png' alt='쾌속제조권'>
-				<select class='cfg_elem' id='in-manufacture'>
-						<option value='0'>-</option>
-						<option value='1'>저</option>
-						<option value='2'>중</option>
-						<option value='3'>고</option>
-					</select>
-			</span>
-			<span class='cfg_cell'>
-				<img class='cfg_elem' src='./img/iop_contract.png' alt='인형제조권'>
-				<select class='cfg_elem' id='in-doll'>
-						<option value='0'>-</option>
-						<option value='1'>저</option>
-						<option value='2'>중</option>
-						<option value='3'>고</option>
-					</select>
-			</span>
-			<span class='cfg_cell'>
-				<img class='cfg_elem' src='./img/equip_contract.png' alt='장비제조권'>
-				<select class='cfg_elem' id='in-equipment'>
-						<option value='0'>-</option>
-						<option value='1'>저</option>
-						<option value='2'>중</option>
-						<option value='3'>고</option>
-					</select>
-			</span>
-			<span class='cfg_cell'>
-				<img class='cfg_elem' src='./img/furniture_coin.png' alt='구매토큰'>
-				<select class='cfg_elem' id='in-gatcha'>
-						<option value='0'>-</option>
-						<option value='1'>저</option>
-						<option value='2'>중</option>
-						<option value='3'>고</option>
-					</select>
-			</span>
-		</div>
+			<!-- 추가재화 계약권 -->
+			<div class='cfg_row'>
+				<span class='cfg_cell'>
+					<img class='cfg_elem' src='./img/quick_reinforce.png' alt='쾌속수복권'>
+					<select class='cfg_elem' id='in-restore'>
+							<option value='0'>-</option>
+							<option value='1'>저</option>
+							<option value='2'>중</option>
+							<option value='3'>고</option>
+						</select>
+				</span>
+				<span class='cfg_cell'>
+					<img class='cfg_elem' src='./img/quick_develop.png' alt='쾌속제조권'>
+					<select class='cfg_elem' id='in-manufacture'>
+							<option value='0'>-</option>
+							<option value='1'>저</option>
+							<option value='2'>중</option>
+							<option value='3'>고</option>
+						</select>
+				</span>
+				<span class='cfg_cell'>
+					<img class='cfg_elem' src='./img/iop_contract.png' alt='인형제조권'>
+					<select class='cfg_elem' id='in-doll'>
+							<option value='0'>-</option>
+							<option value='1'>저</option>
+							<option value='2'>중</option>
+							<option value='3'>고</option>
+						</select>
+				</span>
+				<span class='cfg_cell'>
+					<img class='cfg_elem' src='./img/equip_contract.png' alt='장비제조권'>
+					<select class='cfg_elem' id='in-equipment'>
+							<option value='0'>-</option>
+							<option value='1'>저</option>
+							<option value='2'>중</option>
+							<option value='3'>고</option>
+						</select>
+				</span>
+				<span class='cfg_cell'>
+					<img class='cfg_elem' src='./img/furniture_coin.png' alt='구매토큰'>
+					<select class='cfg_elem' id='in-gatcha'>
+							<option value='0'>-</option>
+							<option value='1'>저</option>
+							<option value='2'>중</option>
+							<option value='3'>고</option>
+						</select>
+				</span>
+			</div>
 
-		<!-- 기타 설정 -->
-		<div class='cfg_row'>
-			<span class='cfg_cell'>
-				<span class='cfg_elem'><b>최소<br>주기</b></span>
-				<input class='cfg_elem' type='text' size='2' id='in-mintime' value='00:00'/>
-			</span>
-			<span class='cfg_cell'>
-				<span class='cfg_elem'><b>최대<br>주기</b></span>
-				<input class='cfg_elem' type='text' size='2' id='in-maxtime' value='24:00'/>
-			</span>
-			<span class='cfg_cell'>
-				<span class='cfg_elem'><b>전역<br>개방</b></span>
-				<select class='cfg_elem' id='in-map' style='height: 20px;'>
-					<option value='1'>1</option>
-					<option value='2'>2</option>
-					<option value='3'>3</option>
-					<option value='4'>4</option>
-					<option value='5'>5</option>
-					<option value='6'>6</option>
-					<option value='7'>7</option>
-					<option value='8'>8</option>
-					<option value='9'>9</option>
-					<option value='10'>10</option>
-					<option value='11' selected='selected'>11</option>
-				</select>
-			</span>
-			<span class='cfg_cell'>
-				<span class='cfg_elem'><b>0지<br>개방</b></span>
-				<input clas='cfg_elem' type='checkbox' id='in-zero' checked />
-			</span>
-		</div>
+			<!-- 기타 설정 -->
+			<div class='cfg_row'>
+				<span class='cfg_cell'>
+					<span class='cfg_elem'><b>최소<br>주기</b></span>
+					<input class='time_input' type='text' size='2' id='in-mintime' value='00:00'/>
+				</span>
+				<span class='cfg_cell'>
+					<span class='cfg_elem'><b>최대<br>주기</b></span>
+					<input class='time_input' type='text' size='2' id='in-maxtime' value='24:00'/>
+				</span>
+				<span class='cfg_cell'>
+					<span class='cfg_elem'><b>전역<br>개방</b></span>
+					<select class='cfg_elem' id='in-map' style='height: 20px;'>
+						<option value='1'>1</option>
+						<option value='2'>2</option>
+						<option value='3'>3</option>
+						<option value='4'>4</option>
+						<option value='5'>5</option>
+						<option value='6'>6</option>
+						<option value='7'>7</option>
+						<option value='8'>8</option>
+						<option value='9'>9</option>
+						<option value='10'>10</option>
+						<option value='11' selected='selected'>11</option>
+					</select>
+				</span>
+				<span class='cfg_cell'>
+					<span class='cfg_elem'><b>0지<br>개방</b></span>
+					<input clas='cfg_elem' type='checkbox' id='in-zero' checked />
+				</span>
+			</div>
 
-	<table id='tb-config'>
-		<tr>
-			<th colspan='4'>프리셋</th>
-		</tr>
-		<tr>
-			<td colspan='2'><select id='in-preset' style='width: 100%; height: 20px;'>
-			</select></td>
-			<td><button id='bt-preset-add'>+</button></td>
-			<td><button id='bt-preset-del'>-</button></td>
-		</tr>
-	</table>
-	<br>
-	<table width='200px' id='tb-timeline'>
-		<tr>
-			<th colspan='3' style='padding-bottom: 15px'><font size='5'>확인일정</font></th>
-		</tr>
-	</table>
+			<!-- 프리셋 편집 -->
+			<br>
+			<h2>프리셋</h2>
+			<div class='cfg_row'>
+				<span style='display: flex; width: 100%; height: 25px;'>
+					<select class='cfg_elem_sub' style='width: 55%;' id='in-preset'></select>
+					<button class='cfg_elem_sub' style='width: 10%;' id='bt-preset-add'>추가</button>
+					<button class='cfg_elem_sub' style='width: 10%;' id='bt-preset-del'>삭제</button>
+					<button class='cfg_elem_sub' style='width: 25%;' id='bt-repeat-add'>반복일정추가</button>
+				</span>
+			</div>
+
+			<!-- 일정 편집 -->
+			<br>
+			<h2>확인일정</h2>
+			<div class='cfg_row'>
+				<table id='tb-timeline' style='width: 100%;'>
+				</table>
+			</div>
 	<br>
 	<button id='bt-compute'>계산</button>
-	<button onclick='window.localStorage.removeItem("cookie"); document.cookie=""'>쿠키삭제</button>
+<!-- 	<button onclick='window.localStorage.removeItem("cookie"); document.cookie=""'>쿠키삭제</button> -->
 	<br><br>
 	
 	</div>

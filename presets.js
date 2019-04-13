@@ -215,7 +215,7 @@ class PresetController {
 		// note that unselected version is also exist.
 		this.button_del.disabled = (this.dom.selectedIndex <= 0)
 		                        || (this.presets.length <= 1);
-		this.button_del.style.visibility = (this.button_del.disabled
-			                             ? 'hidden' : 'visible');
+		// this.button_del.style.visibility = (this.button_del.disabled
+		// 	                             ? 'hidden' : 'visible');
 	}
 }

@@ -29,7 +29,8 @@ class Config {
 		This always copy the original.
 	*/
 	set_timeline(tl) {
-		assert(!!tl && tl.length > 0);
+		assert(!!tl);
+		assert(tl.length > 0);
 		this.timeline = tl.slice();
 	}
 
@@ -256,11 +257,8 @@ class ConfigController {
 
 		// timeline table
 		let T = [];
-		for(let r = 1; r < this.dom.timeline.rows.length; ++r) {
-			try {
-				T[r - 1] = hhmm_to_integer(this.dom.timeline.rows[r].cells[0].childNodes[0].value);
-			} catch(err) {
-			}
+		for(let r = 0; r < this.dom.timeline.rows.length; ++r) {
+			T[r] = hhmm_to_integer(this.__tb_dom(r, 0).childNodes[0].value);
 		}
 		this.config.set_timeline(T);
 		//this.update_dom();
@@ -288,73 +286,91 @@ class ConfigController {
 
 		//timeline table
 		// Append row if it is not enough
-		let tb = this.dom.timeline;
 		let m = 0;
-		while(this.config.get_timeline().length > tb.rows.length - 1) {
-			this.__tb_addRow(tb);
+		while(this.config.get_timeline().length > this.dom.timeline.rows.length) {
+			this.__tb_addRow();
 		}
 
 		// remove rows if it is not necessary
-		while(this.config.get_timeline().length < tb.rows.length - 1) {
-			this.__tb_delRow(tb);
+		while(this.config.get_timeline().length < this.dom.timeline.rows.length) {
+			this.__tb_delRow();
 		}
 
 		// write each cell's contents
 		this.config.get_timeline().forEach(function(t, idx) {
-			tb.rows[idx + 1].cells[0].childNodes[0].value = integer_to_hhmm(t);
+			cfgctr.__tb_dom(idx, 0).childNodes[0].value = integer_to_hhmm(t);
 		});
 	}
 
-	__tb_index_of(tb, tr_dom) {
-		for(let i = 0; i < tb.rows.length; ++i) {
-			if(tb.rows[i] === tr_dom) {
-				return i;
-			}
+	__tb_dom(r, c) {
+		assert(r >= 0);
+		if(c === undefined)
+			return this.dom.timeline.rows[r];
+		else {
+			assert(c >= 0);
+			return this.dom.timeline.rows[r].cells[c];
 		}
+	}
+
+	__tb_index_of(tr_dom) {
+		assert(!!tr_dom);
+		for(let i = 0; i < this.dom.timeline.rows.length; ++i)
+			if(this.__tb_dom(i) === tr_dom)
+				return i;
 		return null;
 	}
 
-	__tb_addRow(tb, r) {
+	__tb_addRow(r) {
 		r = ifndef(r, -1);
 		assert(r >= -1);
 
 		// insert HTMLTableRowElement
 		let cfgctr = this;
-		let tr = tb.insertRow(r);
+		let tr = this.dom.timeline.insertRow(r);
+		tr.style.width = '100%';
 		
-		// create time input box
+		
 		let td = tr.insertCell(-1);
+		td.style.display = 'flex';
+		td.style.width = '100%';
+		//td.style.height = '100%';
+		td.style.height = '25px';
+
+		// time input
 		let input = document.createElement('input');
+		input.className = 'time_input';
+		input.style.marginLeft = '5px';
+		input.style.marginRight = '5px';
+		input.style.height = '100%';
 		input.type = 'text';
 		input.defaultValue = '00:00';
-		input.size = 14;
 		input.onchange = this.auto_fix_time;
 		td.appendChild(input);
 
 		// create add button
-		td = tr.insertCell(-1);
 		input = document.createElement('button');
-		input.innerHTML = '+';
-		input.style.width = '100%';
+		input.className = 'cfg_elem_sub';
+		input.style.width = '10%';
+		input.innerHTML = '추가';
 		input.onmouseup = function(evt) {
 			// if button is clicked, new row is added
-			let addr = cfgctr.__tb_index_of(tb, evt.toElement.parentNode.parentNode) + 1;
-			cfgctr.__tb_addRow(tb, addr);
+			let addr = cfgctr.__tb_index_of(evt.toElement.parentNode.parentNode) + 1;
+			cfgctr.__tb_addRow(addr);
 			cfgctr.update_config();
 
 			// if new row is added, it automatically select new one.
-			tb.rows[addr].cells[0].childNodes[0].select();
+			cfgctr.__tb_dom(addr, 0).childNodes[0].select();
 		};
 		td.appendChild(input);
 
 		// create delete button
-		td = tr.insertCell(-1);
 		input = document.createElement('button');
-		input.innerHTML = '-';
-		input.style.width = '100%';
+		input.className = 'cfg_elem_sub';
+		input.style.width = '10%';
+		input.innerHTML = '삭제';
 		input.onmouseup = function(evt) {
-			let addr = cfgctr.__tb_index_of(tb, evt.toElement.parentNode.parentNode);
-			cfgctr.__tb_delRow(tb, addr);
+			let addr = cfgctr.__tb_index_of(evt.toElement.parentNode.parentNode);
+			cfgctr.__tb_delRow(addr);
 			cfgctr.update_config();
 		};
 		td.appendChild(input);
@@ -362,18 +378,18 @@ class ConfigController {
 		// if there are more than two records in table,
 		// first row's delete button must be disabled.
 		// therefore we should enable it.
-		tb.rows[1].cells[2].childNodes[0].disabled = (tb.rows.length <= 2);
+		this.__tb_dom(0, 0).childNodes[2].disabled = (this.dom.timeline.rows.length <= 1);
 	}
 
-	__tb_delRow(tb, r) {
+	__tb_delRow(r) {
 		r = ifndef(r, -1);
 		assert(r >= -1);
 
 		// delete the row
-		tb.deleteRow(r);
+		this.dom.timeline.deleteRow(r);
 		
 		// if there is only one record, disable delete button
-		tb.rows[1].cells[2].childNodes[0].disabled = (tb.rows.length <= 2);
+		this.__tb_dom(0, 0).childNodes[2].disabled = (this.dom.timeline.rows.length <= 1);
 	}
 
 	__intensity_to_float(s) {

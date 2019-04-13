@@ -288,38 +288,3 @@ function run() {
 		document.cookie = JSON.stringify(config);
 	}
 }
-
-/**
-	Preset
-// */
-// document.getElementById('in-preset').onchange = function(e) {
-// 	let config = dom_to_config();
-// 	switch(parseInt(e.srcElement.value)) {
-// 		case 1: 
-// 			config.timeline = [7*60+30, 8*60+30, 13*60, 18*60, 22*60];
-// 			break;
-// 		case 2:
-// 			config.timeline = [8*60, 8*60+50, 12*60, 17*60+30, 0];
-// 			break;
-// 		case 3:
-// 			config.timeline = [];
-// 			for(let h = 12; h < 24; ++h) {
-// 				config.timeline.push(h * 60);
-// 			}
-// 			break;
-// 		case 4:
-// 			config.timeline = [6*60, 12*60+30, 18*60+30, 22*60];
-// 			break;
-// 		case 5:
-// 			config.timeline = [6*60, 12*60+30, 17*60+30, 22*60, 1*60];
-// 			break;
-// 		case 6:
-// 			config.timeline = [0, 7*60];
-// 			break;
-// 		default:
-// 			config.timeline = [0];
-// 			break;
-// 	}
-// 	config_to_dom(config);
-// };
-
