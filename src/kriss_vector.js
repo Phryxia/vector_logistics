@@ -209,7 +209,7 @@ class Algorithm {
 		      d(v) is period in day of arrivals of v.
 	*/
 	optimize(config) {
-		assert(!!config && config.__proto__ == Config.prototype);
+		assert(!!config && config instanceof Config);
 
 		let Vf = this.V.filter(function(v) {
 			// Get the level of given logistic support
@@ -230,8 +230,8 @@ class Algorithm {
 
 class AlgorithmController {
 	constructor(cfgctr, algorithm) {
-		assert(!!cfgctr && cfgctr.__proto__ == ConfigController.prototype);
-		assert(!!algorithm && algorithm.__proto__ == Algorithm.prototype);
+		assert(!!cfgctr && cfgctr instanceof ConfigController);
+		assert(!!algorithm && algorithm instanceof Algorithm);
 		this.cfgctr = cfgctr;
 		this.algorithm = algorithm;
 		this.dom = {
