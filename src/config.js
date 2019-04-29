@@ -184,7 +184,8 @@ class ConfigController {
 			if(evt.srcElement.pvalue === undefined) {
 				evt.srcElement.pvalue = evt.srcElement.defaultValue;
 			}
-			if(isNaN(parseFloat(evt.srcElement.value))) {
+			let new_val = parseFloat(evt.srcElement.value);
+			if(isNaN(new_val) || new_val < 0) {
 				evt.srcElement.value = evt.srcElement.pvalue;
 			}
 			evt.srcElement.pvalue = evt.srcElement.value;
