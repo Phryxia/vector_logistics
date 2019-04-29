@@ -128,9 +128,19 @@ class Config {
 	}
 }
 
+Config.CONTRACTION_IGNORE = 1.0;
+Config.CONTRACTION_LOW    = 100;
+Config.CONTRACTION_MID    = 250;
+Config.CONTRACTION_HIGH   = 1000;
+
 Config.DEFAULT_CONFIG = new Config({
 	'timeline': [0],
-	'ratio': [1, 1, 1, 0.5, 0, 0, 0, 0, 0],
+	'ratio': [1, 1, 1, 0.5, 
+		Config.CONTRACTION_IGNORE, 
+		Config.CONTRACTION_IGNORE,
+		Config.CONTRACTION_IGNORE, 
+		Config.CONTRACTION_IGNORE, 
+		Config.CONTRACTION_IGNORE],
 	'min_time': 0,
 	'max_time': 1440,
 	'daily_loop': true,
@@ -395,23 +405,23 @@ class ConfigController {
 	__intensity_to_float(s) {
 		assert(s !== undefined);
 		switch(parseInt(s)) {
-			case 0: return 0.0;
-			case 1: return 100.0;
-			case 2: return 500.0;
-			case 3: return 1000.0;
+			case 0: return Config.CONTRACTION_IGNORE;
+			case 1: return Config.CONTRACTION_LOW;
+			case 2: return Config.CONTRACTION_MID;
+			case 3: return Config.CONTRACTION_HIGH;
 			default: throw 'illegal state';
 		}
 	}
 
 	__float_to_intensity(x) {
 		assert(x >= 0);
-		if(x <= 0)
+		if(x <= Config.CONTRACTION_IGNORE)
 			return 0;
-		else if(x <= 100)
+		else if(x <= Config.CONTRACTION_LOW)
 			return 1;
-		else if(x <= 500)
+		else if(x <= Config.CONTRACTION_MID)
 			return 2;
-		else if(x <= 1000)
+		else if(x <= Config.CONTRACTION_HIGH)
 			return 3;
 		else
 			throw 'illegal parameter ' + x;

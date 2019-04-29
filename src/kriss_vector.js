@@ -52,17 +52,21 @@ class Algorithm {
 			['11-3', 480 , [0   , 750 , 1500, 250 , 1  , 0  , 0  , 0  , 0]],
 			['11-4', 600 , [0   , 1650, 0   , 900 , 0  , 1  , 0  , 0  , 0]]
 		];
+
+		this.lambda = 10000;
 	}
 
 	/**
 		g	a kriss vector
 		r 	yet another kriss vector
+		bnd masking length. default is g.length.
 
 		return 
 	*/
-	inner(g, r) {
+	inner(g, r, bnd) {
+		bnd = (bnd === undefined ? g.length : bnd);
 		let sum = 0;
-		for(let i = 0; i < g.length; ++i) {
+		for(let i = 0; i < bnd; ++i) {
 			sum += g[i] * r[i];
 		}
 		return sum;
@@ -226,6 +230,98 @@ class Algorithm {
 			config.get_daily_loop()
 		));
 	}
+
+	/**
+		최선의 조합을 찾는 optimize()와는 달리
+		48 C 4 = 19만개의 조합을 전부 고려하는 알고리즘
+
+		모든 조합을 다 시험해보고 상위 k개의 조합을 반환한다.
+		현재 디스플레이를 할 방법이 없어서 1개만 반환한다.
+	*/
+	optimize2(config) {
+		assert(!!config && config instanceof Config);
+		
+		let Vf = this.V.filter(function(v) {
+			// Get the level of given logistic support
+			let lv = parseInt(v[0].match(/^[0-9]{1,2}/)[0]);
+			return config.get_min_time() <= v[1] && v[1] <= config.get_max_time()
+				&& config.get_min_level() <= lv && lv <= config.get_max_level();
+		});
+
+		let eff;
+		Vf = Vf.map(v => [
+			v, 
+			(eff = this.efficiency(v[1], config.get_timeline(), config.get_daily_loop()), 
+			_mult(v[2], eff[0] / eff[1])), 
+			eff[0], 
+			eff[1]
+		]);
+
+		let self = this;
+		let r = config.get_ratio(true);
+		console.log(r);
+		let is_rate_zero = (this.inner(r, r) == 0);
+		let best_group = [[null, 0], [null, 0], [null, 0], [null, 0]];
+		
+		for(let i = 0; i < Vf.length - 4; ++i)
+			_optimize2([i]);
+
+		// return best selection
+		best_group = best_group.sort(function(ga, gb) {
+			return gb[1] - ga[1];
+		});
+		console.log('best: ' + best_group[0][1]);
+		if(best_group[0][0] == null)
+			return [];
+		else
+			return best_group[0][0].map(idx => Vf[idx]);
+
+		function _optimize2(path) {
+			// update score
+			if(path.length >= 4) {
+				// compute current score
+				let vsum = [];
+				for(let i = 0; i < r.length; ++i) {
+					vsum[i] = 0.0;
+					for(let n = 0; n < 4; ++n)
+						vsum[i] += Vf[path[n]][1][i];
+				}
+
+				let score_len = (is_rate_zero ? self.inner(vsum, vsum) : self.inner(vsum, r));
+				let score_cos = self.inner(vsum, r, 4) / Math.sqrt(self.inner(vsum, vsum, 4));
+				let score = score_len + self.lambda * score_cos;
+
+				// search for minimum score
+				let min_idx = -1;
+				for(let i = 0; i < best_group.length; ++i)
+					if(best_group[i][1] < score && 
+						(min_idx == -1 
+						|| best_group[min_idx][1] > best_group[i][1])) {
+						min_idx = i;
+					}
+
+				// override current option
+				if(min_idx >= 0) {
+					best_group[min_idx][0] = path.slice();
+					best_group[min_idx][1] = score;
+					console.log(score);
+				}
+			} else {
+				for(let i = path[path.length - 1] + 1; i < Vf.length; ++i) {
+					path.push(i);
+					_optimize2(path);
+					path.pop();
+				}
+			}
+		}
+
+		function _mult(v, c) {
+			let out = [];
+			for(let i = 0; i < v.length; ++i)
+				out[i] = c * v[i];
+			return out;
+		}
+	}
 }
 
 class AlgorithmController {
@@ -247,7 +343,8 @@ class AlgorithmController {
 	}
 
 	run() {
-		this.Vp = this.algorithm.optimize(this.cfgctr.config);
+		//this.Vp = this.algorithm.optimize(this.cfgctr.config);
+		this.Vp = this.algorithm.optimize2(this.cfgctr.config);
 		this.update_dom();
 	}
 
@@ -294,11 +391,18 @@ class AlgorithmController {
 
 				// special drops
 				table.rows[n + 1].cells[7].innerHTML = '';
+				let first = true;
 				for(let i = 0; i < 5; ++i) {
-					if(v[2][4 + i] > 0) {
+					if(v[2][4 + i] != 0) {
+						if(first)
+							first = false;
+						else
+							table.rows[n + 1].cells[7].innerHTML += '<font size="1"> or </font>';
 						table.rows[n + 1].cells[7].innerHTML += this.__special_drop_img(i);
 					}
 				}
+				if(!first)
+					table.rows[n + 1].cells[7].innerHTML += '<font size="1">x' + this.Vp[n][2] + '</font>';
 			} else {
 				// When there is no result
 				for(let i = 0; i < 8; ++i) {
