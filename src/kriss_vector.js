@@ -53,7 +53,7 @@ class Algorithm {
 			['11-4', 600 , [0   , 1650, 0   , 900 , 0  , 1  , 0  , 0  , 0]]
 		];
 
-		this.lambda = 10000;
+		this.lambda = 100000;
 	}
 
 	/**
@@ -212,35 +212,45 @@ class Algorithm {
 		      c(v) is total number of arrivals of v in period
 		      d(v) is period in day of arrivals of v.
 	*/
-	optimize(config) {
-		assert(!!config && config instanceof Config);
+	// optimize(config) {
+	// 	assert(!!config && config instanceof Config);
 
-		let Vf = this.V.filter(function(v) {
-			// Get the level of given logistic support
-			let lv = parseInt(v[0].match(/^[0-9]{1,2}/)[0]);
-			return config.get_min_time() <= v[1] && v[1] <= config.get_max_time()
-				&& config.get_min_level() <= lv && lv <= config.get_max_level();
-		});
+	// 	let Vf = this.V.filter(function(v) {
+	// 		// Get the level of given logistic support
+	// 		let lv = parseInt(v[0].match(/^[0-9]{1,2}/)[0]);
+	// 		return config.get_min_time() <= v[1] && v[1] <= config.get_max_time()
+	// 			&& config.get_min_level() <= lv && lv <= config.get_max_level();
+	// 	});
 
-		// Load resource ratio vector
-		return this.sort(this.profile(
-			Vf, 
-			config.get_ratio(true), 
-			config.get_timeline(), 
-			config.get_daily_loop()
-		));
-	}
+	// 	// Load resource ratio vector
+	// 	return this.sort(this.profile(
+	// 		Vf, 
+	// 		config.get_ratio(true), 
+	// 		config.get_timeline(), 
+	// 		config.get_daily_loop()
+	// 	));
+	// }
 
 	/**
-		최선의 조합을 찾는 optimize()와는 달리
-		48 C 4 = 19만개의 조합을 전부 고려하는 알고리즘
+		Let s := v1 + v2 + ... + v4
+		Maximize ||proj(s, r)|| + λ * cos θ 
+		where θ is angle between s, r
 
-		모든 조합을 다 시험해보고 상위 k개의 조합을 반환한다.
-		현재 디스플레이를 할 방법이 없어서 1개만 반환한다.
+		optimize(config) 함수는 ||proj(s, r)||의 lower bound를
+		최대화하는 greedy한 알고리즘을 사용했다.
+
+		optimize2(config) 함수는 nC4개의 군수 조합을 전수검사하여
+		수정된 목적함수를 최적화하여, 상위 k개의 조합을 반환한다.
+		시간 복잡도는 O(n^4)이다.
+
+		Output: [v1, v2, v3, v4]
+		where vk ∈ Vf
 	*/
 	optimize2(config) {
-		assert(!!config && config instanceof Config);
+		assert(config instanceof Config);
 		
+		let self = this;
+		let r = config.get_ratio(true);
 		let Vf = this.V.filter(function(v) {
 			// Get the level of given logistic support
 			let lv = parseInt(v[0].match(/^[0-9]{1,2}/)[0]);
@@ -252,99 +262,115 @@ class Algorithm {
 		Vf = Vf.map(v => [
 			v, 
 			(eff = this.efficiency(v[1], config.get_timeline(), config.get_daily_loop()), 
-			_mult(v[2], eff[0] / eff[1])), 
+			this._mult(v[2], eff[0] / eff[1])), 
 			eff[0], 
 			eff[1]
 		]);
 
-		let self = this;
-		let r = config.get_ratio(true);
-		console.log(r);
-		let is_rate_zero = (this.inner(r, r) == 0);
-		let best_group = [[null, 0], [null, 0], [null, 0], [null, 0]];
-		
-		for(let i = 0; i < Vf.length - 4; ++i)
-			_optimize2([i]);
+		let best_group = [[null, 0], [null, 0], [null, 0], [null, 0]];	
+		this._optimize2(Vf, r, this.inner(r, r) == 0, [], best_group);
 
 		// return best selection
-		best_group = best_group.sort(function(ga, gb) {
-			return gb[1] - ga[1];
-		});
-		console.log('best: ' + best_group[0][1]);
-		if(best_group[0][0] == null)
-			return [];
-		else
-			return best_group[0][0].map(idx => Vf[idx]);
+		best_group = best_group.filter(g => g[0] != null);
+		best_group = best_group.sort((ga, gb) => gb[1] - ga[1]);
+		return best_group.map(g => (g[0].map(idx => Vf[idx])));
+	}
 
-		function _optimize2(path) {
-			// update score
-			if(path.length >= 4) {
-				// compute current score
-				let vsum = [];
-				for(let i = 0; i < r.length; ++i) {
-					vsum[i] = 0.0;
-					for(let n = 0; n < 4; ++n)
-						vsum[i] += Vf[path[n]][1][i];
+	_optimize2(Vf, r, is_zero_rate, path, best_group) {
+		assert(Vf != null);
+		assert(r != null);
+		assert(path != null);
+		assert(best_group != null);
+
+		// update score
+		if(path.length >= 4) {
+			// compute current score
+			let vsum = [];
+			for(let i = 0; i < r.length; ++i) {
+				vsum[i] = 0.0;
+				for(let n = 0; n < 4; ++n)
+					vsum[i] += Vf[path[n]][1][i];
+			}
+
+			let score_len = (is_zero_rate ? this.inner(vsum, vsum) : this.inner(vsum, r));
+			let score_cos = this.inner(vsum, r, 4) / Math.sqrt(this.inner(vsum, vsum, 4));
+			let score = score_len + this.lambda * score_cos;
+
+			// search for minimum score
+			let min_idx = -1;
+			for(let i = 0; i < best_group.length; ++i)
+				if(best_group[i][1] < score && 
+					(min_idx == -1 
+					|| best_group[min_idx][1] > best_group[i][1])) {
+					min_idx = i;
 				}
 
-				let score_len = (is_rate_zero ? self.inner(vsum, vsum) : self.inner(vsum, r));
-				let score_cos = self.inner(vsum, r, 4) / Math.sqrt(self.inner(vsum, vsum, 4));
-				let score = score_len + self.lambda * score_cos;
-
-				// search for minimum score
-				let min_idx = -1;
-				for(let i = 0; i < best_group.length; ++i)
-					if(best_group[i][1] < score && 
-						(min_idx == -1 
-						|| best_group[min_idx][1] > best_group[i][1])) {
-						min_idx = i;
-					}
-
-				// override current option
-				if(min_idx >= 0) {
-					best_group[min_idx][0] = path.slice();
-					best_group[min_idx][1] = score;
-					console.log(score);
-				}
-			} else {
-				for(let i = path[path.length - 1] + 1; i < Vf.length; ++i) {
-					path.push(i);
-					_optimize2(path);
-					path.pop();
-				}
+			// override current option
+			if(min_idx >= 0) {
+				best_group[min_idx][0] = path.slice();
+				best_group[min_idx][1] = score;
+			}
+		} else {
+			let sidx;
+			if(path.length == 0)
+				sidx = 0;
+			else
+				sidx = path[path.length - 1] + 1;
+			for(let i = sidx; i < Vf.length; ++i) {
+				path.push(i);
+				this._optimize2(Vf, r, is_zero_rate, path, best_group);
+				path.pop();
 			}
 		}
+	}
 
-		function _mult(v, c) {
-			let out = [];
-			for(let i = 0; i < v.length; ++i)
-				out[i] = c * v[i];
-			return out;
-		}
+	/*
+		Input
+			c ∈ R
+			v ∈ R^n
+		
+		Output
+			c * v (this doesn't change original one)
+	*/
+	_mult(v, c) {
+		let out = [];
+		for(let i = 0; i < v.length; ++i)
+			out[i] = c * v[i];
+		return out;
 	}
 }
 
 class AlgorithmController {
 	constructor(cfgctr, algorithm) {
-		assert(!!cfgctr && cfgctr instanceof ConfigController);
-		assert(!!algorithm && algorithm instanceof Algorithm);
+		assert(cfgctr instanceof ConfigController);
+		assert(algorithm instanceof Algorithm);
 		this.cfgctr = cfgctr;
 		this.algorithm = algorithm;
 		this.dom = {
-			result: document.getElementById('tb-result'),
-			compute: document.getElementById('bt-compute')
+			result: document.getElementById('div-result'),
+			compute: document.getElementById('bt-compute'),
+			tables: []
 		};
-		this.Vp = [];
 
 		let algctr = this;
 		this.dom.compute.onclick = function(evt) {
 			algctr.run();
 		};
+
+		// create table
+		this.K = 4;
+		for(let k = 0; k < this.K; ++k) {
+			let tb = this.__create_table();
+			this.dom.result.appendChild(document.createElement('h2')).innerHTML = '추천 ' + (k+1);
+			this.dom.tables.push(tb);
+			this.dom.result.appendChild(tb);
+			this.dom.result.appendChild(document.createElement('br'));
+		}
 	}
 
 	run() {
 		//this.Vp = this.algorithm.optimize(this.cfgctr.config);
-		this.Vp = this.algorithm.optimize2(this.cfgctr.config);
+		this.result = this.algorithm.optimize2(this.cfgctr.config);
 		this.update_dom();
 	}
 
@@ -363,52 +389,127 @@ class AlgorithmController {
 	}
 
 	update_dom() {
-		let table = this.dom.result;
+		this.dom.result.style.display = 'block';
+		for(let k = 0; k < this.K; ++k)
+			this.__update_table(this.result[k], this.dom.tables[k]);
+	}
+
+	/*
+		Output
+			HTMLTableElement having 4 rows and 1 header row 
+	*/
+	__create_table() {
+		// create table dom
+		let table = document.createElement('table');
+		table.style.width = '560px';
 		table.style.display = 'block';
-		for(let n = 0; n < 8; ++n) {
-			if(!!this.Vp[n]) {
-				let v = this.Vp[n][0];
-				let rate = this.Vp[n][2] / this.Vp[n][3];
+		table.className = 'tb_result';
+		table.style.marginTop = '10px';
+
+		// create table head row
+		let row = table.appendChild(document.createElement('tr'));
+		for(let i = 0; i < AlgorithmController.TABLE_HEAD_NAME.length; ++i) {
+			let th = row.appendChild(document.createElement('th'));
+			th.innerHTML = AlgorithmController.TABLE_HEAD_NAME[i];
+			th.style.width = AlgorithmController.TABLE_HEAD_SIZE[i] + 'px';
+		}
+
+		// create record rows
+		// last line is for summary
+		for(let i = 0; i < 5; ++i) {
+			row = table.appendChild(document.createElement('tr'));
+			for(let c = 0; c < table.rows[0].cells.length; ++c) {
+				let td = row.appendChild(document.createElement('td'));
+			}
+
+			// styling
+			row.cells[0].style.textAlign = 'center';
+			row.cells[1].style.textAlign = 'center';
+			row.cells[2].style.textAlign = 'right';
+			row.cells[2].style.paddingRight = '5px';
+		}
+
+		// summary line styling
+		row.cells[0].colSpan = '3';
+		row.cells[1].style.textAlign = 'left';
+		row.cells[2].style.textAlign = 'left';
+		row.cells[3].style.textAlign = 'left';
+
+		return table;
+	}
+
+	/*
+		Input
+			g = [v1, v2, ...] where vk ∈ Vf for k = 1, 2, ...
+			tb ∈ HTMLTableElement, the place to write given record
+	*/
+	__update_table(g, tb) {
+		// add the records
+		let vsum = [0, 0, 0, 0];
+		for(let n = 0; n < g.length; ++n) {
+			let tr = tb.rows[n + 1];
+			if(g[n]) {
+				let v = g[n][0];
+				let rate = g[n][2] / g[n][3];
 
 				// mission name
-				table.rows[n + 1].cells[0].innerHTML = v[0];
+				tr.cells[0].innerHTML = v[0];
 				
 				// time
-				table.rows[n + 1].cells[1].innerHTML = integer_to_hhmm(v[1]);
+				tr.cells[1].innerHTML = integer_to_hhmm(v[1]);
 				
 				// period
-				if(this.cfgctr.config.get_daily_loop()) {
-					table.rows[n + 1].cells[2].innerHTML = this.Vp[n][2] + '회/' + this.Vp[n][3] + '일';
-				} else {
-					table.rows[n + 1].cells[2].innerHTML = this.Vp[n][2] + '회';
-				}
+				if(this.cfgctr.config.get_daily_loop())
+					tr.cells[2].innerHTML = g[n][2] + '회/' + g[n][3] + '일';
+				else
+					tr.cells[2].innerHTML = g[n][2] + '회';
 
 				// resources
-				table.rows[n + 1].cells[3].innerHTML = v[2][0] * rate;
-				table.rows[n + 1].cells[4].innerHTML = v[2][1] * rate;
-				table.rows[n + 1].cells[5].innerHTML = v[2][2] * rate;
-				table.rows[n + 1].cells[6].innerHTML = v[2][3] * rate;
+				for(let t = 0; t < 4; ++t) {
+					tr.cells[3 + t].innerHTML = v[2][t] * rate;
+					vsum[t] += v[2][t] * rate;
+				}
 
 				// special drops
-				table.rows[n + 1].cells[7].innerHTML = '';
+				tr.cells[7].innerHTML = '';
 				let first = true;
 				for(let i = 0; i < 5; ++i) {
 					if(v[2][4 + i] != 0) {
 						if(first)
 							first = false;
 						else
-							table.rows[n + 1].cells[7].innerHTML += '<font size="1"> or </font>';
-						table.rows[n + 1].cells[7].innerHTML += this.__special_drop_img(i);
+							tr.cells[7].innerHTML += '<font size="1"> or </font>';
+						tr.cells[7].innerHTML += this.__special_drop_img(i);
 					}
 				}
 				if(!first)
-					table.rows[n + 1].cells[7].innerHTML += '<font size="1">x' + this.Vp[n][2] + '</font>';
+					tr.cells[7].innerHTML += '<font size="1">x' + g[n][2] + '</font>';
 			} else {
 				// When there is no result
-				for(let i = 0; i < 8; ++i) {
-					table.rows[n + 1].cells[i].innerHTML = '-';
-				}
+				for(let i = 0; i < 8; ++i)
+					tr.cells[i].innerHTML = '-';
 			}
+		}
+
+		// summary
+		tb.rows[g.length + 1].cells[0].innerHTML = '총합';
+		for(let t = 0; t < 4; ++t) {
+			tb.rows[g.length + 1].cells[1 + t].innerHTML = vsum[t];
 		}
 	}
 }
+
+AlgorithmController.TABLE_HEAD_NAME = [
+	'작전',
+	'소요시간',
+	'주기',
+	'인력<font size="1">/24h</font>',
+	'탄약<font size="1">/24h</font>',
+	'식량<font size="1">/24h</font>',
+	'부품<font size="1">/24h</font>',
+	'기타도구<font size="1">/24h</font>'
+];
+
+AlgorithmController.TABLE_HEAD_SIZE = [
+	70, 80, 80, 60, 60, 60, 60, 90
+];
