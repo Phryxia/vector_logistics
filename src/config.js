@@ -227,6 +227,43 @@ class ConfigController {
 		//this.dom.daily_loop.onchange        = this.auto_fix_simple;
 		this.dom.open_zero.onchange         = this.auto_fix_simple;
 		this.dom.open_level.onchange        = this.auto_fix_simple;
+
+		// Repeat-adding
+		document.getElementById('bt-repeat-add').onclick = (evt) => {
+			// ask user when to start repeat
+			let stime = ask_via_prompt(is_valid_hhmm, 
+				'반복을 시작할 시각을 입력하세요. (ex: 11:16)',
+				'올바른 시각을 입력하세요. (ex: 04:04)', '00:00');
+			if(stime == null)
+				return;
+			stime = hhmm_to_integer(stime);
+
+			let itime = ask_via_prompt(is_valid_hhmm, 
+				'반복할 주기를 입력하세요. (ex: 12:34)',
+				'올바른 시간을 입력하세요. (ex: 00:45)', '1:00');
+			if(itime == null)
+				return;
+			itime = hhmm_to_integer(itime);
+
+			let etime = ask_via_prompt(tstr => {
+					return is_valid_hhmm(tstr) 
+						&& hhmm_to_integer(tstr) >= stime;
+				}, 
+				'반복을 종료할 시각을 입력하세요. (ex: 23:59)',
+				'올바른 시각을 입력하세요. (ex: 04:04)', '00:00');
+			if(etime == null)
+				return;
+			etime = hhmm_to_integer(etime);
+
+			// This code is based on __tb_addRow's 추가 button's callback
+			// I don't have idea to clean up these into a new function right now
+			// if button is clicked, new row is added
+			while(stime <= etime && stime < 1440) {
+				this.__tb_addRow(-1).cells[0].childNodes[0].value = integer_to_hhmm(stime);
+				stime += itime;
+			}
+			this.update_config();
+		};
 	}
 
 	/**
@@ -331,6 +368,9 @@ class ConfigController {
 		return null;
 	}
 
+	/**
+		return added <tr> element
+	*/
 	__tb_addRow(r) {
 		r = ifndef(r, -1);
 		assert(r >= -1);
@@ -397,6 +437,7 @@ class ConfigController {
 		// first row's delete button must be disabled.
 		// therefore we should enable it.
 		this.__tb_dom(0, 0).childNodes[2].disabled = (this.dom.timeline.rows.length <= 1);
+		return tr;
 	}
 
 	__tb_delRow(r) {

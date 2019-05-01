@@ -55,3 +55,21 @@ function is_valid_hhmm(s) {
 		&& s.match(/^[0-9]{1,2}:[0-9]{1,2}$/) != null
 		&& parseInt(s.match(/[0-9]{1,2}$/)[0]) < 60;
 }
+
+/**
+	Ask user to give some input.
+	It repeats until predicate(input) to be true
+	or user/browser terminate the message.
+	If user/browser terminate it, null will be returned.
+*/
+function ask_via_prompt(predicate, msg_init, msg_retry, default_val) {
+	// ask user when to start repeat
+	let out = window.prompt(msg_init, default_val);
+	
+	// if user give illegal string, do once again
+	let pass = false;
+	while(out !== null && !predicate(out))
+		out = window.prompt(msg_retry, default_val);
+
+	return out;
+}
