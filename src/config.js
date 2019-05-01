@@ -356,6 +356,13 @@ class ConfigController {
 		input.type = 'text';
 		input.defaultValue = '00:00';
 		input.onchange = this.auto_fix_time;
+		new Picker(input, {
+			format: 'HH:mm',
+			headers: true,
+			text: {
+				title: '군수 받을 시각을 입력하세요'
+			}
+		});
 		td.appendChild(input);
 
 		// create add button
