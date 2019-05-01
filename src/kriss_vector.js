@@ -403,7 +403,7 @@ class AlgorithmController {
 	__create_table() {
 		// create table dom
 		let table = document.createElement('table');
-		table.style.width = '560px';
+		table.style.width = '100%';
 		table.style.display = 'block';
 		table.className = 'tb_result';
 		table.style.marginTop = '10px';
@@ -427,15 +427,12 @@ class AlgorithmController {
 			// styling
 			row.cells[0].style.textAlign = 'center';
 			row.cells[1].style.textAlign = 'center';
-			row.cells[2].style.textAlign = 'right';
 			row.cells[2].style.paddingRight = '5px';
 		}
 
 		// summary line styling
-		row.cells[0].colSpan = '3';
+		row.cells[0].colSpan = '2';
 		row.cells[1].style.textAlign = 'left';
-		row.cells[2].style.textAlign = 'left';
-		row.cells[3].style.textAlign = 'left';
 
 		return table;
 	}
@@ -458,37 +455,39 @@ class AlgorithmController {
 				tr.cells[0].innerHTML = v[0];
 				
 				// time
-				tr.cells[1].innerHTML = integer_to_hhmm(v[1]);
+				let tmpstr = integer_to_hhmm(v[1]) + '<br><font size=1>';
 				
 				// period
 				if(this.cfgctr.config.get_daily_loop())
-					tr.cells[2].innerHTML = g[n][2] + '회/' + g[n][3] + '일';
+					tmpstr += g[n][2] + '회/' + g[n][3] + '일';
 				else
-					tr.cells[2].innerHTML = g[n][2] + '회';
+					tmpstr += g[n][2] + '회';
+				tmpstr += '</font>';
+				tr.cells[1].innerHTML = tmpstr;
 
 				// resources
 				for(let t = 0; t < 4; ++t) {
-					tr.cells[3 + t].innerHTML = v[2][t] * rate;
+					tr.cells[2 + t].innerHTML = v[2][t] * rate;
 					vsum[t] += v[2][t] * rate;
 				}
 
 				// special drops
-				tr.cells[7].innerHTML = '';
+				tr.cells[6].innerHTML = '';
 				let first = true;
 				for(let i = 0; i < 5; ++i) {
 					if(v[2][4 + i] != 0) {
 						if(first)
 							first = false;
 						else
-							tr.cells[7].innerHTML += '<font size="1"> or </font>';
-						tr.cells[7].innerHTML += this.__special_drop_img(i);
+							tr.cells[6].innerHTML += '<font size="1"> or </font>';
+						tr.cells[6].innerHTML += this.__special_drop_img(i);
 					}
 				}
 				if(!first)
-					tr.cells[7].innerHTML += '<font size="1">x' + g[n][2] + '</font>';
+					tr.cells[6].innerHTML += '<span class=\'smalltext\'>x' + g[n][2] + '</span>';
 			} else {
 				// When there is no result
-				for(let i = 0; i < 8; ++i)
+				for(let i = 0; i < 7; ++i)
 					tr.cells[i].innerHTML = '-';
 			}
 		}
@@ -503,15 +502,14 @@ class AlgorithmController {
 
 AlgorithmController.TABLE_HEAD_NAME = [
 	'작전',
-	'소요시간',
 	'주기',
-	'인력<font size="1">/24h</font>',
-	'탄약<font size="1">/24h</font>',
-	'식량<font size="1">/24h</font>',
-	'부품<font size="1">/24h</font>',
-	'기타도구<font size="1">/24h</font>'
+	'인력<span class=\'smalltext\'>/24h</span>',
+	'탄약<span class=\'smalltext\'>/24h</span>',
+	'식량<span class=\'smalltext\'>/24h</span>',
+	'부품<span class=\'smalltext\'>/24h</span>',
+	'기타도구<span class=\'smalltext\'>/24h</span>'
 ];
 
 AlgorithmController.TABLE_HEAD_SIZE = [
-	70, 80, 80, 60, 60, 60, 60, 90
+	60, 60, 60, 60, 60, 60, 100
 ];

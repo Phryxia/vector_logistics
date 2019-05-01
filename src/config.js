@@ -368,7 +368,7 @@ class ConfigController {
 		// create add button
 		input = document.createElement('button');
 		input.className = 'cfg_elem_sub';
-		input.style.width = '10%';
+		input.style.width = '50px';
 		input.innerHTML = '추가';
 		input.onmouseup = function(evt) {
 			// if button is clicked, new row is added
@@ -384,7 +384,7 @@ class ConfigController {
 		// create delete button
 		input = document.createElement('button');
 		input.className = 'cfg_elem_sub';
-		input.style.width = '10%';
+		input.style.width = '50px';
 		input.innerHTML = '삭제';
 		input.onmouseup = function(evt) {
 			let addr = cfgctr.__tb_index_of(evt.toElement.parentNode.parentNode);

@@ -2,17 +2,17 @@
 
 (function() {
 	// Initialize Result Table
-	let tr, td;
-	let table = document.getElementById('tb-result');
-	for(let n = 0; n < 8; ++n) {
-		tr = table.insertRow(-1);
-		for(let i = 0; i < table.rows[0].cells.length; ++i) {
-			td = tr.insertCell(-1);
+	// let tr, td;
+	// let table = document.getElementById('tb-result');
+	// for(let n = 0; n < 8; ++n) {
+	// 	tr = table.insertRow(-1);
+	// 	for(let i = 0; i < table.rows[0].cells.length; ++i) {
+	// 		td = tr.insertCell(-1);
 
-			if(0 <= i && i <= 2)
-				td.align = 'center';
-		}
-	}
+	// 		if(0 <= i && i <= 2)
+	// 			td.align = 'center';
+	// 	}
+	// }
 
 	// Initialize 
 	let cookie_mng = new CookieManager();

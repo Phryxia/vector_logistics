@@ -2,6 +2,7 @@
 <html>
 <head>
 	<title>군수과장 벡터양!</title>
+	<meta name='viewport' content='width=device-width, initial-scale=1.0,user-scalable=no'>
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-137802893-1"></script>
 	<script>
@@ -40,7 +41,7 @@
 			display: inline-flex;
 			flex-direction: row;
 			justify-content: space-between;
-			width: 400px;
+			width: 100%;
 			height: 100px;
 		}
 
@@ -104,6 +105,7 @@
 
 		table.tb_result {
 			border-collapse: collapse;
+			font-size: 80%;
 		}
 
 		table.tb_result tr:nth-child(1) {
@@ -121,21 +123,27 @@
 		table.tb_result tr:nth-child(6) {
 			border-bottom-style: double;
 		}
+
+		.smalltext {
+			font-size: 50%;
+		}
 	</style>
 	<!-- Picker.js -->
 	<link href="/lib/picker.min.css" rel="stylesheet">
 	<script src='./lib/picker.min.js'></script>
 	<!-- document -->
 	<center>
-		<!-- 제목 -->
-		<div class='title'>
-			<span class='title_text'>
-				<h1>군수과장 벡터양!</h1>
-				<h4 style='padding-left: 4px'>ver β</h4>
-			</span>
-			<span><img class='title_img' src='./img/vector_0.png' alt='벡터쟝'></span>
-		</div>
 		<div class='app_bound'>
+			<!-- 제목 -->
+			<div class='title'>
+				<span class='title_text'>
+					<h1>군수과장 벡터양!</h1>
+					<h4 style='padding-left: 4px'>ver β</h4>
+				</span>
+				<span height='100%'><img class='title_img' src='./img/vector_0.png' alt='벡터쟝'></span>
+			</div>
+			<br>
+
 			<!-- 알림 문구 -->
 			<p style='text-align: left;'>"지휘부 재정을 고려하지 않은 과도한 인형제조는 건전한 병영기강을 저해할 수 있어."</p>
 			<font size='2'><p style='text-align: right;'><br>- 군수과장 크리스 벡터</p></font><br>
@@ -262,15 +270,15 @@
 				<table id='tb-timeline' style='width: 100%;'>
 				</table>
 			</div>
-	<br>
-	<button id='bt-compute'>계산</button>
-<!-- <button onclick='window.localStorage.setItem("cookie", ""); document.cookie=""'>쿠키삭제</button> -->
-	<br><br>
+		<br>
+		<button id='bt-compute'>계산</button>
+	<!-- <button onclick='window.localStorage.setItem("cookie", ""); document.cookie=""'>쿠키삭제</button> -->
+		<br><br>
+		<div id='div-result' style='display:None'>
+		</div>
+	</div>
 	
-	</div>
-	<div id='div-result' style='display:None'>
-	</div>
-	<table width='560px' id='tb-result' style='display:None'>
+<!-- 	<table width='560px' id='tb-result' style='display:None'>
 		<tr>
 			<th width='70px'>작전</th>
 			<th width='80px'>소요시간</th>
@@ -281,7 +289,7 @@
 			<th width='60px'>부품<font size='1'>/24h</font></th>
 			<th width='90px'>기타도구<font size='1'>/24h</font></th>
 		</tr>
-	</table>
+	</table> -->
 	</center>
 	
 	<script src='./lib/localforage.min.js'></script>
