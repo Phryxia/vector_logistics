@@ -467,7 +467,7 @@ class AlgorithmController {
 
 				// resources
 				for(let t = 0; t < 4; ++t) {
-					tr.cells[2 + t].innerHTML = v[2][t] * rate;
+					tr.cells[2 + t].innerHTML = Math.floor(v[2][t] * rate);
 					vsum[t] += v[2][t] * rate;
 				}
 
@@ -495,7 +495,7 @@ class AlgorithmController {
 		// summary
 		tb.rows[g.length + 1].cells[0].innerHTML = '총합';
 		for(let t = 0; t < 4; ++t) {
-			tb.rows[g.length + 1].cells[1 + t].innerHTML = vsum[t];
+			tb.rows[g.length + 1].cells[1 + t].innerHTML = Math.floor(vsum[t]);
 		}
 	}
 }
