@@ -55,7 +55,7 @@ class Algorithm {
 			['11-4', 600 , [0   , 1650, 0   , 900 , 0  , 1  , 0  , 0  , 0]]
 		];
 
-		this.lambda = 140000;
+		this.lambda = 100000;
 	}
 
 	/**
