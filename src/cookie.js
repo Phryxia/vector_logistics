@@ -3,10 +3,16 @@
 /**
 	CookieManager capsulate data IO between
 	application and cookie.
+
+	Also CookieManager hold locale information
+
+	since localforage.js is asynchronous
+	we have to handle callback to await it.
 */
 class CookieManager {
 	/**
 		로컬에 저장된 설정을 혀재 세션의 presetController에 불러온다.
+		로드가 완료되면 on_finish가 실행된다.
 	*/
 	load_snapshot(prsctr) {
 		assert(!!prsctr && prsctr instanceof PresetController);
@@ -42,6 +48,10 @@ class CookieManager {
 		localforage.setItem('json_string', pure_json_str).catch(function(err) {
 			console.log(err);
 		});
+		localforage.setItem('lang', this.lang)
+			.catch(err => {
+				console.log(err);
+			});
 	}
 
 	/**
@@ -60,6 +70,21 @@ class CookieManager {
 			console.log(err);
 			self.__reset_cookie();
 		});
+
+		// language setting
+		localforage.getItem('lang')
+			.then(val => {
+				if(val == null)
+					document.CURRENT_LANG = LANG_KO;
+				else
+					document.CURRENT_LANG = val;
+			})
+			.then(val => {
+				change_language(document.CURRENT_LANG);
+			})
+			.catch(err => {
+				document.CURRENT_LANG = LANG_KO;
+			});
 	}
 
 	/**

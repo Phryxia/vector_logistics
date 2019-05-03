@@ -363,7 +363,9 @@ class AlgorithmController {
 		this.K = 4;
 		for(let k = 0; k < this.K; ++k) {
 			let tb = this.__create_table();
-			this.dom.result.appendChild(document.createElement('h2')).innerHTML = '추천 ' + (k+1);
+			let tbtitle = document.createElement('h2');
+			tbtitle.setAttribute('name', 'lang-22');
+			this.dom.result.appendChild(tbtitle).innerHTML = get_word(22) + ' ' + (k+1);
 			this.dom.tables.push(tb);
 			this.dom.result.appendChild(tb);
 			this.dom.result.appendChild(document.createElement('br'));
@@ -374,6 +376,13 @@ class AlgorithmController {
 		//this.Vp = this.algorithm.optimize(this.cfgctr.config);
 		this.result = this.algorithm.optimize2(this.cfgctr.config);
 		this.update_dom();
+	}
+
+	update_dom() {
+		this.dom.result.style.display = 'block';
+		
+		for(let k = 0; k < this.K; ++k)
+			this.__update_table(this.result[k], this.dom.tables[k]);
 	}
 
 	__special_drop_img(category) {
@@ -390,12 +399,6 @@ class AlgorithmController {
 		return out;
 	}
 
-	update_dom() {
-		this.dom.result.style.display = 'block';
-		for(let k = 0; k < this.K; ++k)
-			this.__update_table(this.result[k], this.dom.tables[k]);
-	}
-
 	/*
 		Output
 			HTMLTableElement having 4 rows and 1 header row 
@@ -410,11 +413,26 @@ class AlgorithmController {
 
 		// create table head row
 		let row = table.appendChild(document.createElement('tr'));
-		for(let i = 0; i < AlgorithmController.TABLE_HEAD_NAME.length; ++i) {
-			let th = row.appendChild(document.createElement('th'));
-			th.innerHTML = AlgorithmController.TABLE_HEAD_NAME[i];
-			th.style.width = AlgorithmController.TABLE_HEAD_SIZE[i] + 'px';
+		for(let i = 0; i < 7; ++i)
+			row.appendChild(document.createElement('th'))
+				.style.width = '60px';
+
+		// operation
+		row.cells[0].setAttribute('name', 'lang-23');
+		
+		// period
+		row.cells[1].setAttribute('name', 'lang-24');
+
+		// resource & additional items
+		for(let i = 2; i <= 6; ++i) {
+			let txt;
+			txt = row.cells[i].appendChild(document.createElement('text'));
+			txt.setAttribute('name', 'lang-' + (23 + i));
+			txt = row.cells[i].appendChild(document.createElement('text'));
+			txt.style.fontSize = '70%';
+			txt.innerHTML = '/24h';
 		}
+		row.cells[6].style.width = '100px';
 
 		// create record rows
 		// last line is for summary
@@ -424,6 +442,26 @@ class AlgorithmController {
 				let td = row.appendChild(document.createElement('td'));
 			}
 
+			if(i < 4)
+			{
+				// first line for hh:mm representation
+				let div, txt;
+				div = row.cells[1].appendChild(document.createElement('div'));
+				div.appendChild(document.createElement('text'));
+				
+				// second line for interval representation
+				div = row.cells[1].appendChild(document.createElement('div'));
+				div.style.fontSize = '70%';
+				txt = div.appendChild(document.createElement('text'));
+				txt = div.appendChild(document.createElement('text'));
+				txt.setAttribute('name', 'lang-31');
+				txt = div.appendChild(document.createElement('text'));
+				txt.innerHTML = '/';
+				txt = div.appendChild(document.createElement('text'));
+				txt = div.appendChild(document.createElement('text'));
+				txt.setAttribute('name', 'lang-32');
+			}
+
 			// styling
 			row.cells[0].style.textAlign = 'center';
 			row.cells[1].style.textAlign = 'center';
@@ -431,6 +469,7 @@ class AlgorithmController {
 		}
 
 		// summary line styling
+		row.cells[0].setAttribute('name', 'lang-30');
 		row.cells[0].colSpan = '2';
 		row.cells[1].style.textAlign = 'left';
 
@@ -455,15 +494,20 @@ class AlgorithmController {
 				tr.cells[0].innerHTML = v[0];
 				
 				// time
-				let tmpstr = integer_to_hhmm(v[1]) + '<br><font size=1>';
-				
-				// period
-				if(this.cfgctr.config.get_daily_loop())
-					tmpstr += g[n][2] + '회/' + g[n][3] + '일';
-				else
-					tmpstr += g[n][2] + '회';
-				tmpstr += '</font>';
-				tr.cells[1].innerHTML = tmpstr;
+				tr.cells[1]
+					.childNodes[0]
+					.childNodes[0]
+					.innerHTML = integer_to_hhmm(v[1]);
+
+				tr.cells[1]
+					.childNodes[1]
+					.childNodes[0]
+					.innerHTML = g[n][2] + '';
+
+				tr.cells[1]
+					.childNodes[1]
+					.childNodes[3]
+					.innerHTML = g[n][3] + '';
 
 				// resources
 				for(let t = 0; t < 4; ++t) {
@@ -492,24 +536,8 @@ class AlgorithmController {
 			}
 		}
 
-		// summary
-		tb.rows[g.length + 1].cells[0].innerHTML = '총합';
-		for(let t = 0; t < 4; ++t) {
+		// summation
+		for(let t = 0; t < 4; ++t)
 			tb.rows[g.length + 1].cells[1 + t].innerHTML = Math.floor(vsum[t]);
-		}
 	}
 }
-
-AlgorithmController.TABLE_HEAD_NAME = [
-	'작전',
-	'주기',
-	'인력<span class=\'smalltext\'>/24h</span>',
-	'탄약<span class=\'smalltext\'>/24h</span>',
-	'식량<span class=\'smalltext\'>/24h</span>',
-	'부품<span class=\'smalltext\'>/24h</span>',
-	'기타도구<span class=\'smalltext\'>/24h</span>'
-];
-
-AlgorithmController.TABLE_HEAD_SIZE = [
-	60, 60, 60, 60, 60, 60, 100
-];

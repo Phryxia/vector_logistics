@@ -232,15 +232,15 @@ class ConfigController {
 		document.getElementById('bt-repeat-add').onclick = (evt) => {
 			// ask user when to start repeat
 			let stime = ask_via_prompt(is_valid_hhmm, 
-				'반복을 시작할 시각을 입력하세요. (ex: 11:16)',
-				'올바른 시각을 입력하세요. (ex: 04:04)', '00:00');
+				get_word(17),
+				get_word(18), '00:00');
 			if(stime == null)
 				return;
 			stime = hhmm_to_integer(stime);
 
 			let itime = ask_via_prompt(is_valid_hhmm, 
-				'반복할 주기를 입력하세요. (ex: 12:34)',
-				'올바른 시간을 입력하세요. (ex: 00:45)', '1:00');
+				get_word(19),
+				get_word(20), '1:00');
 			if(itime == null)
 				return;
 			itime = hhmm_to_integer(itime);
@@ -249,8 +249,8 @@ class ConfigController {
 					return is_valid_hhmm(tstr) 
 						&& hhmm_to_integer(tstr) >= stime;
 				}, 
-				'반복을 종료할 시각을 입력하세요. (ex: 23:59)',
-				'올바른 시각을 입력하세요. (ex: 04:04)', '00:00');
+				get_word(21),
+				get_word(18), '12:00');
 			if(etime == null)
 				return;
 			etime = hhmm_to_integer(etime);
@@ -400,16 +400,17 @@ class ConfigController {
 			format: 'HH:mm',
 			headers: true,
 			text: {
-				title: '군수 받을 시각을 입력하세요'
+				title: ''
 			}
 		});
 		td.appendChild(input);
 
 		// create add button
 		input = document.createElement('button');
+		input.name = 'lang-12';
 		input.className = 'cfg_elem_sub';
 		input.style.width = '50px';
-		input.innerHTML = '추가';
+		input.innerHTML = get_word(12);
 		input.onmouseup = function(evt) {
 			// if button is clicked, new row is added
 			let addr = cfgctr.__tb_index_of(evt.toElement.parentNode.parentNode) + 1;
@@ -423,9 +424,10 @@ class ConfigController {
 
 		// create delete button
 		input = document.createElement('button');
+		input.name = 'lang-13';
 		input.className = 'cfg_elem_sub';
 		input.style.width = '50px';
-		input.innerHTML = '삭제';
+		input.innerHTML = get_word(13);
 		input.onmouseup = function(evt) {
 			let addr = cfgctr.__tb_index_of(evt.toElement.parentNode.parentNode);
 			cfgctr.__tb_delRow(addr);

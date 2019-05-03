@@ -131,13 +131,14 @@
 	<!-- Picker.js -->
 	<link href="/lib/picker.min.css" rel="stylesheet">
 	<script src='./lib/picker.min.js'></script>
+
 	<!-- document -->
 	<center>
 		<div class='app_bound'>
 			<!-- 제목 -->
 			<div class='title'>
 				<span class='title_text'>
-					<h1>군수과장 벡터양!</h1>
+					<h1 name='lang-0'>군수과장 벡터양!</h1>
 					<h4 style='padding-left: 4px'>ver γ</h4>
 				</span>
 				<span height='100%'><img class='title_img' src='./img/vector_0.png' alt='벡터쟝'></span>
@@ -145,10 +146,18 @@
 			<br>
 
 			<!-- 알림 문구 -->
-			<p style='text-align: left;'> "원하는 자원 획득비와 계약권 우선도를 알려주면, 지휘관의 일정에 맞춘 군수 조합을 추천해줄게. 비율 상관없이 전체 양만 늘리고 싶으면 0:0:0:0으로 입력해줘.</p><br><p style='text-align: left;'>지휘부 사정을 고려하지 않은 과도한 인형제조는 건전한 병영기강을 저해할 수 있으며, 동료 지휘관에 대한 기만 행위는 전력 손실로 이어질 수 있으니 자제하도록 해."</p>
-			<font size='2'><p style='text-align: right;'><br>- 군수과장 크리스 벡터</p></font><br>
+			<p name='lang-1' style='text-align: left;'></p>
+			<font size='2'><p name='lang-2' style='text-align: right;'></p></font><br>
 
-			<h2>최적화 비율</h2>
+			<!-- 언어 선택 -->
+			<div>
+				<b id='lang-sel-0' onclick='change_language(0);'>한국어</b>
+				<b id='lang-sel-1' onclick='change_language(1);'>English</b>
+				<b id='lang-sel-2' onclick='change_language(2);'>日本語</b>
+			</div>
+			<br>
+
+			<h2 name='lang-3'>최적화 비율</h2>
 
 			<!-- 기본자원 인탄식부 -->
 			<div class='cfg_row'>
@@ -176,45 +185,45 @@
 					<img class='cfg_elem' src='./img/quick_reinforce.png' alt='쾌속수복권'>
 					<select class='cfg_elem' id='in-restore'>
 							<option value='0'>-</option>
-							<option value='1'>저</option>
-							<option value='2'>중</option>
-							<option value='3'>고</option>
+							<option name='lang-4' value='1'>저</option>
+							<option name='lang-5' value='2'>중</option>
+							<option name='lang-6' value='3'>고</option>
 						</select>
 				</span>
 				<span class='cfg_cell'>
 					<img class='cfg_elem' src='./img/quick_develop.png' alt='쾌속제조권'>
 					<select class='cfg_elem' id='in-manufacture'>
 							<option value='0'>-</option>
-							<option value='1'>저</option>
-							<option value='2'>중</option>
-							<option value='3'>고</option>
+							<option name='lang-4' value='1'>저</option>
+							<option name='lang-5' value='2'>중</option>
+							<option name='lang-6' value='3'>고</option>
 						</select>
 				</span>
 				<span class='cfg_cell'>
 					<img class='cfg_elem' src='./img/iop_contract.png' alt='인형제조권'>
 					<select class='cfg_elem' id='in-doll'>
 							<option value='0'>-</option>
-							<option value='1'>저</option>
-							<option value='2'>중</option>
-							<option value='3'>고</option>
+							<option name='lang-4' value='1'>저</option>
+							<option name='lang-5' value='2'>중</option>
+							<option name='lang-6' value='3'>고</option>
 						</select>
 				</span>
 				<span class='cfg_cell'>
 					<img class='cfg_elem' src='./img/equip_contract.png' alt='장비제조권'>
 					<select class='cfg_elem' id='in-equipment'>
 							<option value='0'>-</option>
-							<option value='1'>저</option>
-							<option value='2'>중</option>
-							<option value='3'>고</option>
+							<option name='lang-4' value='1'>저</option>
+							<option name='lang-5' value='2'>중</option>
+							<option name='lang-6' value='3'>고</option>
 						</select>
 				</span>
 				<span class='cfg_cell'>
 					<img class='cfg_elem' src='./img/furniture_coin.png' alt='구매토큰'>
 					<select class='cfg_elem' id='in-gatcha'>
 							<option value='0'>-</option>
-							<option value='1'>저</option>
-							<option value='2'>중</option>
-							<option value='3'>고</option>
+							<option name='lang-4' value='1'>저</option>
+							<option name='lang-5' value='2'>중</option>
+							<option name='lang-6' value='3'>고</option>
 						</select>
 				</span>
 			</div>
@@ -222,15 +231,15 @@
 			<!-- 기타 설정 -->
 			<div class='cfg_row'>
 				<span class='cfg_cell'>
-					<span class='cfg_elem'><b>최소<br>주기</b></span>
+					<span class='cfg_elem'><b name='lang-7'>최소<br>주기</b></span>
 					<input class='time_input' type='text' size='2' id='in-mintime' value='00:00'/>
 				</span>
 				<span class='cfg_cell'>
-					<span class='cfg_elem'><b>최대<br>주기</b></span>
+					<span class='cfg_elem'><b name='lang-8'>최대<br>주기</b></span>
 					<input class='time_input' type='text' size='2' id='in-maxtime' value='24:00'/>
 				</span>
 				<span class='cfg_cell'>
-					<span class='cfg_elem'><b>전역<br>개방</b></span>
+					<span class='cfg_elem'><b name='lang-9'>전역<br>개방</b></span>
 					<select class='cfg_elem' id='in-map' style='height: 20px;'>
 						<option value='1'>1</option>
 						<option value='2'>2</option>
@@ -246,55 +255,41 @@
 					</select>
 				</span>
 				<span class='cfg_cell'>
-					<span class='cfg_elem'><b>0지<br>개방</b></span>
+					<span class='cfg_elem'><b name='lang-10'>0지<br>개방</b></span>
 					<input clas='cfg_elem' type='checkbox' id='in-zero' checked />
 				</span>
 			</div>
 
 			<!-- 프리셋 편집 -->
 			<br>
-			<h2>프리셋</h2>
+			<h2 name='lang-11'>프리셋</h2>
 			<div class='cfg_row'>
 				<span style='display: flex; width: 100%; height: 25px;'>
 					<select class='cfg_elem_sub' style='width: 55%;' id='in-preset'></select>
-					<button class='cfg_elem_sub' style='width: 10%;' id='bt-preset-add'>추가</button>
-					<button class='cfg_elem_sub' style='width: 10%;' id='bt-preset-del'>삭제</button>
-					<button class='cfg_elem_sub' style='width: 25%;' id='bt-repeat-add'>반복일정추가</button>
+					<button class='cfg_elem_sub' style='width: 10%;' id='bt-preset-add' name='lang-12'>추가</button>
+					<button class='cfg_elem_sub' style='width: 10%;' id='bt-preset-del' name='lang-13'>삭제</button>
+					<button class='cfg_elem_sub' style='width: 25%;' id='bt-repeat-add' name='lang-14'>반복일정추가</button>
 				</span>
 			</div>
 
 			<!-- 일정 편집 -->
 			<br>
-			<h2>확인일정</h2>
+			<h2 name='lang-15'>확인일정</h2>
 			<div class='cfg_row'>
 				<table id='tb-timeline' style='width: 100%;'>
 				</table>
 			</div>
 		<br>
-		<button id='bt-compute'>계산</button>
-	<!-- <button onclick='window.localStorage.setItem("cookie", ""); document.cookie=""'>쿠키삭제</button> -->
+		<button name='lang-16' id='bt-compute'>계산</button>
 		<br><br>
 		<div id='div-result' style='display:None'>
 		</div>
 	</div>
-	
-<!-- 	<table width='560px' id='tb-result' style='display:None'>
-		<tr>
-			<th width='70px'>작전</th>
-			<th width='80px'>소요시간</th>
-			<th width='80px'>주기</th>
-			<th width='60px'>인력<font size='1'>/24h</font></th>
-			<th width='60px'>탄약<font size='1'>/24h</font></th>
-			<th width='60px'>식량<font size='1'>/24h</font></th>
-			<th width='60px'>부품<font size='1'>/24h</font></th>
-			<th width='90px'>기타도구<font size='1'>/24h</font></th>
-		</tr>
-	</table> -->
 	</center>
 	
 	<script src='./lib/localforage.min.js'></script>
-	
 	<script src='./src/util.js'></script>
+	<script src='./src/lang.js'></script>
 	<script src='./src/config.js'></script>
 	<script src='./src/kriss_vector.js'></script>
 	<script src='./src/presets.js'></script>

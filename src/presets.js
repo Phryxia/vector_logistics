@@ -83,16 +83,16 @@ class PresetController {
 			assert(!!preset_ctr, '[PresetController::button_add.onclick] there is no preset_ctr on add button');
 			
 			// get input string from window.prompt
-			let preset_name = window.prompt('프리셋 이름을 입력하세요.', '크리스 벡터');
+			let preset_name = window.prompt(get_word(33), 'nice-name');
 
 			// if user give illegal string, do once again
 			let pass = false;
 			while(preset_name !== null && !pass)
 			{
 				if(preset_name === '')
-					preset_name = window.prompt('이름은 최소 1글자 이상이어야 합니다.', '크리스 벡터');
+					preset_name = window.prompt(get_word(34), 'nice-name');
 				else if(preset_name.includes(';'))
-					preset_name = window.prompt('이름에는 세미콜론(;)이 포함될 수 없습니다.', '크리스 벡터');
+					preset_name = window.prompt(get_word(35), 'nice-name');
 				else
 					pass = true;
 			}
