@@ -13,7 +13,7 @@ let WORDS = [
 	 ' proper combination of logistics under your schedule. If you don\'t care the ratio, just'+
 	 ' type 0:0:0:0.',
 	 '"欲しい資源の獲得比率とアイテムの重みを教えてくれたら、指揮官のスケジュールに合わせた支援の組み合わせをおすすめあげる。'+
-	 '比率とは関係なくてただ全体的の量だけ上げたいなら、0:0:0:0で書いてくれて。"'], // 설명
+	 '比率とは関係なくてただ全体的の量だけ上げたいなら、0:0:0:0で書いてくれ。"'], // 설명
 	['<br>- 군수과장 크리스 벡터', '<br>- Kriss Vector, supply officer', '<br>- 支援マスタークリスベクター'],
 	['최적화 비율', 'Optimization Ratio', '最適化比率'],
 	['저', 'LOW', '下'],
