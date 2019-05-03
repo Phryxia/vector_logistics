@@ -12,8 +12,8 @@ let WORDS = [
 	 '"If you let me know your wanted resource ratio and weights of contractions, I\'ll recommend'+
 	 ' proper combination of logistics under your schedule. If you don\'t care the ratio, just'+
 	 ' type 0:0:0:0.',
-	 '"欲しい資源の獲得比率とアイテムの重みを教えてくれたら、指揮官のスケジュールに合わせた支援の組み合わせをおすすめあげる。'+
-	 '比率とは関係なくてただ全体的の量だけ上げたいなら、0:0:0:0で書いてくれ。"'], // 설명
+	 '"欲しい資源の獲得比率とアイテムの重みを教えてくれたら、指揮官のスケジュールに合わせた支援の組み合わせをオススメしてあげる。'+
+	 '比率とは関係なくてただ全体の量だけ上げたいなら、0:0:0:0で書いてくれ。"'], // 설명
 	['<br>- 군수과장 크리스 벡터', '<br>- Kriss Vector, supply officer', '<br>- 支援マスタークリスベクター'],
 	['최적화 비율', 'Optimization Ratio', '最適化比率'],
 	['저', 'LOW', '下'],
@@ -44,7 +44,7 @@ let WORDS = [
 	['반복을 종료할 시각을 입력하세요. (ex: 23:59)',
 		'Please enter the end time. (ex: 23:59)',
 		'反復を終了する時を入力して下さい。 (ex: 23:59)'],
-	['추천', 'Recommendation', 'お勧め'], // lang-22
+	['추천', 'Recommendation', 'オススメ'], // lang-22
 	['작전', 'Op', '作戦'],
 	['주기', 'Period', '周期'],
 	['인력', 'Man', '人力'],
