@@ -13,7 +13,7 @@ let WORDS = [
 	 ' proper combination of logistics under your schedule. If you don\'t care the ratio, just'+
 	 ' type 0:0:0:0.',
 	 '"欲しい資源の獲得比率とアイテムの重みを教えてくれたら、指揮官のスケジュールに合わせた支援の組み合わせをオススメしてあげる。'+
-	 '比率とは関係なくてただ全体の量だけ上げたいなら、0:0:0:0で書いてくれ。"'], // 설명
+	 '比率とは関係なくただ全体の量だけ上げたいなら、0:0:0:0で書いてくれ。"'], // 설명
 	['<br>- 군수과장 크리스 벡터', '<br>- Kriss Vector, supply officer', '<br>- 支援マスタークリスベクター'],
 	['최적화 비율', 'Optimization Ratio', '最適化比率'],
 	['저', 'LOW', '下'],
@@ -35,7 +35,7 @@ let WORDS = [
 	['올바른 시각을 입력하세요. (ex: 04:04)',
 		'Please enter valid time stamp. (ex: 04:04)',
 		'正しい時間を入力して下さい。 (ex: 04:04)'],
-	['반복할 주기을 입력하세요. (ex: 11:16)',
+	['반복할 주기를 입력하세요. (ex: 11:16)',
 		'Please enter the period. (ex: 11:16)',
 		'反復周期を入力して下さい。 (ex: 11:16)'],
 	['올바른 시간을 입력하세요. (ex: 00:45)',
