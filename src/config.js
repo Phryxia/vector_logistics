@@ -129,8 +129,8 @@ class Config {
 }
 
 Config.CONTRACTION_IGNORE = 0;
-Config.CONTRACTION_LOW    = 100;
-Config.CONTRACTION_MID    = 250;
+Config.CONTRACTION_LOW    = 800;
+Config.CONTRACTION_MID    = 1400;
 Config.CONTRACTION_HIGH   = 2000;
 
 Config.DEFAULT_CONFIG = new Config({

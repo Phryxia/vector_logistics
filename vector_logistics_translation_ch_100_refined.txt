@@ -1,0 +1,98 @@
+﻿## COMMENT
+Hi, nice to meet you.
+I'm the developer of 'https://krissvector.com'.
+Thank you for your help.
+
+I'm not sure whether Chinese can access my site or not,
+but I think there are so many Chinese users of Girl's Frontline.
+So I decided to support for your country's language.
+
+Let me know your name (or nickname), then I'll mention your name for special thanks.
+If you just don't want it, I'll not post your name on my site.
+
+I also heard that there are two types of Chinese character.
+Please write it in given order: 简体字 -> 簡體字.
+
+
+
+## BELOWS ARE SCRIPT (ignore the contents in parenthesis)
+
+Vector Logistics
+
+#If you let me know your wanted resource ratio and weights of contractions, I'll recommend
+proper combination of logistics under your schedule. If you don't care the ratio, just
+type 0:0:0:0.
+
+如果您告诉我您想得到的所需资源的比例和契约的偏好，我会推荐与指挥官的时间表相匹配的资源组合。
+如果要增加总量而不考虑比率，请输入0：0：0：0。
+
+#Kriss Vector, supply officer -> Vector, 后勤官
+
+#Optimization Ratio 优化比例
+/* 
+the quantitative relation between two amounts showing the number of times one value contains or is contained within the other.
+the ratio of men's jobs to women's is 8 to 1
+*/
+#LOW 低->低
+
+#MID 中->中
+
+#HIGH 高->高
+
+#Min Period 最低期限->最低期限
+
+#Max Period 最高期限->最高期限
+
+#EP Progress (How far episode the user opened) EP进展->EP進展
+
+#EP0 Open EP0开启->EP0開啟
+
+#Preset 预设->預設
+
+#Add 添加->添加
+
+#Del (Short form of 'delete') 删除->刪除
+
+#Repeat 重复->重複
+
+Confirm Schedule 进程确认->進程確認
+
+#Compute 计算->計算
+
+#Please enter the start time. (ex: 11:16) 请输入开始时间->請輸入開始時間
+
+#Please enter valid time stamp. (ex: 04:04) 请输入有效时间->請輸入有效時間
+
+#Please enter the period. (ex: 11:16) 请输入时间段->請輸入時間段
+
+#Please enter valid time period. (ex: 00:45) 请输入有效时间段->請輸入有效時間段
+
+#Please enter the end time. (ex: 23:59) 请输入结束时间->請輸入結束時間
+
+#Recommendation 建议->建議
+
+#Operation (=episode) 작전임무(ep)/군수작전 -> 作战任务/后勤支援
+
+#Period 时期->時期
+
+#Manpower (type of resource) 人力->人力
+
+#Ammo (type of resource) 弹药->彈藥
+
+#Ration (type of resource) 口粮
+
+#Parts (type of resource) 零件
+
+#Rewards (additional item such as manufacture contraction) 获得物品
+
+#Total (total summation) 合计->總計
+
+#Cycle (the number of returns of echelon) 返回次数
+
+#day 一天
+
+#Please enter the name of preset. 请输入预设名称->請輸入預設名稱
+
+#Preset name must contain one or more characters. 预设名称必须包含一个或多个字符->預設名稱必須包含一個或多個字符
+
+#Preset name cannot contain semicolon(;). 预设名称不能包含分号->預設名稱不能包含分號

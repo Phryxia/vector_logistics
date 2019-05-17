@@ -55,7 +55,7 @@ class Algorithm {
 			['11-4', 600 , [0   , 1650, 0   , 900 , 0  , 1  , 0  , 0  , 0]]
 		];
 
-		this.lambda = 100000;
+		this.lambda = 80000;
 	}
 
 	/**
@@ -260,6 +260,8 @@ class Algorithm {
 				&& config.get_min_level() <= lv && lv <= config.get_max_level();
 		});
 
+		console.log(r);
+
 		let eff;
 		Vf = Vf.map(v => [
 			v, 
@@ -269,8 +271,20 @@ class Algorithm {
 			eff[1]
 		]);
 
+		// about ratio mode
+		let is_zero_rate;
+		if(this.inner(r, r, 4) == 0) {
+			is_zero_rate = true;
+			r[0] = r[1] = r[2] = r[3] = 1;
+		}
+		else {
+			is_zero_rate = false;
+		}
+
 		let best_group = [[null, 0], [null, 0], [null, 0], [null, 0]];	
-		this._optimize2(Vf, r, this.inner(r, r) == 0, [], best_group);
+		this._optimize2(Vf, r, is_zero_rate, [], best_group);
+
+		console.log(best_group);
 
 		// return best selection
 		best_group = best_group.filter(g => g[0] != null);
@@ -294,25 +308,36 @@ class Algorithm {
 					vsum[i] += Vf[path[n]][1][i];
 			}
 
-			let score_len = (is_zero_rate ? this.inner(vsum, vsum) : this.inner(vsum, r));
-			let score_cos = this.inner(vsum, r, 4) / Math.sqrt(this.inner(vsum, vsum, 4));
-			let score = score_len + this.lambda * score_cos;
+			// check whether some basic resources are
+			// zero... (mathematically they are not bad
+			// but sementically, they are undesirabled)
+			for(let d = 0; d < 4; ++d) {
+				if(r[d] > 0 && vsum[d] == 0)
+					return;
+			}
 
-			// search for minimum score
+			let score = this.__score(vsum, r, is_zero_rate);
+
+			// replace worst combination
 			let min_idx = -1;
-			for(let i = 0; i < best_group.length; ++i)
-				if(best_group[i][1] < score && 
-					(min_idx == -1 
-					|| best_group[min_idx][1] > best_group[i][1])) {
+			for(let i = 0; i < best_group.length; ++i) {
+				if(best_group[i][0] == null) {
+					min_idx = i;
+					break;
+				}
+				else if(best_group[i][1] < score && (
+					min_idx == -1 || best_group[min_idx][1] > best_group[i][1])) {
 					min_idx = i;
 				}
+			}
 
 			// override current option
-			if(min_idx >= 0) {
+			if(min_idx != -1) {
 				best_group[min_idx][0] = path.slice();
 				best_group[min_idx][1] = score;
 			}
 		} else {
+			// traverse state space
 			let sidx;
 			if(path.length == 0)
 				sidx = 0;
@@ -324,6 +349,35 @@ class Algorithm {
 				path.pop();
 			}
 		}
+	}
+
+	__score(v, r, is_zero_rate) {
+		if(is_zero_rate) {
+			return this.inner(r, v);
+		} else {
+			// discard dimensions having zero
+			// since we compute cosine similarity,
+			// zero may affect unintended judgement
+			let u = [];
+			let s = [];
+			let bnd = 0;
+			for(let d = 0; d < r.length; ++d) {
+				if(r[d] > 0) {
+					u.push(v[d]);
+					s.push(r[d]);
+					if(d < 4)
+						++bnd;
+				}
+			}
+			if(this.inner(u, u) == 0)
+				return 0;
+			else {
+				let score_len = this.inner(u, s);
+				let score_cos = this.inner(u, s, bnd)
+					/ Math.sqrt(this.inner(u, u, bnd));
+				return score_len + this.lambda * score_cos;
+			}	
+		}		
 	}
 
 	/*
@@ -365,6 +419,7 @@ class AlgorithmController {
 			let tb = this.__create_table();
 			let tbtitle = document.createElement('h2');
 			tbtitle.setAttribute('name', 'lang-22');
+			tbtitle.setAttribute('id', 'tbtitle-'+k);
 			this.dom.result.appendChild(tbtitle).innerHTML = get_word(22) + ' ' + (k+1);
 			this.dom.tables.push(tb);
 			this.dom.result.appendChild(tb);
@@ -381,8 +436,17 @@ class AlgorithmController {
 	update_dom() {
 		this.dom.result.style.display = 'block';
 		
-		for(let k = 0; k < this.K; ++k)
-			this.__update_table(this.result[k], this.dom.tables[k]);
+		for(let k = 0; k < this.K; ++k) {
+			if(this.result[k]) {
+				this.__update_table(this.result[k], this.dom.tables[k]);
+				document.getElementById('tbtitle-' + k).style.display = 'block';
+				this.dom.tables[k].style.display = 'block';
+			}
+			else {
+				document.getElementById('tbtitle-' + k).style.display = 'none';
+				this.dom.tables[k].style.display = 'none';
+			}
+		}
 	}
 
 	__special_drop_img(category) {
