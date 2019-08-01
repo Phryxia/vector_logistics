@@ -179,7 +179,6 @@ class ConfigController {
 		this.mode = mode;
 		localforage.setItem('mode', mode)
 		.then(val => {
-			console.log(val);
 		})
 		.catch(err => {
 			console.log(err);
