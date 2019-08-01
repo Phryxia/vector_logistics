@@ -6,21 +6,19 @@
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-137802893-1"></script>
 	<script>
-		/*
 	  window.dataLayer = window.dataLayer || [];
 	  function gtag(){dataLayer.push(arguments);}
 	  gtag('js', new Date());
 
-	  gtag('config', 'UA-137802893-1');*/
+	  gtag('config', 'UA-137802893-1');
 	</script>
 	<!-- Google Adsense -->
-	<!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 	<script>
-		/*
 	(adsbygoogle = window.adsbygoogle || []).push({
 		google_ad_client: "ca-pub-7174025983780687",
 		enable_page_level_ads: true
-	});*/
+	});
 	</script>
 </head>
 <body>
@@ -37,6 +35,11 @@
 			align-content: center;
 			max-width: 400px;
 			margin-top: 20px;
+		}
+
+		.uiblock {
+			margin-top: 10px;
+			margin-bottom: 10px;
 		}
 
 		.title {
@@ -84,7 +87,6 @@
 
 		.cfg_elem_sub {
 			box-sizing: border-box;
-			margin-top: 6px;
 			margin-left: 5px;
 			margin-right: 5px;
 			height: 100%;
@@ -138,37 +140,36 @@
 	<center>
 		<div class='app_bound'>
 			<!-- 제목 -->
-			<div class='title'>
+			<div class='title uiblock'>
 				<span class='title_text'>
 					<h1 name='lang-0'>군수과장 벡터양!</h1>
 					<h4 style='padding-left: 4px'>ver ε</h4>
 				</span>
-				<span height='100%'><img class='title_img' src='./img/vector_0.png' alt='벡터쟝'></span>
+				<img class='title_img' src='./img/vector_0.png' alt='벡터쟝'>
 			</div>
-			<br>
 
 			<!-- 알림 문구 -->
-			<p name='lang-1' style='text-align: left;'></p>
-			<font size='2'><p name='lang-2' style='text-align: right;'></p></font><br>
+			<div class='uiblock'><p name='lang-1' style='text-align: left;'></p>
+			<font size='2'><p name='lang-2' style='text-align: right;'></p></font></div>
 
-			<!-- 언어 선택 -->
-			<div>
+			<hr>
+			<div class='uiblock'>
+				<!-- 언어 선택 -->
 				<b id='lang-sel-0' onclick='change_language(0);'>한국어</b>
 				<b id='lang-sel-1' onclick='change_language(1);'>English</b>
 				<b id='lang-sel-2' onclick='change_language(2);'>日本語</b>
 				<b id='lang-sel-3' onclick='change_language(3);'>正體字</b>
 				<b id='lang-sel-4' onclick='change_language(4);'>简体字</b>
-			</div>
-			<br>
+				<br>
 
-			<!-- 모드 설정 -->
-			<div>
+				<!-- 모드 설정 -->
 				<b id='mode-sel-0' name='lang-40'>간편모드</b>
 				<b id='mode-sel-1' name='lang-41'>고급모드</b>
 			</div>
-			<br>
 
-			<!-- 프리셋 편집 -->			
+			<!-- 프리셋 편집 -->
+			<hr>
+			<div class='uiblock'>
 			<h2 name='lang-11'>프리셋</h2>
 			<div class='cfg_row'>
 				<span style='display: flex; width: 100%; height: 25px;'>
@@ -176,13 +177,16 @@
 					<button class='cfg_elem_sub' style='width: 10%;' id='bt-preset-add' name='lang-12'>추가</button>
 					<button class='cfg_elem_sub' style='width: 10%;' id='bt-preset-del' name='lang-13'>삭제</button>
 				</span>
-			</div>
-			<br>
+			</div></div>
 
 			<!-- 간편설정 -->
+			<hr>
 			<div id='easy_config'>
-			<h2 name='lang-36'>간편설정</h2>
+			<div class='uiblock'>
+			<h2 name='lang-36' style='margin-bottom: 10px;'>자원설정</h2>
 			<p name='lang-37' style='text-align: left;'>설명</p>
+
+			<!-- 자원설정 -->
 			<div class='cfg_row'>
 				<span class='cfg_cell'>
 					<input type='image' class='cfg_elem' src='./img/mp.png' alt='인력'>
@@ -245,11 +249,14 @@
 				</span>
 			</div>
 			</div>
+			</div>
 
+			<!-- 고급설정 -->
 			<div id='advanced_config'>
 
 			<!-- 기본자원 인탄식부 -->
-			<h2 name='lang-3'>최적화 비율</h2>
+			<div class='uiblock'>
+			<h2 name='lang-3' style='margin-bottom: 10px;'>최적화 비율</h2>
 			<p name='lang-42' style='text-align: left;'>설명</p>
 			<div class='cfg_row'>
 				<span class='cfg_cell'>
@@ -350,25 +357,26 @@
 					<input clas='cfg_elem' type='checkbox' id='in-zero' checked />
 				</span>
 			</div>
-
-			<!-- 일정 편집 -->
-			<br>
-			<h2 name='lang-15'>확인일정</h2>
-			<div class='cfg_row'>
-				<table id='tb-timeline' style='width: 100%;'>
-				</table>
 			</div>
-			<div>
-				<button class='cfg_elem_sub' style='float: right; width:21.2%; margin-right: 1.75%;' id='bt-repeat-add' name='lang-14'>반복일정추가</button>
-				</div>	
-			
+				<hr>
+				<!-- 일정 편집 -->
+				<div class='uiblock'>
+					<h2 name='lang-15'>확인일정</h2>
+					<div class='cfg_row'>
+						<table id='tb-timeline' style='width: 100%;'>
+						</table>
+					</div>
+					<div>
+						<button class='cfg_elem_sub' style='float: right; width:21.2%; margin-right: 1.75%;' id='bt-repeat-add' name='lang-14'>반복일정추가</button>
+					</div>
+				</div>
 			</div>
-		<br>
-		<button name='lang-16' id='bt-compute' >계산</button>
-		<br><br>
-		<div id='div-result' style='display:None;'>
+		<button name='lang-16' class='uiblock' id='bt-compute'>계산</button>
+		<hr>
+		<div id='div-result' class='uiblock' style='display:None;'>
 		</div>
 	</div>
+	문의: xahhaepica@gmail.com
 	</center>
 	
 	<script src='./lib/localforage.min.js'></script>
