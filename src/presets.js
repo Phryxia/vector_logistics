@@ -67,21 +67,14 @@ class PresetController {
 		// preset selecting droplist
 		// when something is selected, cookie will be updated.
 		this.dom = document.getElementById('in-preset');
-		this.dom.preset_ctr = this;
-		this.dom.onchange = function(evt) {
-			let preset_ctr = evt.srcElement.preset_ctr;
-			preset_ctr.set_current(preset_ctr.dom.selectedIndex);
-			preset_ctr.ckmng.save_snapshot(preset_ctr);
+		this.dom.onchange = (evt) => {
+			this.set_current(this.dom.selectedIndex);
+			this.ckmng.save_snapshot(preset_ctr);
 		};
 
 		// preset add button
 		this.button_add = document.getElementById('bt-preset-add');
-		this.button_add.preset_ctr = this;
-		this.button_add.onclick = function(evt) {
-			// get preset ctr
-			let preset_ctr = evt.srcElement.preset_ctr;
-			assert(!!preset_ctr, '[PresetController::button_add.onclick] there is no preset_ctr on add button');
-			
+		this.button_add.onclick = (evt) => {
 			// get input string from window.prompt
 			let preset_name = window.prompt(get_word(33), 'nice-name');
 
@@ -102,21 +95,16 @@ class PresetController {
 			{
 				// generally, add_preset doesn't select the brand-new added
 				// options. but most desirable ux is selecting it.
-				preset_ctr.selected_index = preset_ctr.presets.length;
-				preset_ctr.add_preset(new Preset(preset_name, preset_ctr.cfgctr.get_current_config()));
+				this.selected_index = this.presets.length;
+				this.add_preset(new Preset(preset_name, this.cfgctr.fetch()));
 			}
 		};
 
 		// preset delete button
 		this.button_del = document.getElementById('bt-preset-del');
-		this.button_del.preset_ctr = this;
-		this.button_del.onclick = function(evt) {
-			// get preset ctr
-			let preset_ctr = evt.srcElement.preset_ctr;
-			assert(!!preset_ctr, '[PresetController::button_add.onclick] there is no preset_ctr on add button');
-			
+		this.button_del.onclick = (evt) => {
 			if(window.confirm('정말로 삭제하시겠습니까?'))
-				preset_ctr.del_preset(preset_ctr.dom.selectedIndex);
+				this.del_preset(this.dom.selectedIndex);
 		};
 
 		// 반복일정추가 버튼을 찾아오셨나요?
@@ -166,7 +154,7 @@ class PresetController {
 	set_current(idx) {
 		assert(0 <= idx && idx < this.presets.length, '[PresetController::set_current] invalid index: ' + idx);
 		this.selected_index = idx;
-		this.cfgctr.assign_config(this.get_current().get_config());
+		this.cfgctr.update(this.get_current().get_config());
 		this.update_dom();
 	}
 

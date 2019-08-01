@@ -14,8 +14,9 @@ class CookieManager {
 		로컬에 저장된 설정을 혀재 세션의 presetController에 불러온다.
 		로드가 완료되면 on_finish가 실행된다.
 	*/
-	load_snapshot(prsctr) {
+	load_snapshot(cfgctr, prsctr) {
 		assert(!!prsctr && prsctr instanceof PresetController);
+		this.cfgctr = cfgctr;
 		this.prsctr = prsctr;
 		let success = true;
 		let obj = null;
@@ -62,29 +63,36 @@ class CookieManager {
 	*/
 	__load_cookie() {
 		let self = this;
-		localforage.getItem('json_string').then(function(val) {
-			self.loaded_cookie = val;
-			self.__apply_cookie();
-		}).catch(function(err) {
+		localforage.getItem('json_string')
+		.then((val) => {
+			this.loaded_cookie = val;
+			this.__apply_cookie();
+		}).catch((err) => {
 			// error recvoery
 			console.log(err);
-			self.__reset_cookie();
+			this.__reset_cookie();
+		}).finally(() => {
+			// 저장된 모드 불러오기
+			localforage.getItem('mode').
+			then((mode) => {
+				this.cfgctr.set_mode(mode);
+			});
 		});
 
 		// language setting
 		localforage.getItem('lang')
-			.then(val => {
-				if(val == null)
-					document.CURRENT_LANG = LANG_KO;
-				else
-					document.CURRENT_LANG = val;
-			})
-			.then(val => {
-				change_language(document.CURRENT_LANG);
-			})
-			.catch(err => {
+		.then(val => {
+			if(val == null)
 				document.CURRENT_LANG = LANG_KO;
-			});
+			else
+				document.CURRENT_LANG = val;
+		})
+		.then(val => {
+			change_language(document.CURRENT_LANG);
+		})
+		.catch(err => {
+			document.CURRENT_LANG = LANG_KO;
+		});
 	}
 
 	/**

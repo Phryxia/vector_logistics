@@ -260,8 +260,6 @@ class Algorithm {
 				&& config.get_min_level() <= lv && lv <= config.get_max_level();
 		});
 
-		console.log(r);
-
 		let eff;
 		Vf = Vf.map(v => [
 			v, 
@@ -283,8 +281,6 @@ class Algorithm {
 
 		let best_group = [[null, 0], [null, 0], [null, 0], [null, 0]];	
 		this._optimize2(Vf, r, is_zero_rate, [], best_group);
-
-		console.log(best_group);
 
 		// return best selection
 		best_group = best_group.filter(g => g[0] != null);
@@ -396,6 +392,11 @@ class Algorithm {
 	}
 }
 
+Algorithm.CONTRACTION_IGNORE = 0;
+Algorithm.CONTRACTION_LOW    = 800;
+Algorithm.CONTRACTION_MID    = 1400;
+Algorithm.CONTRACTION_HIGH   = 2000;
+
 class AlgorithmController {
 	constructor(cfgctr, algorithm) {
 		assert(cfgctr instanceof ConfigController);
@@ -428,8 +429,7 @@ class AlgorithmController {
 	}
 
 	run() {
-		//this.Vp = this.algorithm.optimize(this.cfgctr.config);
-		this.result = this.algorithm.optimize2(this.cfgctr.config);
+		this.result = this.algorithm.optimize2(this.cfgctr.fetch());
 		this.update_dom();
 	}
 

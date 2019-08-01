@@ -6,19 +6,21 @@
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-137802893-1"></script>
 	<script>
+		/*
 	  window.dataLayer = window.dataLayer || [];
 	  function gtag(){dataLayer.push(arguments);}
 	  gtag('js', new Date());
 
-	  gtag('config', 'UA-137802893-1');
+	  gtag('config', 'UA-137802893-1');*/
 	</script>
 	<!-- Google Adsense -->
-	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
 	<script>
+		/*
 	(adsbygoogle = window.adsbygoogle || []).push({
 		google_ad_client: "ca-pub-7174025983780687",
 		enable_page_level_ads: true
-	});
+	});*/
 	</script>
 </head>
 <body>
@@ -129,7 +131,7 @@
 		}
 	</style>
 	<!-- Picker.js -->
-	<link href="/lib/picker.min.css" rel="stylesheet">
+	<link href="./lib/picker.min.css" rel="stylesheet">
 	<script src='./lib/picker.min.js'></script>
 
 	<!-- document -->
@@ -139,7 +141,7 @@
 			<div class='title'>
 				<span class='title_text'>
 					<h1 name='lang-0'>군수과장 벡터양!</h1>
-					<h4 style='padding-left: 4px'>ver δ</h4>
+					<h4 style='padding-left: 4px'>ver ε</h4>
 				</span>
 				<span height='100%'><img class='title_img' src='./img/vector_0.png' alt='벡터쟝'></span>
 			</div>
@@ -157,9 +159,96 @@
 			</div>
 			<br>
 
-			<h2 name='lang-3'>최적화 비율</h2>
+			<!-- 모드 설정 -->
+			<div>
+				<b id='mode-sel-0' name='lang-40'>간편모드</b>
+				<b id='mode-sel-1' name='lang-41'>고급모드</b>
+			</div>
+			<br>
+
+			<!-- 프리셋 편집 -->			
+			<h2 name='lang-11'>프리셋</h2>
+			<div class='cfg_row'>
+				<span style='display: flex; width: 100%; height: 25px;'>
+					<select class='cfg_elem_sub' style='width: 75%;' id='in-preset'></select>
+					<button class='cfg_elem_sub' style='width: 10%;' id='bt-preset-add' name='lang-12'>추가</button>
+					<button class='cfg_elem_sub' style='width: 10%;' id='bt-preset-del' name='lang-13'>삭제</button>
+				</span>
+			</div>
+			<br>
+
+			<!-- 간편설정 -->
+			<div id='easy_config'>
+			<h2 name='lang-36'>간편설정</h2>
+			<p name='lang-37' style='text-align: left;'>설명</p>
+			<div class='cfg_row'>
+				<span class='cfg_cell'>
+					<input type='image' class='cfg_elem' src='./img/mp.png' alt='인력'>
+				</span>
+				<span class='cfg_cell'>
+					<input type='image' class='cfg_elem' src='./img/ammo.png' alt='탄약'>
+				</span>
+				<span class='cfg_cell'>
+					<input type='image' class='cfg_elem' src='./img/mre.png' alt='식량'>
+				</span>
+				<span class='cfg_cell'>
+					<input type='image' class='cfg_elem' src='./img/part.png' alt='부품'>
+				</span>
+			</div>
+			<div class='cfg_row'>
+				<span class='cfg_cell'>
+					<input type='image' class='cfg_elem' src='./img/quick_reinforce.png' alt='쾌속수복권'>
+				</span>
+				<span class='cfg_cell'>
+					<input type='image' class='cfg_elem' src='./img/quick_develop.png' alt='쾌속제조권'>
+				</span>
+				<span class='cfg_cell'>
+					<input type='image' class='cfg_elem' src='./img/iop_contract.png' alt='인형제조권'>
+				</span>
+				<span class='cfg_cell'>
+					<input type='image' class='cfg_elem' src='./img/equip_contract.png' alt='장비제조권'>
+				</span>
+				<span class='cfg_cell'>
+					<input type='image' class='cfg_elem' src='./img/furniture_coin.png' alt='구매토큰'>
+				</span>
+			</div>
+			<div class='cfg_row'>
+				<span class='cfg_cell'>
+					<span class='cfg_elem'><b name='lang-38'>기상<br>시각</b></span>
+					<input class='time_input' type='text' size='2' id='in-mintime' value='07:00'/>
+				</span>
+				<span class='cfg_cell'>
+					<span class='cfg_elem'><b name='lang-39'>취침<br>시각</b></span>
+					<input class='time_input' type='text' size='2' id='in-maxtime' value='24:00'/>
+				</span>
+				<span class='cfg_cell'>
+					<span class='cfg_elem'><b name='lang-9'>전역<br>개방</b></span>
+					<select class='cfg_elem' id='in-map-easy' style='height: 20px;'>
+						<option value='1'>1</option>
+						<option value='2'>2</option>
+						<option value='3'>3</option>
+						<option value='4'>4</option>
+						<option value='5'>5</option>
+						<option value='6'>6</option>
+						<option value='7'>7</option>
+						<option value='8'>8</option>
+						<option value='9'>9</option>
+						<option value='10'>10</option>
+						<option value='11' selected='selected'>11</option>
+					</select>
+				</span>
+				<span class='cfg_cell'>
+					<span class='cfg_elem'><b name='lang-10'>0지<br>개방</b></span>
+					<input clas='cfg_elem' type='checkbox' id='in-zero-easy' checked />
+				</span>
+			</div>
+			</div>
+
+			<div id='advanced_config'>
 
 			<!-- 기본자원 인탄식부 -->
+			<h2 name='lang-3'>최적화 비율</h2>
+			<p name='lang-42' style='text-align: left;'>설명</p>
 			<div class='cfg_row'>
 				<span class='cfg_cell'>
 					<img class='cfg_elem' src='./img/mp.png' alt='인력'>
@@ -260,18 +349,6 @@
 				</span>
 			</div>
 
-			<!-- 프리셋 편집 -->
-			<br>
-			<h2 name='lang-11'>프리셋</h2>
-			<div class='cfg_row'>
-				<span style='display: flex; width: 100%; height: 25px;'>
-					<select class='cfg_elem_sub' style='width: 55%;' id='in-preset'></select>
-					<button class='cfg_elem_sub' style='width: 10%;' id='bt-preset-add' name='lang-12'>추가</button>
-					<button class='cfg_elem_sub' style='width: 10%;' id='bt-preset-del' name='lang-13'>삭제</button>
-					<button class='cfg_elem_sub' style='width: 25%;' id='bt-repeat-add' name='lang-14'>반복일정추가</button>
-				</span>
-			</div>
-
 			<!-- 일정 편집 -->
 			<br>
 			<h2 name='lang-15'>확인일정</h2>
@@ -279,10 +356,15 @@
 				<table id='tb-timeline' style='width: 100%;'>
 				</table>
 			</div>
+			<div>
+				<button class='cfg_elem_sub' style='float: right; width:21.2%; margin-right: 1.75%;' id='bt-repeat-add' name='lang-14'>반복일정추가</button>
+				</div>	
+			
+			</div>
 		<br>
-		<button name='lang-16' id='bt-compute'>계산</button>
+		<button name='lang-16' id='bt-compute' >계산</button>
 		<br><br>
-		<div id='div-result' style='display:None'>
+		<div id='div-result' style='display:None;'>
 		</div>
 	</div>
 	</center>
@@ -293,6 +375,8 @@
 	<script src='./src/config.js'></script>
 	<script src='./src/kriss_vector.js'></script>
 	<script src='./src/presets.js'></script>
+	<script src='./src/vm-easy.js'></script>
+	<script src='./src/vm-advanced.js'></script>
 	<script src='./src/cookie.js'></script>
 	<script src='./src/init.js'></script>
 </body>

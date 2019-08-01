@@ -4,6 +4,7 @@ let LANG_KO = 0;
 let LANG_EN = 1;
 let LANG_JP = 2;
 //let LANG_CH = 3;
+//let LANG_TW = 4;
 
 let WORDS = [
 	['군수과장 벡터양!', 'Vector Logistics!', '支援マスター<br>ベクターちゃん!'], // 타이틀
@@ -15,7 +16,7 @@ let WORDS = [
 	 '"欲しい資源の獲得比率とアイテムの重みを教えてくれたら、指揮官のスケジュールに合わせた支援の組み合わせをオススメしてあげる。'+
 	 '比率とは関係なくただ全体の量だけ上げたいなら、0:0:0:0で書いてくれ。"'], // 설명
 	['<br>- 군수과장 크리스 벡터', '<br>- Kriss Vector, supply officer', '<br>- 支援マスタークリスベクター'],
-	['최적화 비율', 'Optimization Ratio', '最適化比率'],
+	['자원설정', 'Resource Setting', '資源設定'],
 	['저', 'LOW', '下'],
 	['중', 'MID', '中'],
 	['고', 'HIGH', '上'],
@@ -63,7 +64,24 @@ let WORDS = [
 		'名前には最小一文字以上がいるべきです。'],
 	['이름에는 세미콜론(;)이 포함될 수 없습니다.',
 		'Preset name cannot contain semicolon(;).',
-		'名前にはセミコロン(;)を使う事ができません。']
+		'名前にはセミコロン(;)を使う事ができません。'], //35
+	['자원설정', 'Resource Setting', '資源設定'], // 36
+	['지휘관이 필요한 자원과 계약권을 눌러줘.',
+		'Push resource types and contract that you need.', 
+		'指揮官に必要な資源と契約のボタンを押してくれ。'], //37
+	['기상<br>시각', 'Wake-up<br>Time', '起きる<br>時間'],
+	['취침<br>시각', 'Sleep<br>Time',　'寝る<br>時間'],
+	['간편모드', 'Simple Mode', '簡易モード'], // 40
+	['고급모드', 'Advanced Mode', '高級モード'], // 41
+	['원하는 자원 획득비와 계약권 우선도를 알려줘.'+
+	 '비율 상관없이 전체 양만 늘리고 싶으면 0:0:0:0으로 입력해줘. ',
+		'Let me know the ratio of resources and contraction weights. '+
+		'If you just want to gain total amount of them, set the ratio as 0:0:0:0.',
+		'指揮官が望む資源の比率と契約の重みを教えて。 '+
+		'ただ全体の量だけ集めいたら、比率を0:0:0:0に書いてくれ。'],
+	['프리셋에 저장하지 않은 설정은 손실됩니다.',
+		'Be aware that setting won\'t be preserved unless you save on preset',
+		'プリセットにセーブしなかった設定は削除されます。'] //43
 ];
 
 /*

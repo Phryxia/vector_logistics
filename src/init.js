@@ -1,11 +1,25 @@
 'use strict';
 
-(function() {
-	// Initialize 
-	document.cookie_mng = new CookieManager();
-	let config_ctr = new ConfigController();
-	let preset_ctr = new PresetController(config_ctr, document.cookie_mng);
-	let algorithm_ctr = new AlgorithmController(config_ctr, new Algorithm());
+Config.DEFAULT_CONFIG = new Config({
+	'timeline': [0],
+	'ratio': [1, 1, 1, 0.5, 
+		Algorithm.CONTRACTION_IGNORE, 
+		Algorithm.CONTRACTION_IGNORE,
+		Algorithm.CONTRACTION_IGNORE, 
+		Algorithm.CONTRACTION_IGNORE, 
+		Algorithm.CONTRACTION_IGNORE],
+	'min_time': 0,
+	'max_time': 1440,
+	'daily_loop': true,
+	'min_level': 0,
+	'max_level': 11
+});
 
-	document.cookie_mng.load_snapshot(preset_ctr);
-})();
+// Initialize 
+document.cookie_mng = new CookieManager();
+let cfgctr = new ConfigController();
+let preset_ctr = new PresetController(cfgctr, document.cookie_mng);
+let algorithm_ctr = new AlgorithmController(cfgctr, new Algorithm());
+
+// 저장된 설정 불러오기
+document.cookie_mng.load_snapshot(cfgctr, preset_ctr);
