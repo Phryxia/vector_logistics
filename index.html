@@ -3,6 +3,10 @@
 <head>
 	<title>군수과장 벡터양!</title>
 	<meta name='viewport' content='width=device-width, initial-scale=1.0,user-scalable=no'>
+
+	<!-- CSS -->
+	<link rel='stylesheet' href='./style.css'>
+
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-137802893-1"></script>
 	<script>
@@ -12,6 +16,7 @@
 
 	  gtag('config', 'UA-137802893-1');
 	</script>
+	
 	<!-- Google Adsense -->
 	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 	<script>
@@ -22,116 +27,6 @@
 	</script>
 </head>
 <body>
-	<style>
-		* {
-			margin: 0%;
-			border: 0%;
-			padding: 0%;
-		}
-
-		.app_bound {
-			display: flex;
-			flex-direction: column;
-			align-content: center;
-			max-width: 400px;
-			margin-top: 20px;
-		}
-
-		.uiblock {
-			margin-top: 10px;
-			margin-bottom: 10px;
-		}
-
-		.title {
-			display: inline-flex;
-			flex-direction: row;
-			justify-content: space-between;
-			width: 100%;
-			height: 100px;
-		}
-
-		.title_text {
-			display: inline-flex;
-			flex-direction: column;	
-			text-align: left;
-			justify-content: space-between;
-		}
-
-		.title_img {
-			height: 100%;
-		}
-
-		.cfg_row {
-			display: flex;
-			flex-direction: row;
-			justify-content: space-between;
-			margin-top: 10px;
-			align-items: center;
-		}
-
-		.cfg_cell {
-			width: 20%;
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			box-sizing: border-box;
-			padding-left: 5px;
-			padding-right: 5px;
-		}
-
-		.cfg_elem {
-			box-sizing: border-box;
-			width: 100%;
-			margin-top: 6px;
-		}
-
-		.cfg_elem_sub {
-			box-sizing: border-box;
-			margin-left: 5px;
-			margin-right: 5px;
-			height: 100%;
-		}
-
-		select.cfg_elem  {
-			height: 100%;
-		}
-
-		img.cfg_elem {
-			width: 82%;
-		}
-
-		input.time_input {
-			box-sizing: border-box;
-			width: 100%;
-			margin-top: 6px;
-			text-align: center;
-		}
-
-		table.tb_result {
-			border-collapse: collapse;
-			font-size: 80%;
-		}
-
-		table.tb_result tr:nth-child(1) {
-			border-top-style: double;
-		}
-
-		table.tb_result tr:nth-child(2) {
-			border-top-style: double;
-		}
-
-		table.tb_result tr:nth-child(6) {
-			border-top-style: double;
-		}
-
-		table.tb_result tr:nth-child(6) {
-			border-bottom-style: double;
-		}
-
-		.smalltext {
-			font-size: 50%;
-		}
-	</style>
 	<!-- Picker.js -->
 	<link href="./lib/picker.min.css" rel="stylesheet">
 	<script src='./lib/picker.min.js'></script>
@@ -143,7 +38,7 @@
 			<div class='title uiblock'>
 				<span class='title_text'>
 					<h1 name='lang-0'>군수과장 벡터양!</h1>
-					<h4 style='padding-left: 4px'>ver ε</h4>
+					<h4 style='padding-left: 4px'>ver ζ</h4>
 				</span>
 				<img class='title_img' src='./img/vector_0.png' alt='벡터쟝'>
 			</div>
@@ -229,6 +124,8 @@
 				</span>
 				<span class='cfg_cell'>
 					<span class='cfg_elem'><b name='lang-9'>전역<br>개방</b></span>
+					<!-- 전역이 늘어날 때마다 수정해줘야 하는 부분
+						 여기 수정한 뒤에 고급모드의 in-map도 같이 바꿔야함 -->
 					<select class='cfg_elem' id='in-map-easy' style='height: 20px;'>
 						<option value='1'>1</option>
 						<option value='2'>2</option>
@@ -240,7 +137,8 @@
 						<option value='8'>8</option>
 						<option value='9'>9</option>
 						<option value='10'>10</option>
-						<option value='11' selected='selected'>11</option>
+						<option value='11'>11</option>
+						<option value='12' selected='selected'>12</option>
 					</select>
 				</span>
 				<span class='cfg_cell'>
@@ -338,6 +236,8 @@
 				</span>
 				<span class='cfg_cell'>
 					<span class='cfg_elem'><b name='lang-9'>전역<br>개방</b></span>
+					<!-- 전역이 늘어날 때마다 수정해줘야 하는 부분
+						 여기 수정한 뒤에 간편모드의 in-map-easy도 같이 바꿔야함 -->
 					<select class='cfg_elem' id='in-map' style='height: 20px;'>
 						<option value='1'>1</option>
 						<option value='2'>2</option>
@@ -349,7 +249,8 @@
 						<option value='8'>8</option>
 						<option value='9'>9</option>
 						<option value='10'>10</option>
-						<option value='11' selected='selected'>11</option>
+						<option value='11'>11</option>
+						<option value='12' selected='selected'>12</option>
 					</select>
 				</span>
 				<span class='cfg_cell'>
