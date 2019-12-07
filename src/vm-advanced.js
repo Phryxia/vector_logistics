@@ -207,7 +207,7 @@ class VMAdvanced {
 		// create add button
 		input = document.createElement('button');
 		input.name = 'lang-12';
-		input.className = 'cfg_elem_sub';
+		input.className = 'cfg_elem_sub stdButton';
 		input.style.width = '50px';
 		input.innerHTML = get_word(12);
 		input.onmouseup = (evt) => {
@@ -223,7 +223,7 @@ class VMAdvanced {
 		// create delete button
 		input = document.createElement('button');
 		input.name = 'lang-13';
-		input.className = 'cfg_elem_sub';
+		input.className = 'cfg_elem_sub stdButton';
 		input.style.width = '50px';
 		input.innerHTML = get_word(13);
 		input.onmouseup = (evt) => {

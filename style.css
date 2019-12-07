@@ -4,12 +4,27 @@
 	padding: 0%;
 }
 
+body {
+	background: rgb(230, 230, 200);
+}
+
+input {
+	font-size: 12px;
+}
+
+select {
+	font-size: 12px;
+}
+
 .app_bound {
 	display: flex;
 	flex-direction: column;
 	align-content: center;
 	max-width: 400px;
 	margin-top: 20px;
+	padding-left: 10px;
+	padding-right: 10px;
+	background: white;
 }
 
 .uiblock {
@@ -78,7 +93,6 @@ img.cfg_elem {
 input.time_input {
 	box-sizing: border-box;
 	width: 100%;
-	margin-top: 6px;
 	text-align: center;
 }
 
@@ -105,4 +119,30 @@ table.tb_result tr:nth-child(6) {
 
 .smalltext {
 	font-size: 50%;
+}
+
+.stdButton {
+	height: 25px;
+	color: white;
+	background: black;
+	border: none;
+	border-top: 1px solid black;
+	border-left: 1px solid black;
+	font-size: 12px;
+}
+
+.stdButton:hover {
+	color: black;
+	background: rgb(253, 179, 0);
+}
+
+/* 언어 버튼 */
+.langCSS {
+	width: 50px;
+}
+
+/* 간편/고급 버튼 */
+.modeCSS {
+	height: 30px;
+	width: 70px;
 }

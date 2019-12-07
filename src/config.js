@@ -171,8 +171,8 @@ class ConfigController {
 		// dom 적용
 		this.div[mode].style.display = 'block';
 		this.div[1 - mode].style.display = 'none';
-		this.btn[mode].style.color = '#000000';
-		this.btn[1 - mode].style.color = '#DDDDDD';
+		// this.btn[mode].style.color = '#000000';
+		// this.btn[1 - mode].style.color = '#DDDDDD';
 		this.vms[mode].update(this.vms[1 - mode].fetch());
 
 		// LocalDB에 저장하기

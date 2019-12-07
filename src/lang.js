@@ -20,7 +20,7 @@ let WORDS = [
 	 '"欲しい資源の獲得比率とアイテムの重みを教えてくれたら、指揮官のスケジュールに合わせた支援の組み合わせをオススメしてあげる。'+
 	 '比率とは関係なくただ全体の量だけ上げたいなら、0:0:0:0で書いてくれ。"',
 	 '請說明你需要的資源比例和合同偏好,我將推薦符合指揮官時間表的資源組合。 '+
-	 '增加總量,但不考慮比例,請輸入0:0。',
+	 '增加總量,但不考慮比例,請輸入0：0：0：0。',
 	 '如果您告訴我您想得到的所需資源的比例和契約的偏好，我會推薦與指揮官的時間表相匹配的資源組合。 '+
 	 '如果要增加總量而不考慮比率，請輸入0：0：0：0。'], // 설명
 	['<br>- 군수과장 크리스 벡터',
@@ -160,7 +160,15 @@ function change_language(lang_id) {
 	localforage.setItem('lang', document.CURRENT_LANG);
 
 	// change font color
-	for(let i = 0; i < 5; ++i)
-		document.getElementById('lang-sel-' + i).style.color
-			= (i == document.CURRENT_LANG ? '#000000' : '#dddddd');
+	// for(let i = 0; i < 5; ++i) {
+	// 	let st = document.getElementById('lang-sel-' + i).style;
+	// 	if (i == document.CURRENT_LANG)	{
+	// 		st.background = 'rgb(253, 179, 0)';
+	// 		st.color = 'black';
+	// 	}
+	// 	else {
+	// 		st.background = 'auto';
+	// 		st.color = 'auto';
+	// 	}
+	// }
 }

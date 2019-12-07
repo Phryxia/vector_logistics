@@ -5,6 +5,7 @@
 	<meta name='viewport' content='width=device-width, initial-scale=1.0,user-scalable=no'>
 
 	<!-- CSS -->
+	<link rel='stylesheet' href='./normalize.css/normalize.css'>
 	<link rel='stylesheet' href='./style.css'>
 
 	<!-- Global site tag (gtag.js) - Google Analytics -->
@@ -50,16 +51,19 @@
 			<hr>
 			<div class='uiblock'>
 				<!-- 언어 선택 -->
-				<b id='lang-sel-0' onclick='change_language(0);'>한국어</b>
-				<b id='lang-sel-1' onclick='change_language(1);'>English</b>
-				<b id='lang-sel-2' onclick='change_language(2);'>日本語</b>
-				<b id='lang-sel-3' onclick='change_language(3);'>正體字</b>
-				<b id='lang-sel-4' onclick='change_language(4);'>简体字</b>
-				<br>
+				<div style='margin-bottom: 10px;'>
+				<button class='stdButton langCSS' id='lang-sel-0' onclick='change_language(0);'>한국어</button>
+				<button class='stdButton langCSS' id='lang-sel-1' onclick='change_language(1);'>English</button>
+				<button class='stdButton langCSS' id='lang-sel-2' onclick='change_language(2);'>日本語</button>
+				<button class='stdButton langCSS' id='lang-sel-3' onclick='change_language(3);'>正體字</button>
+				<button class='stdButton langCSS' id='lang-sel-4' onclick='change_language(4);'>简体字</button>
+				</div>
 
 				<!-- 모드 설정 -->
-				<b id='mode-sel-0' name='lang-40'>간편모드</b>
-				<b id='mode-sel-1' name='lang-41'>고급모드</b>
+				<div>
+				<button class='stdButton modeCSS' id='mode-sel-0' name='lang-40'>간편모드</button>
+				<button class='stdButton modeCSS' id='mode-sel-1' name='lang-41'>고급모드</button>
+				</div>
 			</div>
 
 			<!-- 프리셋 편집 -->
@@ -68,9 +72,9 @@
 			<h2 name='lang-11'>프리셋</h2>
 			<div class='cfg_row'>
 				<span style='display: flex; width: 100%; height: 25px;'>
-					<select class='cfg_elem_sub' style='width: 75%;' id='in-preset'></select>
-					<button class='cfg_elem_sub' style='width: 10%;' id='bt-preset-add' name='lang-12'>추가</button>
-					<button class='cfg_elem_sub' style='width: 10%;' id='bt-preset-del' name='lang-13'>삭제</button>
+					<select class='cfg_elem_sub std' style='width: 75%;' id='in-preset'></select>
+					<button class='cfg_elem_sub stdButton' style='width: 10%;' id='bt-preset-add' name='lang-12'>추가</button>
+					<button class='cfg_elem_sub stdButton' style='width: 10%;' id='bt-preset-del' name='lang-13'>삭제</button>
 				</span>
 			</div></div>
 
@@ -268,11 +272,11 @@
 						</table>
 					</div>
 					<div>
-						<button class='cfg_elem_sub' style='float: right; width:21.2%; margin-right: 1.75%;' id='bt-repeat-add' name='lang-14'>반복일정추가</button>
+						<button class='cfg_elem_sub stdButton' style='float: right; width:21.2%; margin-right: 1.75%;' id='bt-repeat-add' name='lang-14'>반복일정추가</button>
 					</div>
 				</div>
 			</div>
-		<button name='lang-16' class='uiblock' id='bt-compute'>계산</button>
+		<button name='lang-16' class='uiblock stdButton computeCSS' id='bt-compute'>계산</button>
 		<hr>
 		<div id='div-result' class='uiblock' style='display:None;'>
 		</div>
