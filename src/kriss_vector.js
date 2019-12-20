@@ -1,9 +1,13 @@
 'use strict';
 class Algorithm {
 	constructor() {
-		// [name, interval, [manpower, ammo, ration, parts, quick_restore, quick_develop, doll, equipment, gatcha]]
+		// [작전명, 소요시간, [인, 탄, 식, 부, 쾌속수복, 쾌속제조, 인형제조, 장비제조, 구매토큰]]
 		// thank you for: https://tempkaridc.github.io/gf/js/GF.js
 		// and mikboongi
+		//
+		// region 12 reference: https://gall.dcinside.com/mgallery/board/view/?id=micateam&no=1362264
+		// since it's not revised by me, information can be changed.
+		// Note that probability of drop rate of 12 region hasn't been verified.
 		this.V = [
 			['0-1' , 50  , [0   , 145 , 145 , 0   , 0.5, 0.2, 0  , 0  , 0]],
 			['0-2' , 180 , [550 , 0   , 0   , 350 , 0  , 0  , 0.5, 0  , 0]],
@@ -53,10 +57,10 @@ class Algorithm {
 			['11-2', 240 , [360 , 540 , 540 , 0   , 0  , 0  , 1  , 0  , 0]],
 			['11-3', 480 , [0   , 750 , 1500, 250 , 0.5, 0  , 0  , 0  , 0]],
 			['11-4', 600 , [0   , 1650, 0   , 900 , 0  , 1  , 0  , 0  , 0]],
-			['12-1', 100 , [999 , 999 , 999 , 999 , 0  , 0  , 0  , 0  , 0]],
-			['12-2', 100 , [999 , 999 , 999 , 999 , 0  , 0  , 0  , 0  , 0]],
-			['12-3', 100 , [999 , 999 , 999 , 999 , 0  , 0  , 0  , 0  , 0]],
-			['12-4', 100 , [999 , 999 , 999 , 999 , 0  , 0  , 0  , 0  , 0]]
+			['12-1', 60  , [0   , 220 , 220 , 0   , 0  , 0  , 0  , 0.5, 0]],
+			['12-2', 90  , [360 , 0   , 0   , 120 , 0  , 0  , 0  , 0  , 0]],
+			['12-3', 540 , [800 , 1200, 1200, 0   , 0  , 1  , 0  , 0  , 0]],
+			['12-4', 720 , [1800, 0   , 1800, 0   , 0  , 0  , 1  , 0  , 0]]
 		];
 
 		this.lambda = 80000;
