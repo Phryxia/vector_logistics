@@ -9,7 +9,7 @@ let LANG_CH = 4;
 let WORDS = [
 	['군수과장 벡터양!',
 	 'Vector Logistics!',
-	 '支援マスター<br>ベクターちゃん!',
+	 'Vector Logistics!',
 	 'Vector Logistics!',
 	 'Vector Logistics!'], // 타이틀
 	['"원하는 자원 획득비와 계약권 우선도를 알려주면, 지휘관의 일정에 맞춘 군수 조합을 추천해줄게.'+
