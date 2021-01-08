@@ -106,7 +106,7 @@ class PresetController {
 		};
 
 		// 반복일정추가 버튼을 찾아오셨나요?
-		// config.js -> ConfigController class로 가세요.
+		// vm-advanced.js로 가세요.
 		// 디자인 문제로 버튼이 여기에 달려있을 뿐...
 
 		// refresh first
