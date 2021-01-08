@@ -275,6 +275,14 @@ class Algorithm {
 		return best_group.map(g => (g[0].map(idx => Vf[idx])));
 	}
 
+	/**
+	 * DFS로 탐색을 하는 재귀함수.
+	 * @param {*} Vf 
+	 * @param {*} r 
+	 * @param {boolean} is_zero_rate 
+	 * @param {*} path 
+	 * @param {*} best_group 
+	 */
 	_optimize2(Vf, r, is_zero_rate, path, best_group) {
 		console.assert(Vf != null);
 		console.assert(r != null);
@@ -395,92 +403,68 @@ Algorithm.CONTRACTION_HIGH   = 2000;
 
 /**
  * 최적화 알고리즘을 돌리고 그에 관련된 뷰를 조작한다.
- * 이름이 Controller지만 사실 View와 붙어있는 몹쓸 클래스다.
- * TODO: 뷰를 뜯어낼 수 없을까?
  */
 class AlgorithmController {
 	constructor(cfgctr, algorithm) {
 		console.assert(cfgctr instanceof ConfigController);
 		console.assert(algorithm instanceof Algorithm);
+		
 		this.cfgctr = cfgctr;
 		this.algorithm = algorithm;
-		this.dom = {
-			result: document.getElementById('div-result'),
-			compute: document.getElementById('bt-compute'),
-			tables: []
-		};
+		this.resultView = new ResultView();
 
-		let algctr = this;
-		this.dom.compute.onclick = function(evt) {
-			algctr.run();
+		// 계산 버튼을 누르면 알고리즘이 계산을 한다.
+		document.getElementById('bt-compute').onclick = (evt) => {
+			this.run();
 		};
-
-		// create table
-		this.K = 4;
-		for(let k = 0; k < this.K; ++k) {
-			let tb = this.__create_table();
-			let tbtitle = document.createElement('h2');
-			tbtitle.setAttribute('name', 'lang-22');
-			tbtitle.setAttribute('id', 'tbtitle-'+k);
-			this.dom.result.appendChild(tbtitle).innerHTML = LanguageManager.instance.get_word(22) + ' ' + (k+1);
-			this.dom.tables.push(tb);
-			this.dom.result.appendChild(tb);
-			this.dom.result.appendChild(document.createElement('br'));
-		}
 	}
 
 	/**
 	 * 현재 ConfigController가 가지고 있는 Config로 알고리즘을 수행한다.
 	 */
 	run() {
-		this.result = this.algorithm.optimize2(this.cfgctr.fetch());
-		this.update_dom();
+		let result_groups = this.algorithm.optimize2(this.cfgctr.fetch());
+		this.resultView.update(result_groups);
 	}
+}
 
-	update_dom() {
-		this.dom.result.style.display = 'block';
-		
+/**
+ * 결과를 보여주는 뷰이다.
+ */
+class ResultView {
+	constructor() {
+		// 표 DOM들을 가지고 있는 루트 div
+		this.root_dom = document.getElementById('div-result');
+
+		// 표 DOM. 이후 값을 업데이트 할 때 필요
+		this.table_doms = [];
+
+		// 표 개수
+		this.K = 4;
+
+		// 4개의 표를 사전에 만들어둔다.
 		for(let k = 0; k < this.K; ++k) {
-			if(this.result[k]) {
-				this.__update_table(this.result[k], this.dom.tables[k]);
-				document.getElementById('tbtitle-' + k).style.display = 'block';
-				this.dom.tables[k].style.display = 'block';
-			}
-			else {
-				document.getElementById('tbtitle-' + k).style.display = 'none';
-				this.dom.tables[k].style.display = 'none';
-			}
+			// 표
+			let tb = this.createTable();
+
+			// 표 제목
+			let tbtitle = document.createElement('h2');
+			tbtitle.setAttribute('name', 'lang-22');
+			tbtitle.setAttribute('id', `tbtitle-${k}`);
+			tbtitle.innerHTML = LanguageManager.instance.get_word(22) + ' ' + (k+1);
+			
+			this.root_dom.appendChild(tbtitle);
+			this.root_dom.appendChild(tb);
+			this.root_dom.appendChild(document.createElement('br'));
+
+			this.table_doms.push(tb);
 		}
 	}
 
 	/**
-	 * 기타도구(제조계약 등) 이미지 태그를 반환한다.
-	 * category 0: 쾌속수복
-	 *          1: 쾌속제조
-	 *          2: 인형제조계약
-	 *          3: 장비제조계약
-	 *          4: 토큰
-	 * @param {number} category 
+	 * 작전 결과가 들어갈 표를 만들어 반환한다.
 	 */
-	__special_drop_img(category) {
-		let out = '<img width="20px" src="';
-		switch(category) {
-			case 0: out += './img/quick_reinforce.png'; break;
-			case 1: out += './img/quick_develop.png'; break;
-			case 2: out += './img/iop_contract.png'; break;
-			case 3: out += './img/equip_contract.png'; break;
-			case 4: out += './img/furniture_coin.png'; break;
-			default: throw 'illegal special drop category: ' + category;
-		}
-		out += '" />';
-		return out;
-	}
-
-	/*
-		Output
-			HTMLTableElement having 4 rows and 1 header row 
-	*/
-	__create_table() {
+	createTable() {
 		// create table dom
 		let table = document.createElement('table');
 		table.style.width = '100%';
@@ -529,12 +513,17 @@ class AlgorithmController {
 				// second line for interval representation
 				div = row.cells[1].appendChild(document.createElement('div'));
 				div.style.fontSize = '70%';
+				
 				txt = div.appendChild(document.createElement('text'));
+				
 				txt = div.appendChild(document.createElement('text'));
 				txt.setAttribute('name', 'lang-31');
+
 				txt = div.appendChild(document.createElement('text'));
 				txt.innerHTML = '/';
+				
 				txt = div.appendChild(document.createElement('text'));
+				
 				txt = div.appendChild(document.createElement('text'));
 				txt.setAttribute('name', 'lang-32');
 			}
@@ -553,59 +542,103 @@ class AlgorithmController {
 		return table;
 	}
 
-	/*
-		Input
-			g = [v1, v2, ...] where vk ∈ Vf for k = 1, 2, ...
-			tb ∈ HTMLTableElement, the place to write given record
-	*/
-	__update_table(g, tb) {
-		// add the records
-		let vsum = [0, 0, 0, 0];
-		for(let n = 0; n < g.length; ++n) {
-			let tr = tb.rows[n + 1];
-			if(g[n]) {
-				let v = g[n][0];
-				let rate = g[n][2] / g[n][3];
+	/**
+	 * result_groups 정보를 뷰에 갱신한다.
+	 * @param {*} result_groups 
+	 */
+	update(result_groups) {
+		// 표들이 보이게 만듦
+		this.root_dom.style.display = 'block';
+		
+		// 각각의 조합에 대하여 표를 업데이트한다.
+		for(let k = 0; k < this.K; ++k) {
+			// 조합의 수가 꼭 4개가 아닐 수 있다.
+			if (result_groups[k]) {
+				this.updateTable(result_groups[k], k);
+				document.getElementById('tbtitle-' + k).style.display = 'block';
+				this.table_doms[k].style.display = 'block';
+			}
+			else {
+				document.getElementById('tbtitle-' + k).style.display = 'none';
+				this.table_doms[k].style.display = 'none';
+			}
+		}
+	}
 
-				// mission name
-				tr.cells[0].innerHTML = v[0];
+	/**
+	 * table_id번째 표에 result_groups 정보를 덮어쓴다.
+	 * @param {*} result_groups 
+	 * @param {number} table_id 
+	 */
+	updateTable(result_groups, table_id) {
+		let tb = this.table_doms[table_id];
+
+		// 자원 합 구할 배열
+		let vsum = [0, 0, 0, 0];
+
+		for(let n = 0; n < 4; ++n) {
+			let tr = tb.rows[n + 1];
+
+			// 소린이의 경우 4개짜리 유효한 작전 조합이 없을 수도 있다.
+			// 그래서 3개짜리나 2개짜리가 들어올 가능성을 대비하여 if문이 있음.
+			let group = result_groups[n];
+			if (group) {
+				// 군수작전벡터
+				let operation = group[0];
+
+				// 하루에 군수를 받는 횟수
+				let rate = group[2] / group[3];
+
+				// 작전명
+				tr.cells[0].innerHTML = operation[0];
 				
-				// time
+				// 작전주기
 				tr.cells[1]
 					.childNodes[0]
 					.childNodes[0]
-					.innerHTML = integer_to_hhmm(v[1]);
+					.innerHTML = integer_to_hhmm(operation[1]);
 
+				// 작전 빈도 (분자)
 				tr.cells[1]
 					.childNodes[1]
 					.childNodes[0]
-					.innerHTML = g[n][2] + '';
+					.innerHTML = group[2] + '';
 
+				// 작전 빈도 (분모)
 				tr.cells[1]
 					.childNodes[1]
 					.childNodes[3]
-					.innerHTML = g[n][3] + '';
+					.innerHTML = group[3] + '';
 
-				// resources
+				// 자원
+				let resource = operation[2];
+
 				for(let t = 0; t < 4; ++t) {
-					tr.cells[2 + t].innerHTML = Math.floor(v[2][t] * rate);
-					vsum[t] += v[2][t] * rate;
+					tr.cells[2 + t].innerHTML = Math.floor(resource[t] * rate);
+					vsum[t] += resource[t] * rate;
 				}
 
-				// special drops
+				// 기타 재화 (계약권 등)
 				tr.cells[6].innerHTML = '';
 				let first = true;
+
 				for(let i = 0; i < 5; ++i) {
-					if(v[2][4 + i] != 0) {
+					// i번째 기타 재화가 존재하는 경우
+					if(resource[4 + i] > 0) {
+						// 재화가 2개 이상인 경우 'or' 문구 추가해준다.
 						if(first)
 							first = false;
 						else
 							tr.cells[6].innerHTML += '<font size="1"> or </font>';
-						tr.cells[6].innerHTML += this.__special_drop_img(i);
+
+						// 그림 추가
+						tr.cells[6].innerHTML += this.createSpecialDropImage(i);
 					}
 				}
+
+				// 기타 재화가 존재할 경우 하루에 몇 개 벌어오는지
 				if(!first)
-					tr.cells[6].innerHTML += '<span class=\'smalltext\'>x' + g[n][2] + '</span>';
+					tr.cells[6].innerHTML += '<span class=\'smalltext\'>x' + group[2] + '</span>';
 			} else {
 				// When there is no result
 				for(let i = 0; i < 7; ++i)
@@ -613,8 +646,31 @@ class AlgorithmController {
 			}
 		}
 
-		// summation
+		// 자원 합
 		for(let t = 0; t < 4; ++t)
-			tb.rows[g.length + 1].cells[1 + t].innerHTML = Math.floor(vsum[t]);
+			tb.rows[5].cells[1 + t].innerHTML = Math.floor(vsum[t]);
+	}
+
+	/**
+	 * 기타도구(제조계약 등) 이미지 태그를 반환한다.
+	 * category 0: 쾌속수복
+	 *          1: 쾌속제조
+	 *          2: 인형제조계약
+	 *          3: 장비제조계약
+	 *          4: 토큰
+	 * @param {number} category 
+	 */
+	createSpecialDropImage(category) {
+		let out = '<img width="20px" src="';
+		switch(category) {
+			case 0: out += './img/quick_reinforce.png'; break;
+			case 1: out += './img/quick_develop.png'; break;
+			case 2: out += './img/iop_contract.png'; break;
+			case 3: out += './img/equip_contract.png'; break;
+			case 4: out += './img/furniture_coin.png'; break;
+			default: throw 'illegal special drop category: ' + category;
+		}
+		out += '" />';
+		return out;
 	}
 }
