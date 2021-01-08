@@ -1,7 +1,8 @@
 'use strict'
 
-// VMAdvanced는 고급설정 UI를 담당하는 뷰모델입니다.
+// VMAdvanced는 고급설정 UI를 담당하는 뷰입니다.
 // VMAdvanced는 Config로 통신하며 다른 클래스에 종속되지 않습니다.
+// TODO: 함수이름 다 고쳤으면;;
 class VMAdvanced {
 	// ConfigController cfgctr
 	constructor() {

@@ -1,5 +1,11 @@
 'use strict';
 
+/**
+ * 언어에 관련된 모듈이다.
+ * 클래스화되지 않은 문제점이 있다.
+ * TODO: 클래스화 할 것
+ */
+
 let LANG_KO = 0;
 let LANG_EN = 1;
 let LANG_JP = 2;
@@ -158,17 +164,4 @@ function change_language(lang_id) {
 	
 	// save language selection
 	localforage.setItem('lang', document.CURRENT_LANG);
-
-	// change font color
-	// for(let i = 0; i < 5; ++i) {
-	// 	let st = document.getElementById('lang-sel-' + i).style;
-	// 	if (i == document.CURRENT_LANG)	{
-	// 		st.background = 'rgb(253, 179, 0)';
-	// 		st.color = 'black';
-	// 	}
-	// 	else {
-	// 		st.background = 'auto';
-	// 		st.color = 'auto';
-	// 	}
-	// }
 }

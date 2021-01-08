@@ -1,5 +1,6 @@
 'use strict'
 
+// TODO: console.assert로 다 바꿀 것
 function assert(cond, msg) {
 	if(!cond) {
 		if(!msg)

@@ -1,12 +1,16 @@
 'use strict';
 /**
-	Preset's config should not be modified.
-	That's why get_config return the copies.
-*/
+ * 프리셋을 모델링한 클래스다.
+ * Preset 클래스는 Immutable로 간주한다.
+ */
 class Preset {
 	constructor(name, config) {
-		assert(!!name && !!config);
+		assert(name && config);
+		
+		// 프리셋의 이름
 		this.name = name;
+
+		// 프리셋 내용
 		this.config = config;
 	}
 
@@ -18,13 +22,6 @@ class Preset {
 		return this.config.copy();
 	}
 
-	/**
-		WARNING
-		any modification (except addition) may cause
-		serious side effect to users.
-
-		THINK ONE MORE TIME before you change the sturcture.
-	*/
 	toJSON() {
 		return {
 			name: this.name,
@@ -34,8 +31,9 @@ class Preset {
 }
 
 /**
-	PresetController controls in-preset element.
-	This connects followings:
+	프리셋들을 관리하는 클래스
+	븅신같이 짜놔서 뷰랑 컨트롤러가 붙어있다.
+	TODO: 뷰를 분리할 순 없을까
 
 	Config <-> ConfigController <-> PresetController
 */
@@ -215,7 +213,5 @@ class PresetController {
 		// note that unselected version is also exist.
 		this.button_del.disabled = (this.dom.selectedIndex <= 0)
 		                        || (this.presets.length <= 1);
-		// this.button_del.style.visibility = (this.button_del.disabled
-		// 	                             ? 'hidden' : 'visible');
 	}
 }

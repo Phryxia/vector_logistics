@@ -36,10 +36,6 @@ class CookieManager {
 		}));
 	}
 
-	// is_local() {
-	// 	return window.location.origin.match(/^file:/) != null;
-	// }
-
 	/**
 		JSONString을 localforage를 사용하여 로컬에 저장한다.
 

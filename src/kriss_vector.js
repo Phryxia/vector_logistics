@@ -1,4 +1,8 @@
 'use strict';
+
+/**
+ * 최적화 알고리즘에 관련된 클래스
+ */
 class Algorithm {
 	constructor() {
 		// [작전명, 소요시간, [인, 탄, 식, 부, 쾌속수복, 쾌속제조, 인형제조, 장비제조, 구매토큰]]
@@ -219,39 +223,9 @@ class Algorithm {
 	}
 
 	/**
-		Use this outside as interface.
-
-		Output is Vp: [v∈V, p(v)∈R, c(v)∈Z+, d(v)∈Z+]
-		where p(v) is priority of v
-		      c(v) is total number of arrivals of v in period
-		      d(v) is period in day of arrivals of v.
-	*/
-	// optimize(config) {
-	// 	assert(!!config && config instanceof Config);
-
-	// 	let Vf = this.V.filter(function(v) {
-	// 		// Get the level of given logistic support
-	// 		let lv = parseInt(v[0].match(/^[0-9]{1,2}/)[0]);
-	// 		return config.get_min_time() <= v[1] && v[1] <= config.get_max_time()
-	// 			&& config.get_min_level() <= lv && lv <= config.get_max_level();
-	// 	});
-
-	// 	// Load resource ratio vector
-	// 	return this.sort(this.profile(
-	// 		Vf, 
-	// 		config.get_ratio(true), 
-	// 		config.get_timeline(), 
-	// 		config.get_daily_loop()
-	// 	));
-	// }
-
-	/**
 		Let s := v1 + v2 + ... + v4
 		Maximize ||proj(s, r)|| + λ * cos θ 
 		where θ is angle between s, r
-
-		optimize(config) 함수는 ||proj(s, r)||의 lower bound를
-		최대화하는 greedy한 알고리즘을 사용했다.
 
 		optimize2(config) 함수는 nC4개의 군수 조합을 전수검사하여
 		수정된 목적함수를 최적화하여, 상위 k개의 조합을 반환한다.
@@ -268,6 +242,7 @@ class Algorithm {
 		let Vf = this.V.filter(function(v) {
 			// Get the level of given logistic support
 			let lv = parseInt(v[0].match(/^[0-9]{1,2}/)[0]);
+
 			return config.get_min_time() <= v[1] && v[1] <= config.get_max_time()
 				&& config.get_min_level() <= lv && lv <= config.get_max_level();
 		});
@@ -359,13 +334,18 @@ class Algorithm {
 		}
 	}
 
+	/**
+	 * 군수작전벡터 v와 최적화벡터 r의 유사도를 반환한다.
+	 * @param {number[]}} v 
+	 * @param {number[]} r 
+	 * @param {boolean} is_zero_rate 
+	 */
 	__score(v, r, is_zero_rate) {
 		if(is_zero_rate) {
 			return this.inner(r, v);
 		} else {
-			// discard dimensions having zero
-			// since we compute cosine similarity,
-			// zero may affect unintended judgement
+			// 최적화 비율에서 0인 항목을 제거한 벡터 u, s를 만든다.
+			// 예컨데 인탄식부 최적화 비율이 0 0 1 1 이면, 식량과 부품만을 고려한다.
 			let u = [];
 			let s = [];
 			let bnd = 0;
@@ -377,8 +357,11 @@ class Algorithm {
 						++bnd;
 				}
 			}
+
+			// 군수작전벡터에서 해당 자원이 0인 경우
 			if(this.inner(u, u) == 0)
 				return 0;
+			// 두 벡터의 내적 + 코사인 유사도 * lambda를 반환한다.
 			else {
 				let score_len = this.inner(u, s);
 				let score_cos = this.inner(u, s, bnd)
@@ -404,11 +387,17 @@ class Algorithm {
 	}
 }
 
+// 쾌속제조 등 계약권의 가중치를 얼마나 줄 것인지에 대한 상수
 Algorithm.CONTRACTION_IGNORE = 0;
 Algorithm.CONTRACTION_LOW    = 800;
 Algorithm.CONTRACTION_MID    = 1400;
 Algorithm.CONTRACTION_HIGH   = 2000;
 
+/**
+ * 최적화 알고리즘을 돌리고 그에 관련된 뷰를 조작한다.
+ * 이름이 Controller지만 사실 View와 붙어있는 몹쓸 클래스다.
+ * TODO: 뷰를 뜯어낼 수 없을까?
+ */
 class AlgorithmController {
 	constructor(cfgctr, algorithm) {
 		assert(cfgctr instanceof ConfigController);
@@ -440,6 +429,9 @@ class AlgorithmController {
 		}
 	}
 
+	/**
+	 * 현재 ConfigController가 가지고 있는 Config로 알고리즘을 수행한다.
+	 */
 	run() {
 		this.result = this.algorithm.optimize2(this.cfgctr.fetch());
 		this.update_dom();
@@ -461,6 +453,15 @@ class AlgorithmController {
 		}
 	}
 
+	/**
+	 * 기타도구(제조계약 등) 이미지 태그를 반환한다.
+	 * category 0: 쾌속수복
+	 *          1: 쾌속제조
+	 *          2: 인형제조계약
+	 *          3: 장비제조계약
+	 *          4: 토큰
+	 * @param {number} category 
+	 */
 	__special_drop_img(category) {
 		let out = '<img width="20px" src="';
 		switch(category) {
@@ -469,7 +470,7 @@ class AlgorithmController {
 			case 2: out += './img/iop_contract.png'; break;
 			case 3: out += './img/equip_contract.png'; break;
 			case 4: out += './img/furniture_coin.png'; break;
-			default: throw 'illegal special drop category: ' + category; break;
+			default: throw 'illegal special drop category: ' + category;
 		}
 		out += '" />';
 		return out;
