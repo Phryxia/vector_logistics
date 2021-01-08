@@ -5,7 +5,7 @@
  */
 class Preset {
 	constructor(name, config) {
-		assert(name && config);
+		console.assert(name && config);
 		
 		// 프리셋의 이름
 		this.name = name;
@@ -55,8 +55,8 @@ class PresetController {
 		CookieManager 	ckmng
 	*/
 	constructor(cfgctr, ckmng) {
-		assert(!!cfgctr && cfgctr instanceof ConfigController);
-		assert(!!ckmng && ckmng instanceof CookieManager);
+		console.assert(cfgctr && cfgctr instanceof ConfigController);
+		console.assert(ckmng && ckmng instanceof CookieManager);
 		this.cfgctr = cfgctr;
 		this.ckmng = ckmng;
 		this.presets = [new Preset('-', Config.DEFAULT_CONFIG)];
@@ -123,7 +123,7 @@ class PresetController {
 		0-th option will be selected.
 	*/
 	override_presets(presets, selected_index) {
-		assert(!!presets);
+		console.assert(presets);
 		for(let i = 0; i < presets.length; ++i)
 			if(!presets[i] || !(presets[i] instanceof Preset))
 				throw '[PresetController::override_presets] illegal preset: ' + presets[i];
@@ -150,7 +150,7 @@ class PresetController {
 		and refresh DOM.
 	*/
 	set_current(idx) {
-		assert(0 <= idx && idx < this.presets.length, '[PresetController::set_current] invalid index: ' + idx);
+		console.assert(0 <= idx && idx < this.presets.length);
 		this.selected_index = idx;
 		this.cfgctr.update(this.get_current().get_config());
 		this.update_dom();
@@ -162,7 +162,7 @@ class PresetController {
 		and update cookie.
 	*/
 	add_preset(preset) {
-		assert(!!preset);
+		console.assert(preset);
 		this.presets.push(preset);
 		this.update_dom();
 		this.ckmng.save_snapshot(this);
@@ -178,7 +178,7 @@ class PresetController {
 		because users may modify something at that situation.
 	*/
 	del_preset(idx) {
-		assert(0 <= idx && idx < this.dom.options.length);
+		console.assert(0 <= idx && idx < this.dom.options.length);
 		this.selected_index = -1;
 		this.presets = this.presets.slice(0, idx).concat(this.presets.slice(idx + 1));
 		this.update_dom();

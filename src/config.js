@@ -5,7 +5,7 @@
  */
 class Config {
 	constructor(cfg) {
-		assert(cfg);
+		console.assert(cfg);
 
 		// 군수를 받을 시각을 분(min)으로 나타낸 정수의 배열
 		this.timeline   = ifndef(cfg.timeline, [0]).slice();
@@ -47,8 +47,7 @@ class Config {
 		timeline을 tl로 설정한다. 이때 인자가 복제되어 설정된다.
 	*/
 	set_timeline(tl) {
-		assert(tl);
-		assert(tl.length > 0);
+		console.assert(tl && tl.length > 0);
 		this.timeline = tl.slice();
 	}
 
@@ -79,8 +78,8 @@ class Config {
 	 * @param {*} value 음이 아닌 실수
 	 */
 	set_ratio(idx, value) {
-		assert(0 <= idx && idx < this.ratio.length);
-		assert(0 <= value);
+		console.assert(0 <= idx && idx < this.ratio.length);
+		console.assert(0 <= value);
 		this.ratio[idx] = value;
 	}
 
@@ -98,7 +97,7 @@ class Config {
 	 * @param {number} t 
 	 */
 	set_min_time(t) {
-		assert(0 <= t && t <= 1440);
+		console.assert(0 <= t && t <= 1440);
 		this.min_time = t;
 	}
 
@@ -116,7 +115,7 @@ class Config {
 	 * @param {number} t 
 	 */
 	set_max_time(t) {
-		assert(0 <= t && t <= 1440);
+		console.assert(0 <= t && t <= 1440);
 		this.max_time = t;
 	}
 
@@ -148,7 +147,7 @@ class Config {
 	 * @param {number}} lv 
 	 */
 	set_min_level(lv) {
-		assert(0 <= lv);
+		console.assert(0 <= lv);
 		this.min_level = Math.min(lv, this.max_level);
 	}
 
@@ -165,7 +164,7 @@ class Config {
 	 * @param {number} lv 
 	 */
 	set_max_level(lv) {
-		assert(0 <= lv);
+		console.assert(0 <= lv);
 		this.max_level = Math.max(lv, this.min_level);
 	}
 

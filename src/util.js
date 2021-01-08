@@ -1,14 +1,5 @@
 'use strict'
 
-// TODO: console.assert로 다 바꿀 것
-function assert(cond, msg) {
-	if(!cond) {
-		if(!msg)
-			msg = 'assertion failed';
-		throw msg;
-	}
-}
-
 function ifndef(x, alt) {
 	return x === undefined ? alt : x;
 }

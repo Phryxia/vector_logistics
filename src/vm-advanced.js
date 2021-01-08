@@ -152,17 +152,17 @@ class VMAdvanced {
 	}
 
 	__tb_dom(r, c) {
-		assert(r >= 0);
+		console.assert(r >= 0);
 		if(c === undefined)
 			return this.timeline.rows[r];
 		else {
-			assert(c >= 0);
+			console.assert(c >= 0);
 			return this.timeline.rows[r].cells[c];
 		}
 	}
 
 	__tb_index_of(tr_dom) {
-		assert(!!tr_dom);
+		console.assert(tr_dom);
 		for(let i = 0; i < this.timeline.rows.length; ++i)
 			if(this.__tb_dom(i) === tr_dom)
 				return i;
@@ -174,7 +174,7 @@ class VMAdvanced {
 	*/
 	__tb_addRow(r) {
 		r = ifndef(r, -1);
-		assert(r >= -1);
+		console.assert(r >= -1);
 
 		// insert HTMLTableRowElement
 		let tr = this.timeline.insertRow(r);
@@ -242,7 +242,7 @@ class VMAdvanced {
 
 	__tb_delRow(r) {
 		r = ifndef(r, -1);
-		assert(r >= -1);
+		console.assert(r >= -1);
 
 		// delete the row
 		this.timeline.deleteRow(r);
@@ -252,7 +252,7 @@ class VMAdvanced {
 	}
 
 	__intensity_to_float(s) {
-		assert(s !== undefined);
+		console.assert(s !== undefined);
 		switch(parseInt(s)) {
 			case 0: return Algorithm.CONTRACTION_IGNORE;
 			case 1: return Algorithm.CONTRACTION_LOW;
@@ -263,7 +263,7 @@ class VMAdvanced {
 	}
 
 	__float_to_intensity(x) {
-		assert(x >= 0);
+		console.assert(x >= 0);
 		if(x <= Algorithm.CONTRACTION_IGNORE)
 			return 0;
 		else if(x <= Algorithm.CONTRACTION_LOW)

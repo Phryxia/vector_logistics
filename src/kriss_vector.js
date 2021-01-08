@@ -235,7 +235,7 @@ class Algorithm {
 		where vk ∈ Vf
 	*/
 	optimize2(config) {
-		assert(config instanceof Config);
+		console.assert(config instanceof Config);
 		
 		let self = this;
 		let r = config.get_ratio(true);
@@ -276,10 +276,10 @@ class Algorithm {
 	}
 
 	_optimize2(Vf, r, is_zero_rate, path, best_group) {
-		assert(Vf != null);
-		assert(r != null);
-		assert(path != null);
-		assert(best_group != null);
+		console.assert(Vf != null);
+		console.assert(r != null);
+		console.assert(path != null);
+		console.assert(best_group != null);
 
 		// update score
 		if(path.length >= 4) {
@@ -400,8 +400,8 @@ Algorithm.CONTRACTION_HIGH   = 2000;
  */
 class AlgorithmController {
 	constructor(cfgctr, algorithm) {
-		assert(cfgctr instanceof ConfigController);
-		assert(algorithm instanceof Algorithm);
+		console.assert(cfgctr instanceof ConfigController);
+		console.assert(algorithm instanceof Algorithm);
 		this.cfgctr = cfgctr;
 		this.algorithm = algorithm;
 		this.dom = {

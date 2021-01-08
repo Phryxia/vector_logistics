@@ -15,7 +15,7 @@ class CookieManager {
 		로드가 완료되면 on_finish가 실행된다.
 	*/
 	load_snapshot(cfgctr, prsctr) {
-		assert(!!prsctr && prsctr instanceof PresetController);
+		console.assert(prsctr && prsctr instanceof PresetController);
 		this.cfgctr = cfgctr;
 		this.prsctr = prsctr;
 		let success = true;
@@ -28,7 +28,7 @@ class CookieManager {
 		현재 세션의 presetController의 설정을 로컬에 저장한다.
 	*/
 	save_snapshot(prsctr) {
-		assert(!!prsctr && prsctr instanceof PresetController);
+		console.assert(prsctr && prsctr instanceof PresetController);
 		this.prsctr = prsctr;
 		this.__save_cookie(JSON.stringify({
 			presets: prsctr.presets,
