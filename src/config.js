@@ -250,7 +250,7 @@ class ConfigController {
 		// 그러나 고급모드 -> 간편모드로 갈 경우, 고급모드로
 		// 다시 돌아올 때 일부 데이터가 망가지므로 경고한다.
 		if(this.mode == 1 && mode == 0)
-			if(!window.confirm(get_word(43)))
+			if(!window.confirm(LanguageManager.instance.get_word(43)))
 				return;
 
 		// dom 적용

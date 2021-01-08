@@ -60,15 +60,15 @@ class VMAdvanced {
 		document.getElementById('bt-repeat-add').onclick = (evt) => {
 			// ask user when to start repeat
 			let stime = ask_via_prompt(is_valid_hhmm, 
-				get_word(17),
-				get_word(18), '00:00');
+				LanguageManager.instance.get_word(17),
+				LanguageManager.instance.get_word(18), '00:00');
 			if(stime == null)
 				return;
 			stime = hhmm_to_integer(stime);
 
 			let itime = ask_via_prompt(is_valid_hhmm, 
-				get_word(19),
-				get_word(20), '1:00');
+				LanguageManager.instance.get_word(19),
+				LanguageManager.instance.get_word(20), '1:00');
 			if(itime == null)
 				return;
 			itime = hhmm_to_integer(itime);
@@ -77,8 +77,8 @@ class VMAdvanced {
 					return is_valid_hhmm(tstr) 
 						&& hhmm_to_integer(tstr) >= stime;
 				}, 
-				get_word(21),
-				get_word(18), '12:00');
+				LanguageManager.instance.get_word(21),
+				LanguageManager.instance.get_word(18), '12:00');
 			if(etime == null)
 				return;
 			etime = hhmm_to_integer(etime);
@@ -210,7 +210,7 @@ class VMAdvanced {
 		input.name = 'lang-12';
 		input.className = 'cfg_elem_sub stdButton';
 		input.style.width = '50px';
-		input.innerHTML = get_word(12);
+		input.innerHTML = LanguageManager.instance.get_word(12);
 		input.onmouseup = (evt) => {
 			// if button is clicked, new row is added
 			let addr = this.__tb_index_of(evt.toElement.parentNode.parentNode) + 1;
@@ -226,7 +226,7 @@ class VMAdvanced {
 		input.name = 'lang-13';
 		input.className = 'cfg_elem_sub stdButton';
 		input.style.width = '50px';
-		input.innerHTML = get_word(13);
+		input.innerHTML = LanguageManager.instance.get_word(13);
 		input.onmouseup = (evt) => {
 			let addr = this.__tb_index_of(evt.toElement.parentNode.parentNode);
 			this.__tb_delRow(addr);

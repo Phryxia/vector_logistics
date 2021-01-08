@@ -422,7 +422,7 @@ class AlgorithmController {
 			let tbtitle = document.createElement('h2');
 			tbtitle.setAttribute('name', 'lang-22');
 			tbtitle.setAttribute('id', 'tbtitle-'+k);
-			this.dom.result.appendChild(tbtitle).innerHTML = get_word(22) + ' ' + (k+1);
+			this.dom.result.appendChild(tbtitle).innerHTML = LanguageManager.instance.get_word(22) + ' ' + (k+1);
 			this.dom.tables.push(tb);
 			this.dom.result.appendChild(tb);
 			this.dom.result.appendChild(document.createElement('br'));

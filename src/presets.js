@@ -74,16 +74,16 @@ class PresetController {
 		this.button_add = document.getElementById('bt-preset-add');
 		this.button_add.onclick = (evt) => {
 			// get input string from window.prompt
-			let preset_name = window.prompt(get_word(33), 'nice-name');
+			let preset_name = window.prompt(LanguageManager.instance.get_word(33), 'nice-name');
 
 			// if user give illegal string, do once again
 			let pass = false;
 			while(preset_name !== null && !pass)
 			{
 				if(preset_name === '')
-					preset_name = window.prompt(get_word(34), 'nice-name');
+					preset_name = window.prompt(LanguageManager.instance.get_word(34), 'nice-name');
 				else if(preset_name.includes(';'))
-					preset_name = window.prompt(get_word(35), 'nice-name');
+					preset_name = window.prompt(LanguageManager.instance.get_word(35), 'nice-name');
 				else
 					pass = true;
 			}

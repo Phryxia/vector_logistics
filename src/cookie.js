@@ -79,15 +79,12 @@ class CookieManager {
 		localforage.getItem('lang')
 		.then(val => {
 			if(val == null)
-				document.CURRENT_LANG = LANG_KO;
+				LanguageManager.instance.change_language(LanguageManager.KO);
 			else
-				document.CURRENT_LANG = val;
-		})
-		.then(val => {
-			change_language(document.CURRENT_LANG);
+				LanguageManager.instance.change_language(val);
 		})
 		.catch(err => {
-			document.CURRENT_LANG = LANG_KO;
+			LanguageManager.instance.change_language(LanguageManager.KO);
 		});
 	}
 
