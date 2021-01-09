@@ -1,7 +1,8 @@
 'use strict'
 
-// VMAdvanced는 고급설정 UI를 담당하는 뷰모델입니다.
+// VMAdvanced는 고급설정 UI를 담당하는 뷰입니다.
 // VMAdvanced는 Config로 통신하며 다른 클래스에 종속되지 않습니다.
+// TODO: 함수이름 다 고쳤으면;;
 class VMAdvanced {
 	// ConfigController cfgctr
 	constructor() {
@@ -59,15 +60,15 @@ class VMAdvanced {
 		document.getElementById('bt-repeat-add').onclick = (evt) => {
 			// ask user when to start repeat
 			let stime = ask_via_prompt(is_valid_hhmm, 
-				get_word(17),
-				get_word(18), '00:00');
+				LanguageManager.instance.get_word(17),
+				LanguageManager.instance.get_word(18), '00:00');
 			if(stime == null)
 				return;
 			stime = hhmm_to_integer(stime);
 
 			let itime = ask_via_prompt(is_valid_hhmm, 
-				get_word(19),
-				get_word(20), '1:00');
+				LanguageManager.instance.get_word(19),
+				LanguageManager.instance.get_word(20), '1:00');
 			if(itime == null)
 				return;
 			itime = hhmm_to_integer(itime);
@@ -76,8 +77,8 @@ class VMAdvanced {
 					return is_valid_hhmm(tstr) 
 						&& hhmm_to_integer(tstr) >= stime;
 				}, 
-				get_word(21),
-				get_word(18), '12:00');
+				LanguageManager.instance.get_word(21),
+				LanguageManager.instance.get_word(18), '12:00');
 			if(etime == null)
 				return;
 			etime = hhmm_to_integer(etime);
@@ -151,17 +152,17 @@ class VMAdvanced {
 	}
 
 	__tb_dom(r, c) {
-		assert(r >= 0);
+		console.assert(r >= 0);
 		if(c === undefined)
 			return this.timeline.rows[r];
 		else {
-			assert(c >= 0);
+			console.assert(c >= 0);
 			return this.timeline.rows[r].cells[c];
 		}
 	}
 
 	__tb_index_of(tr_dom) {
-		assert(!!tr_dom);
+		console.assert(tr_dom);
 		for(let i = 0; i < this.timeline.rows.length; ++i)
 			if(this.__tb_dom(i) === tr_dom)
 				return i;
@@ -173,7 +174,7 @@ class VMAdvanced {
 	*/
 	__tb_addRow(r) {
 		r = ifndef(r, -1);
-		assert(r >= -1);
+		console.assert(r >= -1);
 
 		// insert HTMLTableRowElement
 		let tr = this.timeline.insertRow(r);
@@ -209,7 +210,7 @@ class VMAdvanced {
 		input.name = 'lang-12';
 		input.className = 'cfg_elem_sub stdButton';
 		input.style.width = '50px';
-		input.innerHTML = get_word(12);
+		input.innerHTML = LanguageManager.instance.get_word(12);
 		input.onmouseup = (evt) => {
 			// if button is clicked, new row is added
 			let addr = this.__tb_index_of(evt.toElement.parentNode.parentNode) + 1;
@@ -225,7 +226,7 @@ class VMAdvanced {
 		input.name = 'lang-13';
 		input.className = 'cfg_elem_sub stdButton';
 		input.style.width = '50px';
-		input.innerHTML = get_word(13);
+		input.innerHTML = LanguageManager.instance.get_word(13);
 		input.onmouseup = (evt) => {
 			let addr = this.__tb_index_of(evt.toElement.parentNode.parentNode);
 			this.__tb_delRow(addr);
@@ -241,7 +242,7 @@ class VMAdvanced {
 
 	__tb_delRow(r) {
 		r = ifndef(r, -1);
-		assert(r >= -1);
+		console.assert(r >= -1);
 
 		// delete the row
 		this.timeline.deleteRow(r);
@@ -251,7 +252,7 @@ class VMAdvanced {
 	}
 
 	__intensity_to_float(s) {
-		assert(s !== undefined);
+		console.assert(s !== undefined);
 		switch(parseInt(s)) {
 			case 0: return Algorithm.CONTRACTION_IGNORE;
 			case 1: return Algorithm.CONTRACTION_LOW;
@@ -262,7 +263,7 @@ class VMAdvanced {
 	}
 
 	__float_to_intensity(x) {
-		assert(x >= 0);
+		console.assert(x >= 0);
 		if(x <= Algorithm.CONTRACTION_IGNORE)
 			return 0;
 		else if(x <= Algorithm.CONTRACTION_LOW)

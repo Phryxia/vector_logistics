@@ -1,12 +1,16 @@
 'use strict';
 /**
-	Preset's config should not be modified.
-	That's why get_config return the copies.
-*/
+ * 프리셋을 모델링한 클래스다.
+ * Preset 클래스는 Immutable로 간주한다.
+ */
 class Preset {
 	constructor(name, config) {
-		assert(!!name && !!config);
+		console.assert(name && config);
+		
+		// 프리셋의 이름
 		this.name = name;
+
+		// 프리셋 내용
 		this.config = config;
 	}
 
@@ -18,13 +22,6 @@ class Preset {
 		return this.config.copy();
 	}
 
-	/**
-		WARNING
-		any modification (except addition) may cause
-		serious side effect to users.
-
-		THINK ONE MORE TIME before you change the sturcture.
-	*/
 	toJSON() {
 		return {
 			name: this.name,
@@ -34,8 +31,9 @@ class Preset {
 }
 
 /**
-	PresetController controls in-preset element.
-	This connects followings:
+	프리셋들을 관리하는 클래스
+	븅신같이 짜놔서 뷰랑 컨트롤러가 붙어있다.
+	TODO: 뷰를 분리할 순 없을까
 
 	Config <-> ConfigController <-> PresetController
 */
@@ -57,8 +55,8 @@ class PresetController {
 		CookieManager 	ckmng
 	*/
 	constructor(cfgctr, ckmng) {
-		assert(!!cfgctr && cfgctr instanceof ConfigController);
-		assert(!!ckmng && ckmng instanceof CookieManager);
+		console.assert(cfgctr && cfgctr instanceof ConfigController);
+		console.assert(ckmng && ckmng instanceof CookieManager);
 		this.cfgctr = cfgctr;
 		this.ckmng = ckmng;
 		this.presets = [new Preset('-', Config.DEFAULT_CONFIG)];
@@ -76,16 +74,16 @@ class PresetController {
 		this.button_add = document.getElementById('bt-preset-add');
 		this.button_add.onclick = (evt) => {
 			// get input string from window.prompt
-			let preset_name = window.prompt(get_word(33), 'nice-name');
+			let preset_name = window.prompt(LanguageManager.instance.get_word(33), 'nice-name');
 
 			// if user give illegal string, do once again
 			let pass = false;
 			while(preset_name !== null && !pass)
 			{
 				if(preset_name === '')
-					preset_name = window.prompt(get_word(34), 'nice-name');
+					preset_name = window.prompt(LanguageManager.instance.get_word(34), 'nice-name');
 				else if(preset_name.includes(';'))
-					preset_name = window.prompt(get_word(35), 'nice-name');
+					preset_name = window.prompt(LanguageManager.instance.get_word(35), 'nice-name');
 				else
 					pass = true;
 			}
@@ -108,7 +106,7 @@ class PresetController {
 		};
 
 		// 반복일정추가 버튼을 찾아오셨나요?
-		// config.js -> ConfigController class로 가세요.
+		// vm-advanced.js로 가세요.
 		// 디자인 문제로 버튼이 여기에 달려있을 뿐...
 
 		// refresh first
@@ -125,7 +123,7 @@ class PresetController {
 		0-th option will be selected.
 	*/
 	override_presets(presets, selected_index) {
-		assert(!!presets);
+		console.assert(presets);
 		for(let i = 0; i < presets.length; ++i)
 			if(!presets[i] || !(presets[i] instanceof Preset))
 				throw '[PresetController::override_presets] illegal preset: ' + presets[i];
@@ -152,7 +150,7 @@ class PresetController {
 		and refresh DOM.
 	*/
 	set_current(idx) {
-		assert(0 <= idx && idx < this.presets.length, '[PresetController::set_current] invalid index: ' + idx);
+		console.assert(0 <= idx && idx < this.presets.length);
 		this.selected_index = idx;
 		this.cfgctr.update(this.get_current().get_config());
 		this.update_dom();
@@ -164,7 +162,7 @@ class PresetController {
 		and update cookie.
 	*/
 	add_preset(preset) {
-		assert(!!preset);
+		console.assert(preset);
 		this.presets.push(preset);
 		this.update_dom();
 		this.ckmng.save_snapshot(this);
@@ -180,7 +178,7 @@ class PresetController {
 		because users may modify something at that situation.
 	*/
 	del_preset(idx) {
-		assert(0 <= idx && idx < this.dom.options.length);
+		console.assert(0 <= idx && idx < this.dom.options.length);
 		this.selected_index = -1;
 		this.presets = this.presets.slice(0, idx).concat(this.presets.slice(idx + 1));
 		this.update_dom();
@@ -215,7 +213,5 @@ class PresetController {
 		// note that unselected version is also exist.
 		this.button_del.disabled = (this.dom.selectedIndex <= 0)
 		                        || (this.presets.length <= 1);
-		// this.button_del.style.visibility = (this.button_del.disabled
-		// 	                             ? 'hidden' : 'visible');
 	}
 }

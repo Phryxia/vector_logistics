@@ -1,13 +1,5 @@
 'use strict'
 
-function assert(cond, msg) {
-	if(!cond) {
-		if(!msg)
-			msg = 'assertion failed';
-		throw msg;
-	}
-}
-
 function ifndef(x, alt) {
 	return x === undefined ? alt : x;
 }

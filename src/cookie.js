@@ -15,7 +15,7 @@ class CookieManager {
 		로드가 완료되면 on_finish가 실행된다.
 	*/
 	load_snapshot(cfgctr, prsctr) {
-		assert(!!prsctr && prsctr instanceof PresetController);
+		console.assert(prsctr && prsctr instanceof PresetController);
 		this.cfgctr = cfgctr;
 		this.prsctr = prsctr;
 		let success = true;
@@ -28,17 +28,13 @@ class CookieManager {
 		현재 세션의 presetController의 설정을 로컬에 저장한다.
 	*/
 	save_snapshot(prsctr) {
-		assert(!!prsctr && prsctr instanceof PresetController);
+		console.assert(prsctr && prsctr instanceof PresetController);
 		this.prsctr = prsctr;
 		this.__save_cookie(JSON.stringify({
 			presets: prsctr.presets,
 			selected_index: prsctr.selected_index
 		}));
 	}
-
-	// is_local() {
-	// 	return window.location.origin.match(/^file:/) != null;
-	// }
 
 	/**
 		JSONString을 localforage를 사용하여 로컬에 저장한다.
@@ -83,15 +79,12 @@ class CookieManager {
 		localforage.getItem('lang')
 		.then(val => {
 			if(val == null)
-				document.CURRENT_LANG = LANG_KO;
+				LanguageManager.instance.change_language(LanguageManager.KO);
 			else
-				document.CURRENT_LANG = val;
-		})
-		.then(val => {
-			change_language(document.CURRENT_LANG);
+				LanguageManager.instance.change_language(val);
 		})
 		.catch(err => {
-			document.CURRENT_LANG = LANG_KO;
+			LanguageManager.instance.change_language(LanguageManager.KO);
 		});
 	}
 
