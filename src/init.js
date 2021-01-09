@@ -15,11 +15,16 @@ Config.DEFAULT_CONFIG = new Config({
 	'max_level': 11
 });
 
-// Initialize 
-document.cookie_mng = new CookieManager();
-let cfgctr = new ConfigController();
-let preset_ctr = new PresetController(cfgctr, document.cookie_mng);
-let algorithm_ctr = new AlgorithmController(cfgctr, new Algorithm());
+LanguageManager.instance = new LanguageManager(() => {
+	// 언어 모듈이 완전히 로드된 이후에 초기화를 실행한다.
+	document.cookie_mng = new CookieManager();
+	
+	let cfgctr = new ConfigController();
+	
+	let preset_ctr = new PresetController(cfgctr, document.cookie_mng);
+	
+	let algorithm_ctr = new AlgorithmController(cfgctr, new Algorithm());
 
-// 저장된 설정 불러오기
-document.cookie_mng.load_snapshot(cfgctr, preset_ctr);
+	// 저장된 설정 불러오기
+	document.cookie_mng.load_snapshot(cfgctr, preset_ctr);
+});
