@@ -4,7 +4,11 @@
  * 최적화 알고리즘에 관련된 클래스
  */
 class Algorithm {
-	constructor() {
+	/**
+	 * callback: 군수작전을 모두 불러온 뒤에 수행할 함수 
+	 * @param {(Algorithm) => void)} callback 
+	 */
+	constructor(callback) {
 		// [작전명, 소요시간, [인, 탄, 식, 부, 쾌속수복, 쾌속제조, 인형제조, 장비제조, 구매토큰]]
 		// thank you for: https://tempkaridc.github.io/gf/js/GF.js and 밐붕이
 		this.V = null;
@@ -16,6 +20,7 @@ class Algorithm {
 		this.load_operations()
 		.then((value) => {
 			this.V = value;
+			callback(this);
 		});
 	}
 
