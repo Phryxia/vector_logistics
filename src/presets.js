@@ -31,86 +31,58 @@ class Preset {
 }
 
 /**
-	프리셋들을 관리하는 클래스
-	븅신같이 짜놔서 뷰랑 컨트롤러가 붙어있다.
-	TODO: 뷰를 분리할 순 없을까
-
-	Config <-> ConfigController <-> PresetController
-*/
+ * 프리셋 리스트를 관리하는 클래스이다.
+ */
 class PresetController {
-	/*
-		Field
-
-		ConfigController	cfgctr
-		Preset[] presets
-			There is no preset-reference-dependent code.
-			You can override by your own purpose, but
-			in this case you have to carefully handle
-			the preset's reference outside of this class.
-		0 <= int 			selected_index
-	*/
-
 	/**
-		ConfigController cfgctr
-		CookieManager 	ckmng
-	*/
-	constructor(cfgctr, ckmng) {
+	 * 
+	 * @param {ConfigController} cfgctr 
+	 */
+	constructor(cfgctr) {
 		console.assert(cfgctr && cfgctr instanceof ConfigController);
-		console.assert(ckmng && ckmng instanceof CookieManager);
 		this.cfgctr = cfgctr;
-		this.ckmng = ckmng;
 		this.presets = [new Preset('-', Config.DEFAULT_CONFIG)];
 		this.selected_index = 0;
 
-		// preset selecting droplist
-		// when something is selected, cookie will be updated.
-		this.dom = document.getElementById('in-preset');
-		this.dom.onchange = (evt) => {
-			this.set_current(this.dom.selectedIndex);
-			this.ckmng.save_snapshot(preset_ctr);
-		};
+		this.view = new PresetView(
+			// select option을 선택했을 때 이벤트 핸들러
+			(evt) => {
+				this.set_current(evt.target.selectedIndex);
+				CookieManager.instance.save_snapshot(this);
+			},
+			
+			// 추가 버튼 이벤트 핸들러
+			(evt) => {
+				// get input string from window.prompt
+				let preset_name = window.prompt(LanguageManager.instance.get_word(33), 'nice-name');
 
-		// preset add button
-		this.button_add = document.getElementById('bt-preset-add');
-		this.button_add.onclick = (evt) => {
-			// get input string from window.prompt
-			let preset_name = window.prompt(LanguageManager.instance.get_word(33), 'nice-name');
-
-			// if user give illegal string, do once again
-			let pass = false;
-			while(preset_name !== null && !pass)
-			{
-				if(preset_name === '')
-					preset_name = window.prompt(LanguageManager.instance.get_word(34), 'nice-name');
-				else if(preset_name.includes(';'))
-					preset_name = window.prompt(LanguageManager.instance.get_word(35), 'nice-name');
-				else
-					pass = true;
-			}
-				
-			// browser may block the prompt so error can be happened
-			if(preset_name !== null && preset_name != '')
-			{
-				// generally, add_preset doesn't select the brand-new added
-				// options. but most desirable ux is selecting it.
-				this.selected_index = this.presets.length;
-				this.add_preset(new Preset(preset_name, this.cfgctr.fetch()));
-			}
-		};
-
-		// preset delete button
-		this.button_del = document.getElementById('bt-preset-del');
-		this.button_del.onclick = (evt) => {
-			if(window.confirm('정말로 삭제하시겠습니까?'))
-				this.del_preset(this.dom.selectedIndex);
-		};
-
-		// 반복일정추가 버튼을 찾아오셨나요?
-		// vm-advanced.js로 가세요.
-		// 디자인 문제로 버튼이 여기에 달려있을 뿐...
-
-		// refresh first
-		this.update_dom();
+				// if user give illegal string, do once again
+				let pass = false;
+				while (preset_name !== null && !pass)
+				{
+					if (preset_name === '')
+						preset_name = window.prompt(LanguageManager.instance.get_word(34), 'nice-name');
+					else if (preset_name.includes(';'))
+						preset_name = window.prompt(LanguageManager.instance.get_word(35), 'nice-name');
+					else
+						pass = true;
+				}
+					
+				// browser may block the prompt so error can be happened
+				if (preset_name !== null && preset_name != '')
+				{
+					// generally, add_preset doesn't select the brand-new added
+					// options. but most desirable ux is selecting it.
+					this.selected_index = this.presets.length;
+					this.add_preset(new Preset(preset_name, this.cfgctr.fetch()));
+				}
+			},
+			
+			// 삭제 버튼 이벤트 핸들러
+			(evt) => {
+				if (window.confirm('정말로 삭제하시겠습니까?'))
+					this.del_preset(this.selected_index);
+			});
 	}
 
 	/**
@@ -153,7 +125,7 @@ class PresetController {
 		console.assert(0 <= idx && idx < this.presets.length);
 		this.selected_index = idx;
 		this.cfgctr.update(this.get_current().get_config());
-		this.update_dom();
+		this.view.update(this.presets, this.selected_index);
 	}
 
 	/**
@@ -164,8 +136,8 @@ class PresetController {
 	add_preset(preset) {
 		console.assert(preset);
 		this.presets.push(preset);
-		this.update_dom();
-		this.ckmng.save_snapshot(this);
+		this.view.update(this.presets, this.selected_index);
+		CookieManager.instance.save_snapshot(this);
 	}
 
 	/**
@@ -178,40 +150,58 @@ class PresetController {
 		because users may modify something at that situation.
 	*/
 	del_preset(idx) {
-		console.assert(0 <= idx && idx < this.dom.options.length);
+		console.assert(0 <= idx && idx < this.presets.length);
 		this.selected_index = -1;
 		this.presets = this.presets.slice(0, idx).concat(this.presets.slice(idx + 1));
-		this.update_dom();
-		this.ckmng.save_snapshot(this);
+		this.view.update(this.presets, this.selected_index);
+		CookieManager.instance.save_snapshot(this);
+	}
+}
+
+class PresetView {
+	/**
+	 * 프리셋 선택을 바꿀 때 실행되어야 할 콜백을 주입해줘야 한다.
+	 * @param {(evt) => void} onchange 
+	 */
+	constructor(onchange, onclickAdd, onclickDel) {
+		this.selector = document.getElementById('in-preset');
+		this.selector.onchange = onchange;
+
+		// preset add button
+		this.button_add = document.getElementById('bt-preset-add');
+		this.button_add.onclick = onclickAdd;
+
+		// preset delete button
+		this.button_del = document.getElementById('bt-preset-del');
+		this.button_del.onclick = onclickDel;
+		
+		// 반복일정추가 버튼을 찾아오셨나요?
+		// vm-advanced.js로 가세요.
+		// 디자인 문제로 버튼이 여기에 달려있을 뿐...
 	}
 
-	/**
-		Update DOM so that they display current selected preset.
-	*/
-	update_dom() {
+	update(presets, selectedIndex) {
 		// insert new options if presets is large than current options.
-		while(this.dom.options.length < this.presets.length) {
-			this.dom.add(document.createElement('option'));
+		while(this.selector.options.length < presets.length) {
+			this.selector.add(document.createElement('option'));
 		}
 
 		// otherwise remove options.
-		while(this.dom.options.length > this.presets.length) {
-			this.dom.remove(this.dom.options.length - 1);
+		while(this.selector.options.length > presets.length) {
+			this.selector.remove(this.selector.options.length - 1);
 		}
 
 		// rewrite option's display name
-		let self = this;
-		this.presets.forEach(function(preset, idx) {
-			self.dom.options[idx].text = preset.name;
+		presets.forEach((preset, idx) => {
+			this.selector.options[idx].text = preset.name;
 		});
 
 		// rewrite selected index
-		this.dom.selectedIndex = this.selected_index;
+		this.selector.selectedIndex = selectedIndex;
 
 		// lock the button when there is only one preset
 		// or lock the button when selected index is zero (=default preset)
 		// note that unselected version is also exist.
-		this.button_del.disabled = (this.dom.selectedIndex <= 0)
-		                        || (this.presets.length <= 1);
+		this.button_del.disabled = (selectedIndex <= 0) || (presets.length <= 1);
 	}
 }

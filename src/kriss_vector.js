@@ -388,9 +388,11 @@ class ResultView {
 
 		// 표 개수
 		this.K = 4;
+	}
 
+	init() {
 		// 4개의 표를 사전에 만들어둔다.
-		for(let k = 0; k < this.K; ++k) {
+		for (let k = 0; k < this.K; ++k) {
 			// 표
 			let tb = this.createTable();
 

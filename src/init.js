@@ -22,15 +22,13 @@ const jsondc = new JSONDC();
 const algorithm = new Algorithm();
 
 const cfgctr = new ConfigController();
+const preset_ctr = new PresetController(cfgctr);
+const algorithm_ctr = new AlgorithmController(cfgctr, algorithm);
 
 // 군수작전 데이터를 불러오고 난 뒤 행동
 jsondc.load_json('/src/operations.json')
 .then((operations) => {
 	algorithm.init(operations.data);
-
-	// 군수작전을 모두 로드한 이후에 거쳐야 할 일들
-	const lv_selector_easy_dom = document.getElementById('in-map-easy');
-	const lv_selector_advanced_dom = document.getElementById('in-map');
 	
 	// 최대 군수작전이 몇 지역인지 계산
 	let max_lv = 0;
@@ -39,6 +37,7 @@ jsondc.load_json('/src/operations.json')
 		max_lv = Math.max(max_lv, op_lv);
 	}
 
+	// 얘는 군수작전 데이터에 의존하기 때문에 따로 초기화해줘야 한다.
 	cfgctr.vms[0].init(max_lv);
 	cfgctr.vms[1].init(max_lv);
 });
@@ -47,10 +46,9 @@ jsondc.load_json('/src/operations.json')
 jsondc.load_json('/src/localization.json')
 .then((words) => {
 	LanguageManager.instance.init(words);
-
-	const preset_ctr = new PresetController(cfgctr, CookieManager.instance);
 	
-	const algorithm_ctr = new AlgorithmController(cfgctr, algorithm);
+	// 얘는 Language Model에 의존하기 때문에 따로 초기화해줘야 한다.
+	algorithm_ctr.resultView.init();
 
 	// 저장된 설정 불러오기
 	CookieManager.instance.load_snapshot(cfgctr, preset_ctr);
