@@ -4,46 +4,21 @@
  * 최적화 알고리즘에 관련된 클래스
  */
 class Algorithm {
-	/**
-	 * callback: 군수작전을 모두 불러온 뒤에 수행할 함수 
-	 * @param {(Algorithm) => void)} callback 
-	 */
-	constructor(callback) {
+	constructor() {
 		// [작전명, 소요시간, [인, 탄, 식, 부, 쾌속수복, 쾌속제조, 인형제조, 장비제조, 구매토큰]]
 		// thank you for: https://tempkaridc.github.io/gf/js/GF.js and 밐붕이
 		this.V = null;
 
 		// 랭크 알고리즘에 코사인 유사도를 얼마나 반영할 지의 상수
 		this.lambda = 80000;
-
-		// V를 불러온다.
-		this.load_operations()
-		.then((value) => {
-			this.V = value;
-			callback(this);
-		});
 	}
 
 	/**
-	 * JSON 파일을 읽어 작전 정보를 가져옵니다. Promise임.
+	 * /src/operation.json에서 불러온 데이터의 .data를 넣으면 됨
+	 * @param {*} V 
 	 */
-	load_operations() {
-		// TODO: JSON 리더 클래스를 따로 빼는게 좋을 거 같다
-		// 코드가 lang.js랑 중복임
-		return new Promise((resolve, reject) => {
-			let xreq = new XMLHttpRequest();
-			xreq.addEventListener('load', function() {
-				try {
-					resolve(JSON.parse(this.responseText).data);
-				}
-				catch (error) {
-					console.log('[Algorithm::load_operations] Fail to load json file');
-					reject([]);
-				}
-			});
-			xreq.open('GET', '/src/operations.json');
-			xreq.send();
-		});
+	init(V) {
+		this.V = V;
 	}
 
 	/**
