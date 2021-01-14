@@ -39,24 +39,8 @@ jsondc.load_json('/src/operations.json')
 		max_lv = Math.max(max_lv, op_lv);
 	}
 
-	// 최대 군수작전의 레벨만큼 option을 만듦
-	for (let lv = 1; lv <= max_lv; ++lv) {
-		const option = document.createElement('option');
-		option.value = `${lv}`;
-		option.innerText = `${lv}`;
-
-		const option2 = document.createElement('option');
-		option2.value = `${lv}`;
-		option2.innerText = `${lv}`;
-
-		if (lv == max_lv) {
-			option.selected = true;
-			option2.selected = true;
-		}
-
-		lv_selector_easy_dom.appendChild(option);
-		lv_selector_advanced_dom.appendChild(option2);
-	}
+	cfgctr.vms[0].init(max_lv);
+	cfgctr.vms[1].init(max_lv);
 });
 
 // 언어 데이터를 불러오고 난 뒤 행동
