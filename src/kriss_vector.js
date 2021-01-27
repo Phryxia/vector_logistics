@@ -382,6 +382,7 @@ class ResultView {
 	constructor() {
 		// 표 DOM들을 가지고 있는 루트 div
 		this.root_dom = document.getElementById('div-result');
+		this.root_dom.className = 'uiblock hide';
 
 		// 표 DOM. 이후 값을 업데이트 할 때 필요
 		this.table_doms = [];
@@ -497,7 +498,7 @@ class ResultView {
 	 */
 	update(result_groups) {
 		// 표들이 보이게 만듦
-		this.root_dom.style.display = 'block';
+		this.root_dom.className = 'uiblock transition';
 		
 		// 각각의 조합에 대하여 표를 업데이트한다.
 		for(let k = 0; k < this.K; ++k) {
