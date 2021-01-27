@@ -2,6 +2,7 @@
 	margin: 0%;
 	border: 0%;
 	padding: 0%;
+	opacity: 1;
 }
 
 body {
@@ -145,4 +146,15 @@ table.tb_result tr:nth-child(6) {
 .modeCSS {
 	height: 30px;
 	width: 70px;
+}
+
+/* 애니메이션 */
+.transition {
+	transition-duration: 0.5s;
+	transition-timing-function: ease-out;
+}
+
+.hide {
+	height: 0;
+	opacity: 0;
 }

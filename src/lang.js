@@ -4,11 +4,10 @@
  * 언어에 관련된 클래스이다.
  */
 class LanguageManager {
-	/**
-	 * callback: JSON 파일 로드가 완료되면 실행시킬 콜백함수
-	 * @param {() => void} callback 
-	 */
-	constructor(callback) {
+	constructor() {
+		// JSON 데이터
+		this.words = null;
+
 		// 현재 언어 설정
 		this.language_id = LanguageManager.KO;
 
@@ -18,32 +17,14 @@ class LanguageManager {
 				LanguageManager.instance.change_language(id);
 			};
 		}
-
-		this.load_words()
-			.then((val) => {
-				this.words = val;
-				callback();
-			});
 	}
 
 	/**
-	 * JSON 파일을 읽어옵니다.
+	 * /src/localization.json에서 불러온 JSON 데이터를 그대로 넣으면 됨
+	 * @param {*} words 
 	 */
-	load_words() {
-		return new Promise((resolve, reject) => {
-			let xreq = new XMLHttpRequest();
-			xreq.addEventListener('load', function() {
-				try {
-					resolve(JSON.parse(this.responseText));
-				}
-				catch (error) {
-					console.log('[LanguageManager::load_words] Fail to load json file');
-					reject([]);
-				}
-			});
-			xreq.open('GET', '/src/localization.json');
-			xreq.send();
-		});
+	init(words) {
+		this.words = words;
 	}
 	
 	/**

@@ -94,6 +94,19 @@ class VMAdvanced {
 		};
 	}
 
+	init(max_level) {
+		for (let lv = 1; lv <= max_level; ++lv) {
+			const option = document.createElement('option');
+			option.value = `${lv}`;
+			option.innerText = `${lv}`;
+	
+			if (lv == max_level)
+				option.selected = true;
+	
+			this.open_level.appendChild(option);
+		}
+	}
+
 	// Config cfg를 받아서 UI에 적용시킨다.
 	update(cfg) {
 		// config table
