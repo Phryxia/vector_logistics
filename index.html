@@ -30,7 +30,7 @@
 			<div class='title uiblock'>
 				<span class='title_text'>
 					<h1 name='lang-0'>군수과장 벡터양!</h1>
-					<h4 style='padding-left: 4px'>ver ζ</h4>
+					<h4 style='padding-left: 4px'>ver 1.0.0</h4>
 				</span>
 				<img class='title_img' src='./img/vector_0.png' alt='벡터쟝'>
 			</div>
@@ -111,12 +111,24 @@
 			<div class='cfg_row'>
 				<span class='cfg_cell'>
 					<span class='cfg_elem'><b name='lang-38'>기상<br>시각</b></span>
-					<input class='time_input' type='text' size='2' id='in-mintime' value='07:00'/>
+					<input class='time_input' type='text' size='2' id='in-moring' value='07:00'/>
 				</span>
 				<span class='cfg_cell'>
 					<span class='cfg_elem'><b name='lang-39'>취침<br>시각</b></span>
-					<input class='time_input' type='text' size='2' id='in-maxtime' value='24:00'/>
+					<input class='time_input' type='text' size='2' id='in-night' value='24:00'/>
 				</span>
+
+				<!-- #007 최소주기 최대주기를 간편모드에서도 설정할 수 있게끔 바꿈 -->
+				<span class='cfg_cell'>
+					<span class='cfg_elem'><b name='lang-7'>최소<br>주기</b></span>
+					<input class='time_input' type='text' size='2' id='in-mintime-easy' value='00:00'/>
+				</span>
+
+				<span class='cfg_cell'>
+					<span class='cfg_elem'><b name='lang-8'>최대<br>주기</b></span>
+					<input class='time_input' type='text' size='2' id='in-mintime-easy' value='24:00'/>
+				</span>
+
 				<!-- 몇 전역까지 열었는지 선택하는 곳, init에서 option을 만듦 -->
 				<span class='cfg_cell'>
 					<span class='cfg_elem'><b name='lang-9'>전역<br>개방</b></span>
@@ -213,7 +225,7 @@
 				</span>
 				<span class='cfg_cell'>
 					<span class='cfg_elem'><b name='lang-8'>최대<br>주기</b></span>
-					<input class='time_input' type='text' size='2' id='in-maxtime' value='24:00'/>
+					<input class='time_input' type='text' size='2' id='in-maxtime' value='23:59'/>
 				</span>
 				<!-- 몇 전역까지 열었는지 선택하는 곳, init에서 option을 만듦 -->
 				<span class='cfg_cell'>

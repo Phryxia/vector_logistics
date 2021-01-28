@@ -53,8 +53,22 @@ class VMAdvanced {
 			}
 			evt.srcElement.pvalue = evt.srcElement.value;
 		};
-		this.min_time.onchange = this.auto_fix_time;
-		this.max_time.onchange = this.auto_fix_time;
+		//this.min_time.onchange = this.auto_fix_time;
+		//this.max_time.onchange = this.auto_fix_time;
+
+		// 최소주기 입력기
+		new Picker(this.min_time, {
+			format: 'HH:mm',
+			headers: true,
+			text: { title: '' }
+		});
+
+		// 최대주기 입력기
+		new Picker(this.max_time, {
+			format: 'HH:mm',
+			headers: true,
+			text: { title: '' }
+		});
 
 		// Repeat-adding
 		document.getElementById('bt-repeat-add').onclick = (evt) => {

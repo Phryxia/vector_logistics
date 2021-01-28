@@ -17,7 +17,7 @@ class Config {
 		this.min_time   = ifndef(cfg.min_time, 0);
 
 		// 군수를 받는 간격의 최대 시간. 단위는 분(min)
-		this.max_time   = ifndef(cfg.max_time, 1440);
+		this.max_time   = ifndef(cfg.max_time, 1439);
 
 		// 군수를 매일 받는다고 가정하는지 여부. 2021년 기준으로 true로 고정
 		this.daily_loop = ifndef(cfg.daily_loop, true);
@@ -26,7 +26,7 @@ class Config {
 		this.min_level  = ifndef(cfg.min_level, 0);
 
 		// 군수 작전 지역의 최댓값.
-		this.max_level  = ifndef(cfg.max_level, 11);
+		this.max_level  = cfg.max_level;
 	}
 
 	/**

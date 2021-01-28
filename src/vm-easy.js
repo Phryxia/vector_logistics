@@ -41,6 +41,20 @@ class VMEasy {
 				title: ''
 			}
 		});
+
+		// 최소주기 입력기
+		new Picker(this.inputs[11], {
+			format: 'HH:mm',
+			headers: true,
+			text: { title: '' }
+		});
+
+		// 최대주기 입력기
+		new Picker(this.inputs[12], {
+			format: 'HH:mm',
+			headers: true,
+			text: { title: '' }
+		});
 	}
 
 	init(max_level) {
@@ -49,7 +63,7 @@ class VMEasy {
 			option.value = `${lv}`;
 			option.innerText = `${lv}`;
 	
-			if (lv == max_level)
+			if (lv === max_level)
 				option.selected = true;
 	
 			this.open_level.appendChild(option);
@@ -88,9 +102,13 @@ class VMEasy {
 			this.inputs[9].value = integer_to_hhmm(cfg.timeline[(maxidx + 1) % cfg.timeline.length]);
 		}
 
+		// 최소주기/최대주기를 config에서 불러온다.
+		this.inputs[11].value = integer_to_hhmm(cfg.min_time);
+		this.inputs[12].value = integer_to_hhmm(cfg.max_time);
+
 		// 전역 정보를 반영한다.
 		this.open_level.selectedIndex = cfg.max_level - 1;
-		this.inputs[11].checked = cfg.min_level == 0;
+		this.inputs[13].checked = cfg.min_level === 0;
 	}
 
 	// UI 정보를 읽어서 Config로 반환한다.
@@ -137,9 +155,13 @@ class VMEasy {
 		}
 		precfg.timeline.sort((a, b) => { return a - b; });
 
+		// 최소주기/최대주기를 설정한다.
+		precfg.min_time = hhmm_to_integer(this.inputs[11].value);
+		precfg.max_time = hhmm_to_integer(this.inputs[12].value);
+
 		// 전역 레벨을 설정한다.
 		precfg.max_level = this.open_level.selectedIndex + 1;
-		precfg.min_level = this.inputs[11].checked ? 0 : 1;
+		precfg.min_level = this.inputs[13].checked ? 0 : 1;
 
 		return new Config(precfg);
 	}

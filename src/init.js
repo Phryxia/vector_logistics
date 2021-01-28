@@ -9,10 +9,9 @@ Config.DEFAULT_CONFIG = new Config({
 		Algorithm.CONTRACTION_IGNORE, 
 		Algorithm.CONTRACTION_IGNORE],
 	'min_time': 0,
-	'max_time': 1440,
+	'max_time': 1439,
 	'daily_loop': true,
-	'min_level': 0,
-	'max_level': 11
+	'min_level': 0
 });
 
 LanguageManager.instance = new LanguageManager();
@@ -36,6 +35,9 @@ jsondc.load_json('/src/operations.json')
 		const op_lv = parseInt(op[0].split('-')[0]);
 		max_lv = Math.max(max_lv, op_lv);
 	}
+
+	// 최대 군수작전 지역을 디폴트값으로 설정함
+	Config.DEFAULT_CONFIG.max_level = max_lv;
 
 	// 얘는 군수작전 데이터에 의존하기 때문에 따로 초기화해줘야 한다.
 	cfgctr.vms[0].init(max_lv);
