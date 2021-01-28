@@ -37,6 +37,9 @@ jsondc.load_json('/src/operations.json')
 		max_lv = Math.max(max_lv, op_lv);
 	}
 
+	// 최대 군수작전 지역을 디폴트값으로 설정함
+	Config.DEFAULT_CONFIG.max_level = max_lv;
+
 	// 얘는 군수작전 데이터에 의존하기 때문에 따로 초기화해줘야 한다.
 	cfgctr.vms[0].init(max_lv);
 	cfgctr.vms[1].init(max_lv);
