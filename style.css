@@ -1,7 +1,7 @@
 * {
-	margin: 0%;
-	border: 0%;
-	padding: 0%;
+	margin: 0 0 0 0;
+	border: 0 0 0 0;
+	padding: 0 0 0 0;
 	opacity: 1;
 }
 
@@ -42,7 +42,7 @@ select {
 }
 
 .title_text {
-	display: inline-flex;
+	display: flex;
 	flex-direction: column;	
 	text-align: left;
 	justify-content: space-between;
