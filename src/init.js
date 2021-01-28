@@ -9,10 +9,9 @@ Config.DEFAULT_CONFIG = new Config({
 		Algorithm.CONTRACTION_IGNORE, 
 		Algorithm.CONTRACTION_IGNORE],
 	'min_time': 0,
-	'max_time': 1440,
+	'max_time': 1439,
 	'daily_loop': true,
-	'min_level': 0,
-	'max_level': 11
+	'min_level': 0
 });
 
 LanguageManager.instance = new LanguageManager();
