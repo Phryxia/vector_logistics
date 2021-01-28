@@ -26,7 +26,7 @@ class Config {
 		this.min_level  = ifndef(cfg.min_level, 0);
 
 		// 군수 작전 지역의 최댓값.
-		this.max_level  = ifndef(cfg.max_level, 11);
+		this.max_level  = cfg.max_level;
 	}
 
 	/**
