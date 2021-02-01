@@ -1,0 +1,31 @@
+{
+  "name": "vector_logistics",
+  "version": "1.0.0",
+  "description": "군수과장 벡터양!은 소녀전선 군수 시스템을 좀 더 쉽게 활용할 수 있게 도와주는 웹 어플리케이션으로, 개인의 일정에 특화된 군수 작전 조합을 추천해 줍니다.",
+  "private": true,
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "build": "webpack --mode=development",
+    "test": "http-server ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Phryxia/vector_logistics.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Phryxia/vector_logistics/issues"
+  },
+  "homepage": "https://github.com/Phryxia/vector_logistics#readme",
+  "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "babel-loader": "^8.2.2",
+    "webpack": "^5.19.0",
+    "webpack-cli": "^4.4.0"
+  }
+}

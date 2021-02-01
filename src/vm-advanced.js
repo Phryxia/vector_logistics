@@ -1,9 +1,12 @@
-'use strict'
+import { Util } from './util.js';
+import { Config } from './config.js';
+import { LanguageManager } from './lang.js';
+import { Algorithm } from './kriss_vector.js';
 
 // VMAdvanced는 고급설정 UI를 담당하는 뷰입니다.
 // VMAdvanced는 Config로 통신하며 다른 클래스에 종속되지 않습니다.
 // TODO: 함수이름 다 고쳤으면;;
-class VMAdvanced {
+export class VMAdvanced {
 	// ConfigController cfgctr
 	constructor() {
 		// Load DOM
@@ -47,7 +50,7 @@ class VMAdvanced {
 			if(s.match(/^[0-9]{1,2}$/) != null) {
 				// when minute is ommited, add them.
 				evt.srcElement.value = s + ':00';
-			} else if(!is_valid_hhmm(s)) {
+			} else if(!Util.is_valid_hhmm(s)) {
 				// when it is invalid value, rollback the value.
 				evt.srcElement.value = evt.srcElement.pvalue;
 			}
@@ -73,35 +76,35 @@ class VMAdvanced {
 		// Repeat-adding
 		document.getElementById('bt-repeat-add').onclick = (evt) => {
 			// ask user when to start repeat
-			let stime = ask_via_prompt(is_valid_hhmm, 
+			let stime = Util.ask_via_prompt(Util.is_valid_hhmm, 
 				LanguageManager.instance.get_word(17),
 				LanguageManager.instance.get_word(18), '00:00');
 			if(stime == null)
 				return;
-			stime = hhmm_to_integer(stime);
+			stime = Util.hhmm_to_integer(stime);
 
-			let itime = ask_via_prompt(is_valid_hhmm, 
+			let itime = Util.ask_via_prompt(Util.is_valid_hhmm, 
 				LanguageManager.instance.get_word(19),
 				LanguageManager.instance.get_word(20), '1:00');
 			if(itime == null)
 				return;
-			itime = hhmm_to_integer(itime);
+			itime = Util.hhmm_to_integer(itime);
 
-			let etime = ask_via_prompt(tstr => {
-					return is_valid_hhmm(tstr) 
-						&& hhmm_to_integer(tstr) >= stime;
+			let etime = Util.ask_via_prompt(tstr => {
+					return Util.is_valid_hhmm(tstr) 
+						&& Util.hhmm_to_integer(tstr) >= stime;
 				}, 
 				LanguageManager.instance.get_word(21),
 				LanguageManager.instance.get_word(18), '12:00');
 			if(etime == null)
 				return;
-			etime = hhmm_to_integer(etime);
+			etime = Util.hhmm_to_integer(etime);
 
 			// This code is based on __tb_addRow's 추가 button's callback
 			// I don't have idea to clean up these into a new function right now
 			// if button is clicked, new row is added
 			while(stime <= etime && stime < 1440) {
-				this.__tb_addRow(-1).cells[0].childNodes[0].value = integer_to_hhmm(stime);
+				this.__tb_addRow(-1).cells[0].childNodes[0].value = Util.integer_to_hhmm(stime);
 				stime += itime;
 			}
 			this.update_config();
@@ -121,15 +124,18 @@ class VMAdvanced {
 		}
 	}
 
-	// Config cfg를 받아서 UI에 적용시킨다.
+	/**
+	 * cfg를 UI에 적용시킨다.
+	 * @param {Config} cfg 
+	 */
 	update(cfg) {
 		// config table
 		for(let idx = 0; idx < 4; ++idx)
 			this.ratio[idx].value = cfg.ratio[idx];
 		for(let idx = 4; idx < 9; ++idx)
 			this.ratio[idx].value = this.__float_to_intensity(cfg.ratio[idx]);
-		this.min_time.value = integer_to_hhmm(cfg.min_time);
-		this.max_time.value = integer_to_hhmm(cfg.max_time);
+		this.min_time.value = Util.integer_to_hhmm(cfg.min_time);
+		this.max_time.value = Util.integer_to_hhmm(cfg.max_time);
 		this.open_zero.checked = (cfg.min_level == 0);
 		this.open_level.selectedIndex = cfg.max_level - 1;
 
@@ -147,7 +153,7 @@ class VMAdvanced {
 
 		// write each cell's contents
 		cfg.timeline.forEach((t, idx) => {
-			this.__tb_dom(idx, 0).childNodes[0].value = integer_to_hhmm(t);
+			this.__tb_dom(idx, 0).childNodes[0].value = Util.integer_to_hhmm(t);
 		});
 	}
 
@@ -164,15 +170,15 @@ class VMAdvanced {
 		for(let idx = 4; idx < 9; ++idx) {
 			precfg.ratio[idx] = this.__intensity_to_float(this.ratio[idx].value);
 		}
-		precfg.min_time = hhmm_to_integer(this.min_time.value);
-		precfg.max_time = hhmm_to_integer(this.max_time.value);
+		precfg.min_time = Util.hhmm_to_integer(this.min_time.value);
+		precfg.max_time = Util.hhmm_to_integer(this.max_time.value);
 		precfg.min_level = (this.open_zero.checked ? 0 : 1);
 		precfg.max_level = (this.open_level.selectedIndex + 1);
 
 		// timeline table
 		precfg.timeline = [];
 		for(let r = 0; r < this.timeline.rows.length; ++r) {
-			precfg.timeline[r] = hhmm_to_integer(this.__tb_dom(r, 0).childNodes[0].value);
+			precfg.timeline[r] = Util.hhmm_to_integer(this.__tb_dom(r, 0).childNodes[0].value);
 		}
 
 		return new Config(precfg);
@@ -200,7 +206,7 @@ class VMAdvanced {
 		return added <tr> element
 	*/
 	__tb_addRow(r) {
-		r = ifndef(r, -1);
+		r = Util.ifndef(r, -1);
 		console.assert(r >= -1);
 
 		// insert HTMLTableRowElement
@@ -268,7 +274,7 @@ class VMAdvanced {
 	}
 
 	__tb_delRow(r) {
-		r = ifndef(r, -1);
+		r = Util.ifndef(r, -1);
 		console.assert(r >= -1);
 
 		// delete the row

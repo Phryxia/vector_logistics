@@ -1,9 +1,10 @@
-'use strict';
+import { Util } from './util.js';
+import { LanguageManager } from './lang.js';
 
 /**
  * 최적화 알고리즘에 관련된 클래스
  */
-class Algorithm {
+export class Algorithm {
 	constructor() {
 		// [작전명, 소요시간, [인, 탄, 식, 부, 쾌속수복, 쾌속제조, 인형제조, 장비제조, 구매토큰]]
 		// thank you for: https://tempkaridc.github.io/gf/js/GF.js and 밐붕이
@@ -182,8 +183,6 @@ class Algorithm {
 		where vk ∈ Vf
 	*/
 	optimize2(config) {
-		console.assert(config instanceof Config);
-		
 		let self = this;
 		let r = config.get_ratio(true);
 		let Vf = this.V.filter(function(v) {
@@ -351,11 +350,12 @@ Algorithm.CONTRACTION_HIGH   = 2000;
 /**
  * 최적화 알고리즘을 돌리고 그에 관련된 뷰를 조작한다.
  */
-class AlgorithmController {
+export class AlgorithmController {
+	/**
+	 * @param {ConfigController} cfgctr 
+	 * @param {Algorithm} algorithm 
+	 */
 	constructor(cfgctr, algorithm) {
-		console.assert(cfgctr instanceof ConfigController);
-		console.assert(algorithm instanceof Algorithm);
-		
 		this.cfgctr = cfgctr;
 		this.algorithm = algorithm;
 		this.resultView = new ResultView();
@@ -378,7 +378,7 @@ class AlgorithmController {
 /**
  * 결과를 보여주는 뷰이다.
  */
-class ResultView {
+export class ResultView {
 	constructor() {
 		// 표 DOM들을 가지고 있는 루트 div
 		this.root_dom = document.getElementById('div-result');
@@ -546,7 +546,7 @@ class ResultView {
 				tr.cells[1]
 					.childNodes[0]
 					.childNodes[0]
-					.innerHTML = integer_to_hhmm(operation[1]);
+					.innerHTML = Util.integer_to_hhmm(operation[1]);
 
 				// 작전 빈도 (분자)
 				tr.cells[1]

@@ -1,9 +1,7 @@
-'use strict';
-
 /**
  * 언어에 관련된 클래스이다.
  */
-class LanguageManager {
+export class LanguageManager {
 	constructor() {
 		// JSON 데이터
 		this.words = null;
