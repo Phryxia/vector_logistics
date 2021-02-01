@@ -1,7 +1,7 @@
 /**
  * JSONDC는 JSON 파일을 불러오고 라이프사이클을 통제하는 역할을 하는 클래스
  */
-class JSONDC {
+export class JSONDC {
   /**
 	 * JSON 파일을 읽어 작전 정보를 가져옵니다. Promise임.
 	 */

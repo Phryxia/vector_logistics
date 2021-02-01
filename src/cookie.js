@@ -1,4 +1,6 @@
-'use strict';
+import { Config } from './config.js';
+import { Preset } from './presets.js';
+import { LanguageManager } from './lang.js';
 
 /**
 	CookieManager capsulate data IO between
@@ -9,26 +11,24 @@
 	since localforage.js is asynchronous
 	we have to handle callback to await it.
 */
-class CookieManager {
+export class CookieManager {
 	/**
-		로컬에 저장된 설정을 혀재 세션의 presetController에 불러온다.
-		로드가 완료되면 on_finish가 실행된다.
-	*/
+	 * 로컬에 저장된 설정을 혀재 세션의 presetController에 불러온다.
+	 * @param {ConfigController} cfgctr  
+	 * @param {PresetController} prsctr 
+	 */
 	load_snapshot(cfgctr, prsctr) {
-		console.assert(prsctr && prsctr instanceof PresetController);
 		this.cfgctr = cfgctr;
 		this.prsctr = prsctr;
-		let success = true;
-		let obj = null;
-		// load JSON object
+		
 		this.__load_cookie();
 	}
 
 	/**
 		현재 세션의 presetController의 설정을 로컬에 저장한다.
+		@param {PresetController} prsctr
 	*/
 	save_snapshot(prsctr) {
-		console.assert(prsctr && prsctr instanceof PresetController);
 		this.prsctr = prsctr;
 		this.__save_cookie(JSON.stringify({
 			presets: prsctr.presets,
@@ -58,7 +58,6 @@ class CookieManager {
 		만약 도중 에러가 발생할 경우, __reset_cookie()를 호출한다.
 	*/
 	__load_cookie() {
-		let self = this;
 		localforage.getItem('json_string')
 		.then((val) => {
 			this.loaded_cookie = val;

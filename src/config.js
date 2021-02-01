@@ -1,29 +1,32 @@
-'use strict'
+import { Util } from './util.js';
+import { LanguageManager } from './lang.js';
+import { VMEasy } from './vm-easy.js';
+import { VMAdvanced } from './vm-advanced.js';
 
 /**
  * Config는 원하는 군수세팅을 추상화한 클래스이다.
  */
-class Config {
+export class Config {
 	constructor(cfg) {
 		console.assert(cfg);
 
 		// 군수를 받을 시각을 분(min)으로 나타낸 정수의 배열
-		this.timeline   = ifndef(cfg.timeline, [0]).slice();
+		this.timeline   = Util.ifndef(cfg.timeline, [0]).slice();
 
 		// [인, 탄, 식, 부, 쾌속수복, 쾌속제조, 인형제조, 장비제조, 구매토큰]의 가중치
-		this.ratio      = ifndef(cfg.ratio, [1, 1, 1, 0.5, 0, 0, 0, 0, 0]).slice();
+		this.ratio      = Util.ifndef(cfg.ratio, [1, 1, 1, 0.5, 0, 0, 0, 0, 0]).slice();
 
 		// 군수를 받는 간격의 최소 시간. 단위는 분(min)
-		this.min_time   = ifndef(cfg.min_time, 0);
+		this.min_time   = Util.ifndef(cfg.min_time, 0);
 
 		// 군수를 받는 간격의 최대 시간. 단위는 분(min)
-		this.max_time   = ifndef(cfg.max_time, 1439);
+		this.max_time   = Util.ifndef(cfg.max_time, 1439);
 
 		// 군수를 매일 받는다고 가정하는지 여부. 2021년 기준으로 true로 고정
-		this.daily_loop = ifndef(cfg.daily_loop, true);
+		this.daily_loop = Util.ifndef(cfg.daily_loop, true);
 
 		// 군수 작전 지역의 최솟값. 0지 개방시 0, 그렇지 않으면 1.
-		this.min_level  = ifndef(cfg.min_level, 0);
+		this.min_level  = Util.ifndef(cfg.min_level, 0);
 
 		// 군수 작전 지역의 최댓값.
 		this.max_level  = cfg.max_level;
@@ -194,7 +197,7 @@ class Config {
 /**
  * Config를 설정할 수 있는 컨트롤러로 뷰와 연결돼 있다.
  */
-class ConfigController {
+export class ConfigController {
 	constructor() {
 		// 0: 간편모드, 1: 고급모드
 		this.mode = 0;

@@ -1,4 +1,10 @@
-'use strict';
+import { Config } from './config.js';
+import { LanguageManager } from './lang.js';
+import { CookieManager } from './cookie.js';
+import { JSONDC } from './jsondc.js';
+import { Algorithm, AlgorithmController } from './kriss_vector.js';
+import { ConfigController } from './config.js';
+import { PresetController } from './presets.js';
 
 Config.DEFAULT_CONFIG = new Config({
 	'timeline': [0],

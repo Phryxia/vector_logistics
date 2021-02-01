@@ -1,9 +1,18 @@
-'use strict';
+import { LanguageManager } from './lang.js';
+import { CookieManager } from './cookie.js';
+import { Config } from './config.js';
+
 /**
  * 프리셋을 모델링한 클래스다.
  * Preset 클래스는 Immutable로 간주한다.
  */
-class Preset {
+export class Preset {
+	/**
+	 * 
+	 * @param {string} name 이 프리셋의 이름
+	 * @param {Config} config 이 프리셋의 Config
+	 * @param {number} mode 간편모드(0) 또는 고급모드(1) 
+	 */
 	constructor(name, config, mode) {
 		console.assert(name && config);
 		
@@ -41,13 +50,12 @@ class Preset {
 /**
  * 프리셋 리스트를 관리하는 클래스이다.
  */
-class PresetController {
+export class PresetController {
 	/**
 	 * 
 	 * @param {ConfigController} cfgctr 
 	 */
 	constructor(cfgctr) {
-		console.assert(cfgctr && cfgctr instanceof ConfigController);
 		this.cfgctr = cfgctr;
 		this.presets = [new Preset('-', Config.DEFAULT_CONFIG, 0)];
 		this.selected_index = 0;
@@ -175,7 +183,7 @@ class PresetController {
 	}
 }
 
-class PresetView {
+export class PresetView {
 	/**
 	 * 프리셋 선택을 바꿀 때 실행되어야 할 콜백을 주입해줘야 한다.
 	 * @param {(evt) => void} onchange 
