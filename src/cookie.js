@@ -67,12 +67,6 @@ class CookieManager {
 			// error recvoery
 			console.log(err);
 			this.__reset_cookie();
-		}).finally(() => {
-			// 저장된 모드 불러오기
-			localforage.getItem('mode').
-			then((mode) => {
-				this.cfgctr.set_mode(mode);
-			});
 		});
 
 		// language setting
@@ -106,7 +100,9 @@ class CookieManager {
 		if(obj !== null) {
 			// morph generic Object into valid Config and Preset
 			for(let i = 0; i < obj.presets.length; ++i)
-				obj.presets[i] = new Preset(obj.presets[i].name, new Config(obj.presets[i].config));
+				// 모드에 관련해서: v1.0.0 이후로 추가된 값이라, 그 이전 버전의 유저들의 경우 모드값이 비어있다.
+				// 그래서 최대한 자세하게 복원하기 위해 기본값을 고급모드로 설정한다.
+				obj.presets[i] = new Preset(obj.presets[i].name, new Config(obj.presets[i].config), obj.presets[i].mode !== undefined ? obj.presets[i].mode : 1);
 			
 			// apply to PresetController
 			this.prsctr.override_presets(obj.presets, obj.selected_index);

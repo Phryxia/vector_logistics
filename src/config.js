@@ -239,16 +239,17 @@ class ConfigController {
 	/**
 	 * 간편모드 설정은 mode = 0, 고급모드 설정은 mode = 1
 	 * 고급모드 -> 간편모드로 변환되는 경우 Config의 일부 변수가 변경될 수 있다.
-	 * @param {number} mode 
+	 * @param {number} mode
+	 * @param {boolean} no_alert 프리셋을 선택해서 모드가 1->0으로 바뀌는 경우엔 경고를 출력하지 말아야함. no_alert = true면 경고를 출력하지 않음.
 	 */
-	set_mode(mode) {
+	set_mode(mode, no_alert) {
 		if(mode == null)
 			mode = 0;
 
 		// 간편모드 -> 고급모드로 갈때는 데이터가 보존된다.
 		// 그러나 고급모드 -> 간편모드로 갈 경우, 고급모드로
 		// 다시 돌아올 때 일부 데이터가 망가지므로 경고한다.
-		if(this.mode == 1 && mode == 0)
+		if(!no_alert && this.mode == 1 && mode == 0)
 			if(!window.confirm(LanguageManager.instance.get_word(43)))
 				return;
 
@@ -258,13 +259,6 @@ class ConfigController {
 		this.div[1 - mode].style.display = 'none';
 		this.vms[mode].update(this.vms[1 - mode].fetch());
 
-		// LocalDB에 저장하기
 		this.mode = mode;
-		localforage.setItem('mode', mode)
-		.then(val => {
-		})
-		.catch(err => {
-			console.log(err);
-		});
 	}
 }

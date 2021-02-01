@@ -4,7 +4,7 @@
  * Preset 클래스는 Immutable로 간주한다.
  */
 class Preset {
-	constructor(name, config) {
+	constructor(name, config, mode) {
 		console.assert(name && config);
 		
 		// 프리셋의 이름
@@ -12,6 +12,9 @@ class Preset {
 
 		// 프리셋 내용
 		this.config = config;
+
+		// 기본모드 vs 고급모드 여부 (number 0 or 1)
+		this.mode = mode;
 	}
 
 	get_name() {
@@ -22,10 +25,15 @@ class Preset {
 		return this.config.copy();
 	}
 
+	get_mode() {
+		return this.mode;
+	}
+
 	toJSON() {
 		return {
 			name: this.name,
-			config: this.config.toJSON()
+			config: this.config.toJSON(),
+			mode: this.mode
 		};
 	}
 }
@@ -41,7 +49,7 @@ class PresetController {
 	constructor(cfgctr) {
 		console.assert(cfgctr && cfgctr instanceof ConfigController);
 		this.cfgctr = cfgctr;
-		this.presets = [new Preset('-', Config.DEFAULT_CONFIG)];
+		this.presets = [new Preset('-', Config.DEFAULT_CONFIG, 0)];
 		this.selected_index = 0;
 
 		this.view = new PresetView(
@@ -74,7 +82,7 @@ class PresetController {
 					// generally, add_preset doesn't select the brand-new added
 					// options. but most desirable ux is selecting it.
 					this.selected_index = this.presets.length;
-					this.add_preset(new Preset(preset_name, this.cfgctr.fetch()));
+					this.add_preset(new Preset(preset_name, this.cfgctr.fetch(), this.cfgctr.mode));
 				}
 			},
 			
@@ -99,6 +107,12 @@ class PresetController {
 		for(let i = 0; i < presets.length; ++i)
 			if(!presets[i] || !(presets[i] instanceof Preset))
 				throw '[PresetController::override_presets] illegal preset: ' + presets[i];
+
+		// v1.0.0의 버그 수정코드: 디폴트 프리셋인 0번 프리셋은 모드가 0이어야 한다.
+		// 그런데 v1.0.0에는 프리셋의 모드를 저장하지 않았기 때문에, 모드가 undefined이다.
+		// 그래서 cookie::__apply_cookie에서 강제로 모드를 1로 설정하는 문제가 있다.
+		presets[0].mode = 0;
+
 		this.presets = presets;
 		if(selected_index === undefined || selected_index < 0)
 			selected_index = 0;
@@ -124,7 +138,10 @@ class PresetController {
 	set_current(idx) {
 		console.assert(0 <= idx && idx < this.presets.length);
 		this.selected_index = idx;
-		this.cfgctr.update(this.get_current().get_config());
+
+		const current_preset = this.get_current();
+		this.cfgctr.set_mode(current_preset.mode, true);
+		this.cfgctr.update(current_preset.get_config());
 		this.view.update(this.presets, this.selected_index);
 	}
 
