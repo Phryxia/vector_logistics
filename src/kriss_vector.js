@@ -420,10 +420,6 @@ export class ResultView {
 	createTable() {
 		// create table dom
 		let table = document.createElement('table');
-		table.style.width = '100%';
-		table.style.display = 'block';
-		table.className = 'tb_result';
-		table.style.marginTop = '10px';
 
 		// create table head row
 		let row = table.appendChild(document.createElement('tr'));
