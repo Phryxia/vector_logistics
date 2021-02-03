@@ -107,7 +107,6 @@ export class VMAdvanced {
 				this.__tb_addRow(-1).cells[0].childNodes[0].value = Util.integer_to_hhmm(stime);
 				stime += itime;
 			}
-			this.update_config();
 		};
 	}
 
