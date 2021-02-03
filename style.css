@@ -57,6 +57,7 @@ select {
 	height: 100%;
 }
 
+/* Config 관련 버튼 & 엘레먼트들의 한 줄 */
 .cfg_row {
 	display: flex;
 	flex-direction: row;
@@ -65,6 +66,7 @@ select {
 	align-items: center;
 }
 
+/* Config 관련 버튼 & 엘레먼트 하나의 컨테이너 */
 .cfg_cell {
 	width: 20%;
 	display: flex;
@@ -75,6 +77,7 @@ select {
 	padding-right: 5px;
 }
 
+/* Config 관련 버튼 & 엘레먼트 하나 하나의 내용물 */
 .cfg_elem {
 	box-sizing: border-box;
 	width: 100%;
@@ -94,6 +97,11 @@ select.cfg_elem  {
 
 img.cfg_elem {
 	width: 82%;
+}
+
+input[type="image"] {
+	border-radius: 3px;
+	padding: 3px;
 }
 
 input.time_input {
