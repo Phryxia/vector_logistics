@@ -372,6 +372,9 @@ export class AlgorithmController {
 	run() {
 		let result_groups = this.algorithm.optimize2(this.cfgctr.fetch());
 		this.resultView.update(result_groups);
+	
+		// 스크롤!
+		document.querySelector('#div-result').scrollIntoView({ behavior: 'smooth' });
 	}
 }
 
