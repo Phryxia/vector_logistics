@@ -162,4 +162,5 @@ table.tb_result tr:nth-child(6) {
 .hide {
 	height: 0;
 	opacity: 0;
+	overflow: hidden;
 }
