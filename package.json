@@ -7,7 +7,8 @@
     "lib": "lib"
   },
   "scripts": {
-    "build": "webpack --mode=development",
+    "build": "webpack --config webpack.prod.js",
+    "build-dev": "webpack --config webpack.dev.js",
     "test": "http-server ."
   },
   "repository": {
@@ -26,6 +27,7 @@
     "@babel/preset-env": "^7.12.11",
     "babel-loader": "^8.2.2",
     "webpack": "^5.19.0",
-    "webpack-cli": "^4.4.0"
+    "webpack-cli": "^4.4.0",
+    "webpack-merge": "^5.7.3"
   }
 }
