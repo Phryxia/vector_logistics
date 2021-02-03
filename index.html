@@ -31,7 +31,7 @@
 			<!-- 제목 -->
 			<section class="title uiblock">
 				<div class="title_text">
-					<h1 name="lang-0">군수과장 벡터양!</h1>
+					<h1 data-lang="lang-0">군수과장 벡터양!</h1>
 					<h2 style="padding-left: 4px; font-size: 1em;">ver 1.0.3</h2>
 				</div>
 				<img class="title_img" src="./img/vector_0.png" alt="벡터쟝">
@@ -39,8 +39,8 @@
 
 			<!-- 알림 문구 -->
 			<section class="uiblock">
-				<p name="lang-1" style="text-align: left;"></p>
-				<p name="lang-2" style="text-align: right; font-size: 0.8em;"></p>
+				<p data-lang="lang-1" style="text-align: left;"></p>
+				<p data-lang="lang-2" style="text-align: right; font-size: 0.8em;"></p>
 			</section>
 
 			<hr>
@@ -58,8 +58,8 @@
 
 				<!-- 모드 설정 -->
 				<div>
-					<button class="stdButton modeCSS" id="mode-sel-0" name="lang-40">간편모드</button>
-					<button class="stdButton modeCSS" id="mode-sel-1" name="lang-41">고급모드</button>
+					<button class="stdButton modeCSS" id="mode-sel-0" data-lang="lang-40">간편모드</button>
+					<button class="stdButton modeCSS" id="mode-sel-1" data-lang="lang-41">고급모드</button>
 				</div>
 			</section>
 
@@ -67,13 +67,13 @@
 
 			<!-- 프리셋 편집 -->
 			<section class="uiblock">
-				<h2 name="lang-11">프리셋</h2>
+				<h2 data-lang="lang-11">프리셋</h2>
 
 				<div class="cfg_row">
 					<!-- <span style="display: flex; width: 100%; height: 25px;"> -->
 						<select class="cfg_elem_sub std" style="width: 75%;" id="in-preset"></select>
-						<button class="cfg_elem_sub stdButton" style="width: 10%;" id="bt-preset-add" name="lang-12">추가</button>
-						<button class="cfg_elem_sub stdButton" style="width: 10%;" id="bt-preset-del" name="lang-13">삭제</button>
+						<button class="cfg_elem_sub stdButton" style="width: 10%;" id="bt-preset-add" data-lang="lang-12">추가</button>
+						<button class="cfg_elem_sub stdButton" style="width: 10%;" id="bt-preset-del" data-lang="lang-13">삭제</button>
 					<!-- </span> -->
 				</div>
 			</section>
@@ -82,8 +82,8 @@
 			
 			<!-- 간편설정 -->
 			<section id="easy_config" class="uiblock">
-				<h2 name="lang-36" style="margin-bottom: 10px;">자원설정</h2>
-				<p name="lang-37" style="text-align: left;">설명</p>
+				<h2 data-lang="lang-36" style="margin-bottom: 10px;">자원설정</h2>
+				<p data-lang="lang-37" style="text-align: left;">설명</p>
 
 				<!-- 자원설정 -->
 				<div class="cfg_row">
@@ -119,32 +119,32 @@
 				</div>
 				<div class="cfg_row">
 					<span class="cfg_cell">
-						<span class="cfg_elem"><b name="lang-38">기상<br>시각</b></span>
+						<span class="cfg_elem"><b data-lang="lang-38">기상<br>시각</b></span>
 						<input class="time_input" type="text" size="2" id="in-moring" value="07:00"/>
 					</span>
 					<span class="cfg_cell">
-						<span class="cfg_elem"><b name="lang-39">취침<br>시각</b></span>
+						<span class="cfg_elem"><b data-lang="lang-39">취침<br>시각</b></span>
 						<input class="time_input" type="text" size="2" id="in-night" value="24:00"/>
 					</span>
 
 					<!-- #007 최소주기 최대주기를 간편모드에서도 설정할 수 있게끔 바꿈 -->
 					<span class="cfg_cell">
-						<span class="cfg_elem"><b name="lang-7">최소<br>주기</b></span>
+						<span class="cfg_elem"><b data-lang="lang-7">최소<br>주기</b></span>
 						<input class="time_input" type="text" size="2" id="in-mintime-easy" value="00:00"/>
 					</span>
 
 					<span class="cfg_cell">
-						<span class="cfg_elem"><b name="lang-8">최대<br>주기</b></span>
+						<span class="cfg_elem"><b data-lang="lang-8">최대<br>주기</b></span>
 						<input class="time_input" type="text" size="2" id="in-maxtime-easy" value="23:59"/>
 					</span>
 
 					<!-- 몇 전역까지 열었는지 선택하는 곳, init에서 option을 만듦 -->
 					<span class="cfg_cell">
-						<span class="cfg_elem"><b name="lang-9">전역<br>개방</b></span>
+						<span class="cfg_elem"><b data-lang="lang-9">전역<br>개방</b></span>
 						<select class="cfg_elem" id="in-map-easy" style="height: 20px;"></select>
 					</span>
 					<span class="cfg_cell">
-						<span class="cfg_elem"><b name="lang-10">0지<br>개방</b></span>
+						<span class="cfg_elem"><b data-lang="lang-10">0지<br>개방</b></span>
 						<input class="cfg_elem" type="checkbox" id="in-zero-easy" checked />
 					</span>
 				</div>
@@ -153,8 +153,8 @@
 			<!-- 고급설정 -->
 			<section id="advanced_config" class="uiblock">
 				<!-- 기본자원 인탄식부 -->
-				<h2 name="lang-3" style="margin-bottom: 10px;">최적화 비율</h2>
-				<p name="lang-42" style="text-align: left;">설명</p>
+				<h2 data-lang="lang-3" style="margin-bottom: 10px;">최적화 비율</h2>
+				<p data-lang="lang-42" style="text-align: left;">설명</p>
 
 				<div class="cfg_row">
 					<span class="cfg_cell">
@@ -181,45 +181,45 @@
 						<img class="cfg_elem" src="./img/quick_reinforce.png" alt="쾌속수복권">
 						<select class="cfg_elem" id="in-restore">
 								<option value="0">-</option>
-								<option name="lang-4" value="1">저</option>
-								<option name="lang-5" value="2">중</option>
-								<option name="lang-6" value="3">고</option>
+								<option data-lang="lang-4" value="1">저</option>
+								<option data-lang="lang-5" value="2">중</option>
+								<option data-lang="lang-6" value="3">고</option>
 							</select>
 					</span>
 					<span class="cfg_cell">
 						<img class="cfg_elem" src="./img/quick_develop.png" alt="쾌속제조권">
 						<select class="cfg_elem" id="in-manufacture">
 								<option value="0">-</option>
-								<option name="lang-4" value="1">저</option>
-								<option name="lang-5" value="2">중</option>
-								<option name="lang-6" value="3">고</option>
+								<option data-lang="lang-4" value="1">저</option>
+								<option data-lang="lang-5" value="2">중</option>
+								<option data-lang="lang-6" value="3">고</option>
 							</select>
 					</span>
 					<span class="cfg_cell">
 						<img class="cfg_elem" src="./img/iop_contract.png" alt="인형제조권">
 						<select class="cfg_elem" id="in-doll">
 								<option value="0">-</option>
-								<option name="lang-4" value="1">저</option>
-								<option name="lang-5" value="2">중</option>
-								<option name="lang-6" value="3">고</option>
+								<option data-lang="lang-4" value="1">저</option>
+								<option data-lang="lang-5" value="2">중</option>
+								<option data-lang="lang-6" value="3">고</option>
 							</select>
 					</span>
 					<span class="cfg_cell">
 						<img class="cfg_elem" src="./img/equip_contract.png" alt="장비제조권">
 						<select class="cfg_elem" id="in-equipment">
 								<option value="0">-</option>
-								<option name="lang-4" value="1">저</option>
-								<option name="lang-5" value="2">중</option>
-								<option name="lang-6" value="3">고</option>
+								<option data-lang="lang-4" value="1">저</option>
+								<option data-lang="lang-5" value="2">중</option>
+								<option data-lang="lang-6" value="3">고</option>
 							</select>
 					</span>
 					<span class="cfg_cell">
 						<img class="cfg_elem" src="./img/furniture_coin.png" alt="구매토큰">
 						<select class="cfg_elem" id="in-gatcha">
 								<option value="0">-</option>
-								<option name="lang-4" value="1">저</option>
-								<option name="lang-5" value="2">중</option>
-								<option name="lang-6" value="3">고</option>
+								<option data-lang="lang-4" value="1">저</option>
+								<option data-lang="lang-5" value="2">중</option>
+								<option data-lang="lang-6" value="3">고</option>
 							</select>
 					</span>
 				</div>
@@ -227,39 +227,39 @@
 				<!-- 기타 설정 -->
 				<div class="cfg_row">
 					<span class="cfg_cell">
-						<span class="cfg_elem"><b name="lang-7">최소<br>주기</b></span>
+						<span class="cfg_elem"><b data-lang="lang-7">최소<br>주기</b></span>
 						<input class="time_input" type="text" size="2" id="in-mintime" value="00:00"/>
 					</span>
 					<span class="cfg_cell">
-						<span class="cfg_elem"><b name="lang-8">최대<br>주기</b></span>
+						<span class="cfg_elem"><b data-lang="lang-8">최대<br>주기</b></span>
 						<input class="time_input" type="text" size="2" id="in-maxtime" value="23:59"/>
 					</span>
 					<!-- 몇 전역까지 열었는지 선택하는 곳, init에서 option을 만듦 -->
 					<span class="cfg_cell">
-						<span class="cfg_elem"><b name="lang-9">전역<br>개방</b></span>
+						<span class="cfg_elem"><b data-lang="lang-9">전역<br>개방</b></span>
 						<select class="cfg_elem" id="in-map" style="height: 20px;"></select>
 					</span>
 					<span class="cfg_cell">
-						<span class="cfg_elem"><b name="lang-10">0지<br>개방</b></span>
+						<span class="cfg_elem"><b data-lang="lang-10">0지<br>개방</b></span>
 						<input class="cfg_elem" type="checkbox" id="in-zero" checked />
 					</span>
 				</div>
-				<hr>
+
 				<!-- 일정 편집 -->
 				<div class="uiblock">
-					<h2 name="lang-15">확인일정</h2>
+					<h2 data-lang="lang-15">확인일정</h2>
 					<div class="cfg_row">
 						<table id="tb-timeline" style="width: 100%;">
 						</table>
 					</div>
 					<div>
-						<button class="cfg_elem_sub stdButton" style="float: right; width:21.2%; margin-right: 1.75%;" id="bt-repeat-add" name="lang-14">반복일정추가</button>
+						<button class="cfg_elem_sub stdButton" style="float: right; width:21.2%; margin-right: 1.75%;" id="bt-repeat-add" data-lang="lang-14">반복일정추가</button>
 					</div>
 				</div>
 			</section>
 
 			<!-- 계산 버튼 -->
-			<button name="lang-16" class="uiblock stdButton computeCSS" id="bt-compute">계산</button>
+			<button data-lang="lang-16" class="uiblock stdButton computeCSS" id="bt-compute">계산</button>
 			
 			<hr>
 

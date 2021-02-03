@@ -399,7 +399,7 @@ export class ResultView {
 
 			// 표 제목
 			let tbtitle = document.createElement('h2');
-			tbtitle.setAttribute('name', 'lang-22');
+			tbtitle.setAttribute('data-lang', 'lang-22');
 			tbtitle.setAttribute('id', `tbtitle-${k}`);
 			tbtitle.innerHTML = LanguageManager.instance.get_word(22) + ' ' + (k+1);
 			
@@ -429,16 +429,16 @@ export class ResultView {
 				.style.width = '60px';
 
 		// operation
-		row.cells[0].setAttribute('name', 'lang-23');
+		row.cells[0].setAttribute('data-lang', 'lang-23');
 		
 		// period
-		row.cells[1].setAttribute('name', 'lang-24');
+		row.cells[1].setAttribute('data-lang', 'lang-24');
 
 		// resource & additional items
 		for(let i = 2; i <= 6; ++i) {
 			let txt;
 			txt = row.cells[i].appendChild(document.createElement('text'));
-			txt.setAttribute('name', 'lang-' + (23 + i));
+			txt.setAttribute('data-lang', 'lang-' + (23 + i));
 			txt = row.cells[i].appendChild(document.createElement('text'));
 			txt.style.fontSize = '70%';
 			txt.innerHTML = '/24h';
@@ -467,7 +467,7 @@ export class ResultView {
 				txt = div.appendChild(document.createElement('text'));
 				
 				txt = div.appendChild(document.createElement('text'));
-				txt.setAttribute('name', 'lang-31');
+				txt.setAttribute('data-lang', 'lang-31');
 
 				txt = div.appendChild(document.createElement('text'));
 				txt.innerHTML = '/';
@@ -475,7 +475,7 @@ export class ResultView {
 				txt = div.appendChild(document.createElement('text'));
 				
 				txt = div.appendChild(document.createElement('text'));
-				txt.setAttribute('name', 'lang-32');
+				txt.setAttribute('data-lang', 'lang-32');
 			}
 
 			// styling
@@ -485,7 +485,7 @@ export class ResultView {
 		}
 
 		// summary line styling
-		row.cells[0].setAttribute('name', 'lang-30');
+		row.cells[0].setAttribute('data-lang', 'lang-30');
 		row.cells[0].colSpan = '2';
 		row.cells[1].style.textAlign = 'left';
 

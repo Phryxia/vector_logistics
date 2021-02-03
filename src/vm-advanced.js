@@ -217,7 +217,6 @@ export class VMAdvanced {
 		let td = tr.insertCell(-1);
 		td.style.display = 'flex';
 		td.style.width = '100%';
-		//td.style.height = '100%';
 		td.style.height = '25px';
 
 		// time input
@@ -240,7 +239,7 @@ export class VMAdvanced {
 
 		// create add button
 		input = document.createElement('button');
-		input.name = 'lang-12';
+		input.setAttribute('data-lang', 'lang-12');
 		input.className = 'cfg_elem_sub stdButton';
 		input.style.width = '50px';
 		input.innerHTML = LanguageManager.instance.get_word(12);
@@ -256,7 +255,7 @@ export class VMAdvanced {
 
 		// create delete button
 		input = document.createElement('button');
-		input.name = 'lang-13';
+		input.setAttribute('data-lang', 'lang-13');
 		input.className = 'cfg_elem_sub stdButton';
 		input.style.width = '50px';
 		input.innerHTML = LanguageManager.instance.get_word(13);
