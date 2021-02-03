@@ -102,24 +102,32 @@ input.time_input {
 	text-align: center;
 }
 
-table.tb_result {
+/*
+	숫자는 기본적으로 좌측 정렬을 한다.
+	중앙정렬 해야되는 컬럼은 테이블 생성할 때 js로 수정한다.
+ */
+table {
+	width: 100%;
+	margin-top: 10px;
+	text-align: left;
 	border-collapse: collapse;
 	font-size: 80%;
 }
 
-table.tb_result tr:nth-child(1) {
+table th {
+	text-align: center;
+}
+
+table tr:nth-child(1) {
 	border-top-style: double;
 }
 
-table.tb_result tr:nth-child(2) {
+table tr:nth-child(2) {
 	border-top-style: double;
 }
 
-table.tb_result tr:nth-child(6) {
+table tr:nth-child(6) {
 	border-top-style: double;
-}
-
-table.tb_result tr:nth-child(6) {
 	border-bottom-style: double;
 }
 
@@ -155,7 +163,7 @@ table.tb_result tr:nth-child(6) {
 
 /* 애니메이션 */
 .transition {
-	transition-duration: 0.5s;
+	transition-duration: 0.8s;
 	transition-timing-function: ease-out;
 }
 
