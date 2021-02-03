@@ -17,15 +17,19 @@ select {
 	font-size: 12px;
 }
 
+/* 앱의 전체를 감싸는 것 */
 .app_bound {
 	display: flex;
 	flex-direction: column;
 	align-content: center;
 	max-width: 400px;
 	margin-top: 20px;
+	margin-left: auto;
+	margin-right: auto;
 	padding-left: 10px;
 	padding-right: 10px;
 	background: white;
+	text-align: center;
 }
 
 .uiblock {
@@ -33,6 +37,7 @@ select {
 	margin-bottom: 10px;
 }
 
+/* 군수과장 벡터양! 텍스트랑 이미지가 들어있는 div */
 .title {
 	display: inline-flex;
 	flex-direction: row;
@@ -157,4 +162,5 @@ table.tb_result tr:nth-child(6) {
 .hide {
 	height: 0;
 	opacity: 0;
+	overflow: hidden;
 }

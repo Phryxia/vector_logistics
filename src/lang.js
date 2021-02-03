@@ -43,7 +43,8 @@ export class LanguageManager {
 		// 언어 관련 DOM에 있는 텍스트를 전부 바꾼다.
 		for (let id = 0; id < this.words.length; ++id) {
 			try {
-				document.getElementsByName('lang-' + id).forEach(dom => {
+				const $doms = document.querySelectorAll(`[data-lang=lang-${id}`);
+				$doms.forEach(dom => {
 					dom.innerHTML = this.get_word(id);
 				});
 			}
