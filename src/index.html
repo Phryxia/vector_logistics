@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
   <head>
+    <!-- General META -->
     <title>군수과장 벡터양! (Vector Logistics!)</title>
     <meta
       name="viewport"
@@ -11,9 +12,37 @@
       name="description"
       content="소녀전선 군수 시스템을 개인일정에 맞춰 추천해줍니다."
     />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Vector Logistics!" />
     <meta
-      name="keywords"
-      content="소녀전선, 군수, Girls' Frontline, Logistics"
+      property="og:description"
+      content="Girls' Frontline logistic recommendation"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/img/vector_0.png" />
+    <meta property="og:url" content="https://krissvector.moe/" />
+
+    <!-- Alternative Language -->
+    <link
+      rel="atlernate"
+      hreflang="en"
+      href="https://krissvector.moe/?lang=en"
+    />
+    <link
+      rel="atlernate"
+      hreflang="jp"
+      href="https://krissvector.moe/?lang=jp"
+    />
+    <link
+      rel="atlernate"
+      hreflang="tw"
+      href="https://krissvector.moe/?lang=tw"
+    />
+    <link
+      rel="atlernate"
+      hreflang="ch"
+      href="https://krissvector.moe/?lang=ch"
     />
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -33,9 +62,10 @@
   </head>
 
   <body>
-    <!-- Picker.js -->
+    <!-- Library -->
     <link href="/lib/picker.min.css" type="text/css" rel="stylesheet" />
     <script src="/lib/picker.min.js"></script>
+    <script src="/lib/localforage.min.js"></script>
 
     <!-- 앱 최상단 -->
     <div class="app_bound">
@@ -467,7 +497,5 @@
       <!-- 문의 -->
       <small>Contact: xahhaepica@gmail.com</small>
     </div>
-
-    <script src="/lib/localforage.min.js"></script>
   </body>
 </html>
