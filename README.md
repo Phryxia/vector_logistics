@@ -26,10 +26,9 @@
 처음 프로젝트를 클론하셨을 때 아래 명령어를 순차적으로 입력해주세요.
 
 ```
-npm i -g http-server
 npm i
 npm run build
-npm run test
+npm run start
 ```
 
 그런 뒤 브라우저에서 localhost:8080에 접속하시면 됩니다.
