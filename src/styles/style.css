@@ -106,7 +106,7 @@ input.time_input {
 	숫자는 기본적으로 좌측 정렬을 한다.
 	중앙정렬 해야되는 컬럼은 테이블 생성할 때 js로 수정한다.
  */
-table {
+#div-result table {
   width: 100%;
   margin-top: 10px;
   text-align: left;
@@ -114,19 +114,19 @@ table {
   font-size: 80%;
 }
 
-table th {
+#div-result table th {
   text-align: center;
 }
 
-table tr:nth-child(1) {
+#div-result table tr:nth-child(1) {
   border-top-style: double;
 }
 
-table tr:nth-child(2) {
+#div-result table tr:nth-child(2) {
   border-top-style: double;
 }
 
-table tr:nth-child(6) {
+#div-result table tr:nth-child(6) {
   border-top-style: double;
   border-bottom-style: double;
 }
