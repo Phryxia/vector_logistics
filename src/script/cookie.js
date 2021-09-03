@@ -70,18 +70,6 @@ export class CookieManager {
         console.log(err)
         this.__reset_cookie()
       })
-
-    // language setting
-    localforage
-      .getItem('lang')
-      .then((val) => {
-        if (val == null)
-          LanguageManager.instance.change_language(LanguageManager.KO)
-        else LanguageManager.instance.change_language(val)
-      })
-      .catch((err) => {
-        LanguageManager.instance.change_language(LanguageManager.KO)
-      })
   }
 
   /**

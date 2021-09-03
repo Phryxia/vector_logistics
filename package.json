@@ -8,8 +8,8 @@
   },
   "scripts": {
     "build": "webpack --config webpack.prod.js",
-    "build-dev": "webpack --config webpack.dev.js",
-    "start": "http-server ."
+    "build-dev": "webpack --config webpack.config.js",
+    "start": "webpack serve"
   },
   "repository": {
     "type": "git",
@@ -17,15 +17,19 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Phryxia/vector_logistics/issues"
   },
   "homepage": "https://github.com/Phryxia/vector_logistics#readme",
   "devDependencies": {
+    "css-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.3.2",
     "prettier": "2.3.2",
+    "style-loader": "^3.2.1",
     "webpack": "^5.52.0",
     "webpack-cli": "^4.8.0",
+    "webpack-dev-server": "^4.1.0",
     "webpack-merge": "^5.8.0"
   }
 }

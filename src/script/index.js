@@ -5,6 +5,7 @@ import { JSONDC } from './jsondc.js'
 import { Algorithm, AlgorithmController } from './kriss_vector.js'
 import { ConfigController } from './config.js'
 import { PresetController } from './presets.js'
+import '../styles/style.css'
 
 Config.DEFAULT_CONFIG = new Config({
   timeline: [0],
@@ -36,7 +37,7 @@ const preset_ctr = new PresetController(cfgctr)
 const algorithm_ctr = new AlgorithmController(cfgctr, algorithm)
 
 // 군수작전 데이터를 불러오고 난 뒤 행동
-jsondc.load_json('/src/operations.json').then((operations) => {
+jsondc.load_json('/operations.json').then((operations) => {
   algorithm.init(operations.data)
 
   // 최대 군수작전이 몇 지역인지 계산
@@ -55,7 +56,7 @@ jsondc.load_json('/src/operations.json').then((operations) => {
 })
 
 // 언어 데이터를 불러오고 난 뒤 행동
-jsondc.load_json('/src/localization.json').then((words) => {
+jsondc.load_json('/localization.json').then((words) => {
   LanguageManager.instance.init(words)
 
   // 얘는 Language Model에 의존하기 때문에 따로 초기화해줘야 한다.
