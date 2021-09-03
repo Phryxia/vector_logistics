@@ -9,7 +9,8 @@
   "scripts": {
     "build": "webpack --config webpack.prod.js",
     "build-dev": "webpack --config webpack.config.js",
-    "start": "webpack serve"
+    "start": "npm run build; http-server dist -p 4577",
+    "start-dev": "webpack serve"
   },
   "repository": {
     "type": "git",

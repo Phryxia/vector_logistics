@@ -30,16 +30,14 @@ export class LanguageManager {
     this.words = null
 
     // 현재 언어 설정
-    this.language_id = LanguageManager.KO
+    this.language_id = 0
 
     // 언어 변경 버튼 리스너 등록
-    for (let id = 0; id < 5; ++id) {
+    for (let id = 0; id < languages.length; ++id) {
       document.getElementById(`lang-sel-${id}`).onclick = () => {
-        LanguageManager.instance.changeLanguage(id)
+        this.changeLanguage(id)
       }
     }
-
-    this.initLanguage()
 
     window.onpopstate = () => {
       this.changeLanguage(loadLanguageIdFromBrowser(), true)
@@ -52,6 +50,7 @@ export class LanguageManager {
    */
   init(words) {
     this.words = words
+    this.initLanguage()
   }
 
   /**
