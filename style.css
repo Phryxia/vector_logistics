@@ -1,105 +1,105 @@
 * {
-	margin: 0 0 0 0;
-	border: 0 0 0 0;
-	padding: 0 0 0 0;
-	opacity: 1;
+  margin: 0 0 0 0;
+  border: 0 0 0 0;
+  padding: 0 0 0 0;
+  opacity: 1;
 }
 
 body {
-	background: rgb(230, 230, 200);
+  background: rgb(230, 230, 200);
 }
 
 input {
-	font-size: 12px;
+  font-size: 12px;
 }
 
 select {
-	font-size: 12px;
+  font-size: 12px;
 }
 
 /* 앱의 전체를 감싸는 것 */
 .app_bound {
-	display: flex;
-	flex-direction: column;
-	align-content: center;
-	max-width: 400px;
-	margin-top: 20px;
-	margin-left: auto;
-	margin-right: auto;
-	padding-left: 10px;
-	padding-right: 10px;
-	background: white;
-	text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  max-width: 400px;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 10px;
+  padding-right: 10px;
+  background: white;
+  text-align: center;
 }
 
 .uiblock {
-	margin-top: 10px;
-	margin-bottom: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 /* 군수과장 벡터양! 텍스트랑 이미지가 들어있는 div */
 .title {
-	display: inline-flex;
-	flex-direction: row;
-	justify-content: space-between;
-	width: 100%;
-	height: 100px;
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  height: 100px;
 }
 
 .title_text {
-	display: flex;
-	flex-direction: column;	
-	text-align: left;
-	justify-content: space-between;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  justify-content: space-between;
 }
 
 .title_img {
-	height: 100%;
+  height: 100%;
 }
 
 .cfg_row {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	margin-top: 10px;
-	align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 10px;
+  align-items: center;
 }
 
 .cfg_cell {
-	width: 20%;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	box-sizing: border-box;
-	padding-left: 5px;
-	padding-right: 5px;
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .cfg_elem {
-	box-sizing: border-box;
-	width: 100%;
-	margin-top: 6px;
+  box-sizing: border-box;
+  width: 100%;
+  margin-top: 6px;
 }
 
 .cfg_elem_sub {
-	box-sizing: border-box;
-	margin-left: 5px;
-	margin-right: 5px;
-	height: 100%;
+  box-sizing: border-box;
+  margin-left: 5px;
+  margin-right: 5px;
+  height: 100%;
 }
 
-select.cfg_elem  {
-	height: 100%;
+select.cfg_elem {
+  height: 100%;
 }
 
 img.cfg_elem {
-	width: 82%;
+  width: 82%;
 }
 
 input.time_input {
-	box-sizing: border-box;
-	width: 100%;
-	text-align: center;
+  box-sizing: border-box;
+  width: 100%;
+  text-align: center;
 }
 
 /*
@@ -107,68 +107,68 @@ input.time_input {
 	중앙정렬 해야되는 컬럼은 테이블 생성할 때 js로 수정한다.
  */
 table {
-	width: 100%;
-	margin-top: 10px;
-	text-align: left;
-	border-collapse: collapse;
-	font-size: 80%;
+  width: 100%;
+  margin-top: 10px;
+  text-align: left;
+  border-collapse: collapse;
+  font-size: 80%;
 }
 
 table th {
-	text-align: center;
+  text-align: center;
 }
 
 table tr:nth-child(1) {
-	border-top-style: double;
+  border-top-style: double;
 }
 
 table tr:nth-child(2) {
-	border-top-style: double;
+  border-top-style: double;
 }
 
 table tr:nth-child(6) {
-	border-top-style: double;
-	border-bottom-style: double;
+  border-top-style: double;
+  border-bottom-style: double;
 }
 
 .smalltext {
-	font-size: 50%;
+  font-size: 50%;
 }
 
 .stdButton {
-	height: 25px;
-	color: white;
-	background: black;
-	border: none;
-	border-top: 1px solid black;
-	border-left: 1px solid black;
-	font-size: 12px;
+  height: 25px;
+  color: white;
+  background: black;
+  border: none;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  font-size: 12px;
 }
 
 .stdButton:hover {
-	color: black;
-	background: rgb(253, 179, 0);
+  color: black;
+  background: rgb(253, 179, 0);
 }
 
 /* 언어 버튼 */
 .langCSS {
-	width: 50px;
+  width: 50px;
 }
 
 /* 간편/고급 버튼 */
 .modeCSS {
-	height: 30px;
-	width: 70px;
+  height: 30px;
+  width: 70px;
 }
 
 /* 애니메이션 */
 .transition {
-	transition-duration: 0.8s;
-	transition-timing-function: ease-out;
+  transition-duration: 0.8s;
+  transition-timing-function: ease-out;
 }
 
 .hide {
-	height: 0;
-	opacity: 0;
-	overflow: hidden;
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
 }
