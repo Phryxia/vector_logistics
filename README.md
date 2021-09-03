@@ -31,4 +31,4 @@ npm run build
 npm run start
 ```
 
-그런 뒤 브라우저에서 localhost:8080에 접속하시면 됩니다.
+그런 뒤 브라우저에서 localhost:4577에 접속하시면 됩니다.
