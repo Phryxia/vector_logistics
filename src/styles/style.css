@@ -1,20 +1,19 @@
 * {
   margin: 0 0 0 0;
-  border: 0 0 0 0;
   padding: 0 0 0 0;
   opacity: 1;
+  box-sizing: border-box;
+  vertical-align: center;
 }
 
 body {
   background: rgb(230, 230, 200);
 }
 
-input {
-  font-size: 12px;
-}
-
+input,
 select {
   font-size: 12px;
+  text-align: center;
 }
 
 /* 앱의 전체를 감싸는 것 */
@@ -26,8 +25,7 @@ select {
   margin-top: 20px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 12px;
   background: white;
   text-align: center;
 }
@@ -57,49 +55,97 @@ select {
   height: 100%;
 }
 
+/* Set of resource select buttons */
 .cfg_row {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-top: 10px;
+  margin-top: 17px;
   align-items: center;
 }
 
+/* Single resource select button and other input */
 .cfg_cell {
-  width: 20%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   box-sizing: border-box;
-  padding-left: 5px;
-  padding-right: 5px;
+  margin-right: 10px;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  & * {
+    width: 100%;
+    margin-bottom: 5px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  /* custom checkbox */
+  input[type='checkbox'] {
+    &::after {
+      content: 'X';
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      width: calc(100% - 2px);
+      height: calc(100% - 2px);
+      border: 1px solid rgb(133, 133, 133);
+      border-radius: 2px;
+      cursor: pointer;
+      background-color: white;
+    }
+
+    &:checked {
+      &::after {
+        content: 'O';
+        background-color: rgb(253, 179, 0);
+      }
+    }
+  }
+
+  input,
+  select {
+    height: 1.5rem;
+  }
+
+  /* resource type button & image */
+  input[type='image'],
+  img {
+    padding: 4px;
+    border-radius: 3px;
+    width: 100%;
+    height: auto;
+  }
 }
 
-.cfg_elem {
-  box-sizing: border-box;
+/* Timeline Editor */
+#tb-timeline {
   width: 100%;
-  margin-top: 6px;
-}
+  border-spacing: 0;
 
-.cfg_elem_sub {
-  box-sizing: border-box;
-  margin-left: 5px;
-  margin-right: 5px;
-  height: 100%;
-}
+  tr {
+    td {
+      display: flex;
+      align-items: stretch;
+      height: 2rem;
+      margin-bottom: 5px;
 
-select.cfg_elem {
-  height: 100%;
-}
+      input {
+        width: 100%;
+      }
 
-img.cfg_elem {
-  width: 82%;
-}
-
-input.time_input {
-  box-sizing: border-box;
-  width: 100%;
-  text-align: center;
+      button {
+        width: 70px;
+        margin-left: 10px;
+      }
+    }
+  }
 }
 
 /*
@@ -136,35 +182,103 @@ input.time_input {
 }
 
 .stdButton {
-  height: 25px;
   color: white;
   background: black;
   border: none;
-  border-top: 1px solid black;
-  border-left: 1px solid black;
+  border-radius: 3px;
   font-size: 12px;
-}
 
-.stdButton:hover {
-  color: black;
-  background: rgb(253, 179, 0);
+  &:hover {
+    color: black;
+    background: rgb(253, 179, 0);
+  }
 }
 
 /* 언어 버튼 */
+.language-config {
+  display: flex;
+  justify-content: stretch;
+  margin-bottom: 10px;
+
+  & * {
+    margin-right: 6px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
 .langCSS {
-  width: 50px;
+  flex: 1;
+  width: 60px;
+  height: 1.8rem;
 }
 
 /* 간편/고급 버튼 */
+.mode-config {
+  display: flex;
+  justify-content: stretch;
+
+  & * {
+    margin-right: 6px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
 .modeCSS {
-  height: 30px;
+  flex: 1;
   width: 70px;
+  height: 1.8rem;
+}
+
+.preset-config {
+  width: 100%;
+  display: flex;
+  align-items: stretch;
+  height: 1.8rem;
+
+  select {
+    flex: 1;
+  }
+
+  button {
+    width: 50px;
+  }
+
+  & * {
+    margin-right: 6px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+/* 반복일정 추가 */
+#bt-repeat-add {
+  width: 100%;
+  height: 1.8rem;
+}
+
+/* 계산 버튼 */
+.computeCSS {
+  height: 1.8rem;
+  color: black;
+  background-color: rgb(253, 179, 0);
 }
 
 /* 애니메이션 */
 .transition {
-  transition-duration: 0.8s;
+  transition-duration: 0.15s;
   transition-timing-function: ease-out;
+}
+
+.checked {
+  background-color: rgb(253, 179, 0);
 }
 
 .hide {

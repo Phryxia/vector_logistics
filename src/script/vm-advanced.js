@@ -213,19 +213,11 @@ export class VMAdvanced {
 
     // insert HTMLTableRowElement
     let tr = this.timeline.insertRow(r)
-    tr.style.width = '100%'
-
     let td = tr.insertCell(-1)
-    td.style.display = 'flex'
-    td.style.width = '100%'
-    td.style.height = '25px'
 
     // time input
     let input = document.createElement('input')
     input.className = 'time_input'
-    input.style.marginLeft = '5px'
-    input.style.marginRight = '5px'
-    input.style.height = '100%'
     input.type = 'text'
     input.defaultValue = '00:00'
     input.onchange = this.auto_fix_time
@@ -242,7 +234,6 @@ export class VMAdvanced {
     input = document.createElement('button')
     input.setAttribute('data-lang', 'lang-12')
     input.className = 'cfg_elem_sub stdButton'
-    input.style.width = '50px'
     input.innerHTML = LanguageManager.instance.get_word(12)
     input.onmouseup = (evt) => {
       // if button is clicked, new row is added
@@ -258,7 +249,6 @@ export class VMAdvanced {
     input = document.createElement('button')
     input.setAttribute('data-lang', 'lang-13')
     input.className = 'cfg_elem_sub stdButton'
-    input.style.width = '50px'
     input.innerHTML = LanguageManager.instance.get_word(13)
     input.onmouseup = (evt) => {
       let addr = this.__tb_index_of(evt.toElement.parentNode.parentNode)

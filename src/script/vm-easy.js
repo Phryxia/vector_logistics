@@ -172,13 +172,10 @@ export class VMEasy {
   __set_button_state(bt, val) {
     if (val == 0) {
       bt.checked = false
-      bt.style.backgroundColor = VMEasy.COLOR_IDLE
+      bt.classList.remove('checked')
     } else {
       bt.checked = true
-      bt.style.backgroundColor = VMEasy.COLOR_SELECTED
+      bt.classList.add('checked')
     }
   }
 }
-
-VMEasy.COLOR_IDLE = '#FFFFFF'
-VMEasy.COLOR_SELECTED = '#FDB300'
