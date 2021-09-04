@@ -27,8 +27,7 @@
 
 ```
 npm i
-npm run build
-npm run start
+npm run start-dev
 ```
 
-그런 뒤 브라우저에서 localhost:4577에 접속하시면 됩니다.
+그런 뒤 브라우저에서 localhost:4577에 접속하시면 됩니다. 프로덕션 테스트는 `npm run start`로 실행하세요.
