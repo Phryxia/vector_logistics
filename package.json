@@ -1,6 +1,6 @@
 {
   "name": "vector_logistics",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "군수과장 벡터양!은 소녀전선 군수 시스템을 좀 더 쉽게 활용할 수 있게 도와주는 웹 어플리케이션으로, 개인의 일정에 특화된 군수 작전 조합을 추천해 줍니다.",
   "private": true,
   "directories": {
