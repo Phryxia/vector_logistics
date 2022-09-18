@@ -1,33 +1,59 @@
-# 군수과장 벡터양!
+# Vector Logistics!
 
-**군수과장 벡터양!**(https://krissvector.moe/ )은 소녀전선 군수 시스템을 좀 더 쉽게 활용할 수 있게 도와주는 웹 어플리케이션으로, 개인의 일정에 특화된 군수 작전 조합을 추천해 줍니다.
+[![Netlify Status](https://api.netlify.com/api/v1/badges/dda09e4f-8fc9-4bfe-ab45-a1f0095de554/deploy-status)](https://app.netlify.com/sites/krissvector/deploys)
 
-## 군수 시스템이란?
+**[Vector Logistics](https://krissvector.moe/)** is an web application to support [Girls' Frontline](https://gf.sunborngame.com/) Shikikans, by recommending optimal combination of [logistic supports](https://iopwiki.com/wiki/Logistic_Support) for each user.
 
-소녀전선에는 4가지 기본 자원과 5가지 기타 재화가 존재합니다.
+## About the Logistic Support System
 
-- 4종자원: 인력, 탄약, 식량, 부품
-- 5종재화: 쾌속수복계약, 인형제조계약, 쾌속제조계약, 장비제조계약, 토큰
+There are 4 basic resource types and 5 advanced items in Girls' Frontline. They are used for various purpose in game system.
 
-군수 작전은 해당 자원 및 재화를 일정 시간에 한 번씩 수급할 수 있는 시스템입니다. 한 번에 **최대 4개**의 군수 작전을 수행할 수 있으며, 각 군수 작전은 서로 다른 자원 및 재화의 양을 벌어옵니다.
+- Basic
+  - Manpower
+  - Ammo
+  - Rations
+  - Parts
+- Advanced
+  - Quick Restoration Contract
+  - Quick Production Contract
+  - T-Doll Contract
+  - Equipment Contract
+  - Token
 
-예를 들어 작전 5-3은 4시간에 한 번씩 인:탄:식:부 = 800:400:400:0을 얻을 수 있으며 장비제조계약 재화를 획득할 수 있습니다.
+**Logistic support** is a system which can gather above resources periodically. There are many operation, and you can assign at most four echleons for them, without any duplication.
 
-## 개발 동기
+For example, finishing operation 5-3 will gain Manpower:Ammo:Rations:Parts = 800:400:400:0 and additionally Equipment Contract.
 
-군수 작전 조합 추천 서비스는 기존에도 존재했습니다. (ex: 소군추 - http://mahler83.net/sogunchu/) 그러나 해당 서비스들의 추천 기준은 다소 비현실적인 전제를 깔고 있습니다.
+Finished operation **must be received** by Shikikan mannually. That's why this application exists. Everybody wants to optimize the maximum gain while reducing their time and concentration.
 
-소녀전전 유저는 일단 잠을 자고 일어나는 '사람'이며, 대부분은 학교나 회사를 오고가는 인생을 살고 있습니다. 때문에 군수 작전이 완료된다고 무조건 확인을 할 수 없는 경우가 많습니다.
+## Development
 
-저는 개인의 **일반화된 일정**에 기반한 추천 알고리즘을 고안했고, 이를 전세계 유저들에게 서비스하기 위해 이 프로젝트를 시작하였습니다.
-
-## 개발 환경 설정
-
-처음 프로젝트를 클론하셨을 때 아래 명령어를 순차적으로 입력해주세요.
+This project uses vanilla JavaScript (I know, I was fairly noob when I've started this) but I tried to modernize some other development tools.
 
 ```
-npm i
-npm run start-dev
+yarn
+yarn dev
 ```
 
-그런 뒤 브라우저에서 localhost:4577에 접속하시면 됩니다. 프로덕션 테스트는 `npm run start`로 실행하세요.
+Any suggestion is welcome! Feel free to leave issues and don't forget to mention @Phryxia.
+
+### Production Test
+
+Note that this script will not used for actual deployment. Netlify support static serving, and this app doesn't need to be served dynamically.
+
+```
+yarn build
+yarn start
+```
+
+You may need to install http-server.
+
+```
+npm i -g http-server
+```
+
+## Inspiration
+
+Actually there were some other services like this (ex: http://mahler83.net/sogunchu/). But these are worked with some non practical assumption- Shikikan MUST be waiting for every time to receive it. Almost every user can't do that.
+
+I improve the algorithm to receive user's schedule so that it can produces the optimal result for each user's private pattern.
