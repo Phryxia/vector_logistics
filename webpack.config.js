@@ -4,7 +4,6 @@ const CopyPlugin = require('copy-webpack-plugin')
 const { readFileSync } = require('fs')
 
 const json = JSON.parse(readFileSync('./package.json', { encoding: 'utf-8' }))
-const version = json.version
 
 module.exports = {
   target: 'web',
@@ -24,7 +23,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: '/src/index.html',
-      version,
+      version: json.version,
     }),
     new CopyPlugin({
       patterns: [{ from: 'public', to: '' }],
