@@ -1,7 +1,2 @@
-
-군수과장 벡터양 alpha (2차배포절대금지).zip
-localtest.cmd
-vector_logistics_translation_ch_100_refined (2).txt
-
-/node_modules
-/dist
+node_modules
+dist
